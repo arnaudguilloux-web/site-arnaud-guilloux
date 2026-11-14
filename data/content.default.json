@@ -14,19 +14,236 @@
     "lead_en": "I race the long-distance circuit for Nissa Triathlon. Between races, I work with athletes of all levels from Saint-Renan, Brittany: consulting, physiological testing and bike fitting."
   },
   "stats": [
-    { "value": "10+", "label_fr": "Saisons en longue distance", "label_en": "Seasons in long-distance racing" },
-    { "value": "3", "label_fr": "Qualifications aux Mondiaux", "label_en": "World Championship qualifications" },
-    { "value": "8 h 15", "label_fr": "Record sur distance IRONMAN", "label_en": "IRONMAN-distance best" }
+    {
+      "value": "5",
+      "label_fr": "Championnats du monde IRONMAN",
+      "label_en": "IRONMAN World Championships"
+    },
+    {
+      "value": "7 h 38",
+      "label_fr": "Sur IRONMAN — Brasil 2026",
+      "label_en": "IRONMAN time — Brasil 2026"
+    },
+    {
+      "value": "N° 42",
+      "label_fr": "Mondial au classement PTO 2023",
+      "label_en": "PTO world ranking, 2023"
+    }
   ],
   "results": [
-    { "year": "2026", "race": "Exemple — IRONMAN France", "location": "Nice", "rank": "3", "note_fr": "Catégorie pro", "note_en": "Pro field" },
-    { "year": "2026", "race": "Exemple — Triathlon longue distance", "location": "Bretagne", "rank": "1", "note_fr": "", "note_en": "" },
-    { "year": "2025", "race": "Exemple — IRONMAN 70.3", "location": "Les Sables-d'Olonne", "rank": "5", "note_fr": "Catégorie pro", "note_en": "Pro field" },
-    { "year": "2025", "race": "Exemple — Championnat de France longue distance", "location": "France", "rank": "2", "note_fr": "", "note_en": "" }
+    {
+      "year": "2026",
+      "race": "IRONMAN Brasil",
+      "location": "Florianópolis",
+      "rank": "3",
+      "note_fr": "7 h 38 min 00",
+      "note_en": "7:38:00"
+    },
+    {
+      "year": "2026",
+      "race": "Challenge Roth",
+      "location": "Roth, Allemagne",
+      "rank": "12",
+      "note_fr": "7 h 46 min 30",
+      "note_en": "7:46:30"
+    },
+    {
+      "year": "2025",
+      "race": "IRONMAN Chattanooga",
+      "location": "Tennessee, États-Unis",
+      "rank": "5",
+      "note_fr": "7 h 38 min 52",
+      "note_en": "7:38:52"
+    },
+    {
+      "year": "2025",
+      "race": "IRONMAN New Zealand",
+      "location": "Taupō",
+      "rank": "8",
+      "note_fr": "8 h 00 min 47",
+      "note_en": "8:00:47"
+    },
+    {
+      "year": "2024",
+      "race": "IRONMAN Cairns",
+      "location": "Australie",
+      "rank": "4",
+      "note_fr": "7 h 50 min 59",
+      "note_en": "7:50:59"
+    },
+    {
+      "year": "2024",
+      "race": "IRONMAN Lake Placid",
+      "location": "New York, États-Unis",
+      "rank": "4",
+      "note_fr": "8 h 07 min 46",
+      "note_en": "8:07:46"
+    },
+    {
+      "year": "2024",
+      "race": "IRONMAN 70.3 Pays d'Aix",
+      "location": "Aix-en-Provence",
+      "rank": "5",
+      "note_fr": "3 h 50 min 45",
+      "note_en": "3:50:45"
+    },
+    {
+      "year": "2023",
+      "race": "Championnat du monde IRONMAN",
+      "location": "Nice",
+      "rank": "12",
+      "note_fr": "8 h 28 min 53",
+      "note_en": "8:28:53"
+    },
+    {
+      "year": "2023",
+      "race": "Triathlon de l'Alpe d'Huez L",
+      "location": "Alpe d'Huez",
+      "rank": "2",
+      "note_fr": "5 h 50 min 52",
+      "note_en": "5:50:52"
+    },
+    {
+      "year": "2023",
+      "race": "IRONMAN 70.3 Les Sables-d'Olonne",
+      "location": "Vendée",
+      "rank": "2",
+      "note_fr": "3 h 47 min 27",
+      "note_en": "3:47:27"
+    },
+    {
+      "year": "2023",
+      "race": "IRONMAN Texas",
+      "location": "The Woodlands, États-Unis",
+      "rank": "4",
+      "note_fr": "7 h 54 min 20",
+      "note_en": "7:54:20"
+    },
+    {
+      "year": "2022",
+      "race": "IRONMAN 70.3 Vichy",
+      "location": "Vichy",
+      "rank": "1",
+      "note_fr": "3 h 23 min 42",
+      "note_en": "3:23:42"
+    },
+    {
+      "year": "2022",
+      "race": "IRONMAN Brasil",
+      "location": "Florianópolis",
+      "rank": "4",
+      "note_fr": "8 h 02 min 51",
+      "note_en": "8:02:51"
+    },
+    {
+      "year": "2021",
+      "race": "IRONMAN Lake Placid",
+      "location": "New York, États-Unis",
+      "rank": "2",
+      "note_fr": "8 h 23 min 12",
+      "note_en": "8:23:12"
+    },
+    {
+      "year": "2021",
+      "race": "IRONMAN Austria",
+      "location": "Klagenfurt",
+      "rank": "3",
+      "note_fr": "7 h 58 min 46",
+      "note_en": "7:58:46"
+    },
+    {
+      "year": "2021",
+      "race": "IRONMAN 70.3 Warsaw",
+      "location": "Varsovie",
+      "rank": "2",
+      "note_fr": "3 h 43 min 54",
+      "note_en": "3:43:54"
+    },
+    {
+      "year": "2019",
+      "race": "IRONMAN Wales",
+      "location": "Tenby, pays de Galles",
+      "rank": "1",
+      "note_fr": "8 h 48 min 06 · record de l'épreuve",
+      "note_en": "8:48:06 · course record"
+    },
+    {
+      "year": "2019",
+      "race": "IRONMAN Hamburg",
+      "location": "Hambourg",
+      "rank": "4",
+      "note_fr": "8 h 29 min 14",
+      "note_en": "8:29:14"
+    },
+    {
+      "year": "2017",
+      "race": "Natureman",
+      "location": "Verdon",
+      "rank": "1",
+      "note_fr": "4 h 13 min 06",
+      "note_en": "4:13:06"
+    },
+    {
+      "year": "2016",
+      "race": "Championnat de France longue distance",
+      "location": "Baudreix",
+      "rank": "3",
+      "note_fr": "",
+      "note_en": ""
+    },
+    {
+      "year": "2015",
+      "race": "Triathlon de l'Alpe d'Huez L",
+      "location": "Alpe d'Huez",
+      "rank": "1",
+      "note_fr": "Premier vainqueur français",
+      "note_en": "First French winner"
+    },
+    {
+      "year": "2015",
+      "race": "Championnat de France longue distance",
+      "location": "Gravelines",
+      "rank": "2",
+      "note_fr": "",
+      "note_en": ""
+    }
   ],
   "qualifications": [
-    { "year": "2026", "event": "Exemple — Championnat du monde IRONMAN", "location": "Kailua-Kona, Hawaï", "note_fr": "", "note_en": "" },
-    { "year": "2025", "event": "Exemple — Championnat du monde IRONMAN 70.3", "location": "Marbella, Espagne", "note_fr": "", "note_en": "" }
+    {
+      "year": "2026",
+      "event": "Championnat du monde IRONMAN",
+      "location": "Kailua-Kona, Hawaï",
+      "note_fr": "34e · 8 h 38 min 50",
+      "note_en": "34th · 8:38:50"
+    },
+    {
+      "year": "2024",
+      "event": "Championnat du monde IRONMAN",
+      "location": "Kailua-Kona, Hawaï",
+      "note_fr": "",
+      "note_en": ""
+    },
+    {
+      "year": "2023",
+      "event": "Championnat du monde IRONMAN",
+      "location": "Nice, France",
+      "note_fr": "12e · 8 h 28 min 53",
+      "note_en": "12th · 8:28:53"
+    },
+    {
+      "year": "2022",
+      "event": "Championnat du monde IRONMAN",
+      "location": "Kailua-Kona, Hawaï",
+      "note_fr": "38e · 8 h 40 min 38",
+      "note_en": "38th · 8:40:38"
+    },
+    {
+      "year": "2022",
+      "event": "Championnat du monde IRONMAN (édition 2021)",
+      "location": "St. George, Utah",
+      "note_fr": "22e · 8 h 53 min 40",
+      "note_en": "22nd · 8:53:40"
+    }
   ],
   "services": [
     {
@@ -58,13 +275,12 @@
     }
   ],
   "partners": [
-    { "name": "Nissa Triathlon", "url": "", "role_fr": "Club", "role_en": "Club" },
-    { "name": "Votre marque", "url": "", "role_fr": "Partenaire — exemple", "role_en": "Partner — example" },
-    { "name": "Votre marque", "url": "", "role_fr": "Partenaire — exemple", "role_en": "Partner — example" }
+    {
+      "name": "Nissa Triathlon",
+      "url": "",
+      "role_fr": "Club",
+      "role_en": "Club"
+    }
   ],
-  "calendar": [
-    { "date": "2027-03-21", "race": "Exemple — Triathlon d'ouverture", "location": "France", "format": "Half", "note_fr": "", "note_en": "" },
-    { "date": "2027-06-27", "race": "Exemple — IRONMAN France", "location": "Nice", "format": "IRONMAN", "note_fr": "Objectif de la saison", "note_en": "Season goal" },
-    { "date": "2027-10-09", "race": "Exemple — Championnat du monde IRONMAN", "location": "Kailua-Kona, Hawaï", "format": "IRONMAN", "note_fr": "", "note_en": "" }
-  ]
+  "calendar": []
 }
