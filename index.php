@@ -59,7 +59,23 @@ $T = [
     'fr' => [
         'title'        => 'Arnaud Guilloux — Triathlète professionnel longue distance · Coaching, tests, bike fitting',
         'description'  => 'Arnaud Guilloux, triathlète professionnel longue distance (Nissa Triathlon), basé à Saint-Renan. Coaching, tests physiologiques, bike fitting et partenariats.',
-        'draft'        => 'Contenu d\'exemple — à remplacer depuis le back office avant mise en ligne.',
+        'draft'        => 'Site en préparation — contenu en cours de validation.',
+        'on_request'   => 'Sur demande',
+        'h_highlights' => 'Temps forts.',
+        'see_results'  => 'Voir le palmarès',
+        'see_worlds'   => 'Les Mondiaux',
+        'show_all'     => 'Afficher tout le palmarès',
+        'worlds_big'   => ['Championnat du monde IRONMAN.', '%d fois au départ.'],
+        'services_big' => ['Votre préparation.', 'Mes outils de pro.'],
+        'slides'       => [
+            ['roth-arrivee', 'Challenge Roth 2026.', '7 h 46 min 30 sur la distance IRONMAN.'],
+            ['brasil-podium', 'IRONMAN Brasil 2026.', 'Troisième en 7 h 38.'],
+            ['roth-velo', '180 km à vélo.', 'Là où se construit la course.'],
+            ['roth-course', 'Puis un marathon.', 'Jusqu\'à la ligne.'],
+        ],
+        'alt_hero'     => 'Arnaud Guilloux à vélo entre deux haies de spectateurs au Challenge Roth',
+        'alt_kona'     => ['Arnaud Guilloux et son vélo sur un champ de lave à Hawaï', 'Arnaud Guilloux au dépôt des vélos du Championnat du monde IRONMAN'],
+        'alt_portrait' => 'Arnaud Guilloux devant le phare du Petit Minou, en Bretagne',
         'nav'          => ['palmares' => 'Palmarès', 'mondiaux' => 'Mondiaux', 'prestations' => 'Prestations', 'partenaires' => 'Partenaires', 'calendrier' => 'Calendrier', 'contact' => 'Contact'],
         'cta_coaching' => 'Coaching & tests',
         'cta_sponsor'  => 'Devenir partenaire',
@@ -93,7 +109,23 @@ $T = [
     'en' => [
         'title'        => 'Arnaud Guilloux — Professional long-distance triathlete · Coaching, testing, bike fitting',
         'description'  => 'Arnaud Guilloux, professional long-distance triathlete (Nissa Triathlon), based in Saint-Renan, Brittany. Coaching, physiological testing, bike fitting and partnerships.',
-        'draft'        => 'Sample content — replace it from the back office before going live.',
+        'draft'        => 'Site in preparation — content under review.',
+        'on_request'   => 'On request',
+        'h_highlights' => 'Highlights.',
+        'see_results'  => 'See the results',
+        'see_worlds'   => 'World Championships',
+        'show_all'     => 'Show all results',
+        'worlds_big'   => ['IRONMAN World Championship.', '%d times on the start line.'],
+        'services_big' => ['Your preparation.', 'A pro\'s toolkit.'],
+        'slides'       => [
+            ['roth-arrivee', 'Challenge Roth 2026.', '7:46:30 over the IRONMAN distance.'],
+            ['brasil-podium', 'IRONMAN Brasil 2026.', 'Third place in 7:38.'],
+            ['roth-velo', '180 km on the bike.', 'Where the race is built.'],
+            ['roth-course', 'Then a marathon.', 'All the way to the line.'],
+        ],
+        'alt_hero'     => 'Arnaud Guilloux riding between two walls of spectators at Challenge Roth',
+        'alt_kona'     => ['Arnaud Guilloux and his bike on a lava field in Hawaii', 'Arnaud Guilloux at bike check-in for the IRONMAN World Championship'],
+        'alt_portrait' => 'Arnaud Guilloux in front of the Petit Minou lighthouse, Brittany',
         'nav'          => ['palmares' => 'Results', 'mondiaux' => 'Worlds', 'prestations' => 'Services', 'partenaires' => 'Partners', 'calendrier' => 'Calendar', 'contact' => 'Contact'],
         'cta_coaching' => 'Coaching & testing',
         'cta_sponsor'  => 'Become a partner',
@@ -161,51 +193,55 @@ $n = 0; // numérotation des sections
 <meta property="og:type" content="website">
 <meta property="og:title" content="<?= e($T['title']) ?>">
 <meta property="og:description" content="<?= e($T['description']) ?>">
-<meta name="theme-color" content="#0a0a0a">
+<meta property="og:image" content="<?= e($origin . $base) ?>assets/img/roth-solarer-berg.jpg">
+<meta name="theme-color" content="#000000">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="<?= e($base) ?>assets/style.css">
+<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=2">
+<script>document.documentElement.classList.add('js');</script>
 <script type="application/ld+json"><?= json_encode($jsonLd, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) ?></script>
 </head>
 <body>
 <?php if ($draft): ?><p class="draft"><?= e($T['draft']) ?></p><?php endif; ?>
 
 <header class="top">
-  <a class="brand" href="<?= e($home[$lang]) ?>">Arnaud Guilloux</a>
-  <nav class="nav" aria-label="Sections">
-    <?php foreach ($T['nav'] as $id => $label): ?>
-    <a href="#<?= $id ?>"><?= e($label) ?></a>
-    <?php endforeach; ?>
-  </nav>
-  <div class="lang" aria-label="Langue / Language">
-    <a href="<?= e($home['fr']) ?>" hreflang="fr" lang="fr"<?= $lang === 'fr' ? ' aria-current="true"' : '' ?>>FR</a>
-    <span aria-hidden="true">/</span>
-    <a href="<?= e($home['en']) ?>" hreflang="en" lang="en"<?= $lang === 'en' ? ' aria-current="true"' : '' ?>>EN</a>
+  <div class="wrap">
+    <a class="brand" href="<?= e($home[$lang]) ?>">Arnaud Guilloux</a>
+    <nav class="nav" aria-label="Sections">
+      <?php foreach ($T['nav'] as $id => $label): ?>
+      <a href="#<?= $id ?>"><?= e($label) ?></a>
+      <?php endforeach; ?>
+    </nav>
+    <div class="lang" aria-label="Langue / Language">
+      <a href="<?= e($home['fr']) ?>" hreflang="fr" lang="fr"<?= $lang === 'fr' ? ' aria-current="true"' : '' ?>>FR</a>
+      <a href="<?= e($home['en']) ?>" hreflang="en" lang="en"<?= $lang === 'en' ? ' aria-current="true"' : '' ?>>EN</a>
+    </div>
   </div>
 </header>
 
 <main>
-<section class="hero dark">
+<section class="hero">
   <div class="wrap">
-    <div class="hero-meta mono">
-      <span><?= e(tr($hero, 'kicker')) ?></span>
-      <span>Nissa Triathlon — <?= e($T['place']) ?> · 48.43° N, 4.62° W</span>
-    </div>
-    <h1>Arnaud<br>Guilloux</h1>
-    <div class="hero-foot">
+    <p class="mono kicker"><?= e(tr($hero, 'kicker')) ?></p>
+    <h1>Arnaud Guilloux</h1>
+    <p class="mono place">Nissa Triathlon · <?= e($T['place']) ?></p>
+    <figure class="hero-media">
+      <img src="<?= e($base) ?>assets/img/roth-solarer-berg.jpg" width="2000" height="1333" alt="<?= e($T['alt_hero']) ?>" fetchpriority="high">
+    </figure>
+    <div class="hero-cta reveal">
       <p class="lead"><?= e(tr($hero, 'lead')) ?></p>
       <div class="cta">
-        <a class="btn solid" href="#prestations"><?= e($T['cta_coaching']) ?></a>
-        <a class="btn" href="#partenaires"><?= e($T['cta_sponsor']) ?></a>
+        <a class="btn" href="#prestations"><?= e($T['cta_coaching']) ?></a>
+        <a class="btn ghost" href="#partenaires"><?= e($T['cta_sponsor']) ?></a>
       </div>
     </div>
     <?php if (!empty($c['stats'])): ?>
-    <dl class="stats">
+    <dl class="stats reveal">
       <?php foreach ($c['stats'] as $st): ?>
       <div>
         <dd><?= e($st['value'] ?? '') ?></dd>
-        <dt class="mono"><?= e(tr($st, 'label')) ?></dt>
+        <dt><?= e(tr($st, 'label')) ?></dt>
       </div>
       <?php endforeach; ?>
     </dl>
@@ -213,13 +249,35 @@ $n = 0; // numérotation des sections
   </div>
 </section>
 
-<?php if (!empty($c['results'])): ?>
+<section class="zinc highlights">
+  <div class="wrap head-row">
+    <h2 class="reveal"><?= e($T['h_highlights']) ?></h2>
+    <p class="links reveal">
+      <a class="more" href="#palmares"><?= e($T['see_results']) ?></a>
+      <a class="more" href="#mondiaux"><?= e($T['see_worlds']) ?></a>
+    </p>
+  </div>
+  <div class="carousel" id="carousel" tabindex="0" aria-label="<?= e($T['h_highlights']) ?>">
+    <?php foreach ($T['slides'] as $sl): ?>
+    <figure class="slide">
+      <img src="<?= e($base) ?>assets/img/<?= e($sl[0]) ?>.jpg" alt="" loading="lazy">
+      <figcaption><strong><?= e($sl[1]) ?></strong><span><?= e($sl[2]) ?></span></figcaption>
+    </figure>
+    <?php endforeach; ?>
+  </div>
+  <div class="dots" id="dots" aria-hidden="true">
+    <?php foreach ($T['slides'] as $i => $sl): ?><span<?= $i === 0 ? ' class="on"' : '' ?>></span><?php endforeach; ?>
+  </div>
+</section>
+
+<?php if (!empty($c['results'])):
+    $firstRows = 8; ?>
 <section id="palmares">
   <div class="wrap">
-    <header class="head"><span class="mono"><?= sprintf('%02d', ++$n) ?></span><h2><?= e($T['h_results']) ?></h2></header>
-    <ol class="rows results">
-      <?php foreach ($c['results'] as $r): ?>
-      <li>
+    <h2 class="reveal"><?= e($T['h_results']) ?>.</h2>
+    <ol class="rows results reveal" id="results">
+      <?php foreach (array_values($c['results']) as $i => $r): ?>
+      <li<?= $i >= $firstRows ? ' class="extra"' : '' ?>>
         <span class="mono year"><?= e($r['year'] ?? '') ?></span>
         <span class="rank"><?= rank_label(trim((string) ($r['rank'] ?? ''))) ?></span>
         <span class="what">
@@ -230,23 +288,32 @@ $n = 0; // numérotation des sections
       </li>
       <?php endforeach; ?>
     </ol>
+    <?php if (count($c['results']) > $firstRows): ?>
+    <button class="more" type="button" id="show-all" hidden><?= e($T['show_all']) ?> (<?= count($c['results']) ?>)</button>
+    <?php endif; ?>
   </div>
 </section>
 <?php endif; ?>
 
 <?php if (!empty($c['qualifications'])): ?>
-<section id="mondiaux" class="dark">
+<section id="mondiaux" class="zinc">
   <div class="wrap">
-    <header class="head"><span class="mono"><?= sprintf('%02d', ++$n) ?></span><h2><?= e($T['h_qualif']) ?></h2></header>
-    <p class="section-lead"><?= e($T['qualif_lead']) ?></p>
-    <ul class="qualifs">
+    <p class="eyebrow reveal"><?= e($T['h_qualif']) ?></p>
+    <h2 class="big reveal"><?= e($T['worlds_big'][0]) ?><br><span><?= e(sprintf($T['worlds_big'][1], count($c['qualifications']))) ?></span></h2>
+    <div class="duo">
+      <figure><img class="grow" src="<?= e($base) ?>assets/img/kona-lave.jpg" alt="<?= e($T['alt_kona'][0]) ?>" loading="lazy"></figure>
+      <figure><img class="grow" src="<?= e($base) ?>assets/img/kona-check-in.jpg" alt="<?= e($T['alt_kona'][1]) ?>" loading="lazy"></figure>
+    </div>
+    <p class="feature-text reveal"><?= e($T['qualif_lead']) ?></p>
+    <ul class="qualifs reveal">
       <?php foreach ($c['qualifications'] as $q): ?>
       <li>
         <span class="q-year"><?= e($q['year'] ?? '') ?></span>
         <span class="q-what">
           <strong><?= e($q['event'] ?? '') ?></strong>
-          <span class="mono"><?= e($q['location'] ?? '') ?><?php $note = tr($q, 'note'); if ($note !== ''): ?> · <?= e($note) ?><?php endif; ?></span>
+          <span><?= e($q['location'] ?? '') ?></span>
         </span>
+        <span class="mono note"><?= e(tr($q, 'note')) ?></span>
       </li>
       <?php endforeach; ?>
     </ul>
@@ -257,20 +324,30 @@ $n = 0; // numérotation des sections
 <?php if (!empty($c['services'])): ?>
 <section id="prestations">
   <div class="wrap">
-    <header class="head"><span class="mono"><?= sprintf('%02d', ++$n) ?></span><h2><?= e($T['h_services']) ?></h2></header>
-    <p class="section-lead"><?= e($T['services_lead']) ?></p>
+    <div class="split">
+      <div>
+        <p class="eyebrow reveal"><?= e($T['h_services']) ?></p>
+        <h2 class="big reveal"><?= e($T['services_big'][0]) ?><br><span><?= e($T['services_big'][1]) ?></span></h2>
+        <p class="feature-text reveal"><?= e($T['services_lead']) ?></p>
+      </div>
+      <figure class="portrait"><img class="grow" src="<?= e($base) ?>assets/img/petit-minou.jpg" alt="<?= e($T['alt_portrait']) ?>" loading="lazy"></figure>
+    </div>
     <div class="services">
-      <?php foreach ($c['services'] as $i => $sv): ?>
-      <article class="service">
-        <span class="mono"><?= chr(65 + ($i % 26)) ?></span>
+      <?php foreach ($c['services'] as $sv):
+          $price = trim((string) ($sv['price'] ?? '')); ?>
+      <article class="card reveal">
         <h3><?= e(tr($sv, 'title')) ?></h3>
         <p><?= e(tr($sv, 'desc')) ?></p>
         <div class="price">
+          <?php if ($price !== ''): ?>
           <span class="mono"><?= e($T['from']) ?></span>
-          <strong><?= e($sv['price'] ?? '') ?> €</strong>
-          <span class="mono"><?= e(tr($sv, 'unit')) ?></span>
+          <strong><?= e($price) ?> €</strong>
+          <?php else: ?>
+          <strong><?= e($T['on_request']) ?></strong>
+          <?php endif; ?>
+          <span class="unit"><?= e(tr($sv, 'unit')) ?></span>
         </div>
-        <a class="link" href="#contact"><?= e($T['ask']) ?> →</a>
+        <a class="more" href="#contact"><?= e($T['ask']) ?></a>
       </article>
       <?php endforeach; ?>
     </div>
@@ -278,41 +355,41 @@ $n = 0; // numérotation des sections
 </section>
 <?php endif; ?>
 
-<section id="partenaires" class="tint">
+<section id="partenaires" class="zinc">
   <div class="wrap">
-    <header class="head"><span class="mono"><?= sprintf('%02d', ++$n) ?></span><h2><?= e($T['h_partners']) ?></h2></header>
-    <?php if (!empty($c['partners'])): ?>
-    <ul class="partners">
-      <?php foreach ($c['partners'] as $p):
-          $purl = trim((string) ($p['url'] ?? ''));
-          $ok   = (bool) preg_match('#^https?://#i', $purl); ?>
-      <li>
-        <?php if ($ok): ?><a href="<?= e($purl) ?>" rel="noopener" target="_blank"><?php endif; ?>
-        <strong><?= e($p['name'] ?? '') ?></strong>
-        <span class="mono"><?= e(tr($p, 'role')) ?></span>
-        <?php if ($ok): ?></a><?php endif; ?>
-      </li>
-      <?php endforeach; ?>
-    </ul>
-    <?php endif; ?>
+    <p class="eyebrow reveal"><?= e($T['h_partners']) ?></p>
+    <h2 class="big reveal"><?= e($T['pitch_title']) ?></h2>
     <div class="pitch">
-      <h3><?= e($T['pitch_title']) ?></h3>
-      <div>
-        <p><?= e($T['pitch_text']) ?></p>
-        <ul class="mono">
+      <div class="reveal">
+        <p class="feature-text"><?= e($T['pitch_text']) ?></p>
+        <ul>
           <?php foreach ($T['pitch_points'] as $pt): ?><li><?= e($pt) ?></li><?php endforeach; ?>
         </ul>
-        <a class="btn solid" href="#contact"><?= e($T['pitch_cta']) ?></a>
+        <a class="btn" href="#contact"><?= e($T['pitch_cta']) ?></a>
       </div>
+      <?php if (!empty($c['partners'])): ?>
+      <ul class="partners reveal">
+        <?php foreach ($c['partners'] as $p):
+            $purl = trim((string) ($p['url'] ?? ''));
+            $ok   = (bool) preg_match('#^https?://#i', $purl); ?>
+        <li>
+          <?php if ($ok): ?><a href="<?= e($purl) ?>" rel="noopener" target="_blank"><?php endif; ?>
+          <strong><?= e($p['name'] ?? '') ?></strong>
+          <span class="mono"><?= e(tr($p, 'role')) ?></span>
+          <?php if ($ok): ?></a><?php endif; ?>
+        </li>
+        <?php endforeach; ?>
+      </ul>
+      <?php endif; ?>
     </div>
   </div>
 </section>
 
 <section id="calendrier">
   <div class="wrap">
-    <header class="head"><span class="mono"><?= sprintf('%02d', ++$n) ?></span><h2><?= e($T['h_calendar']) ?></h2></header>
+    <h2 class="reveal"><?= e($T['h_calendar']) ?>.</h2>
     <?php if ($upcoming): ?>
-    <ol class="rows calendar">
+    <ol class="rows calendar reveal">
       <?php foreach ($upcoming as $ev):
           [$y, $m, $d] = array_map('intval', explode('-', $ev['date'])); ?>
       <li>
@@ -327,48 +404,86 @@ $n = 0; // numérotation des sections
       <?php endforeach; ?>
     </ol>
     <?php else: ?>
-    <p class="section-lead"><?= e($T['no_events']) ?></p>
+    <p class="feature-text reveal" style="margin-top:28px"><?= e($T['no_events']) ?></p>
     <?php endif; ?>
   </div>
 </section>
 
-<section id="contact" class="dark">
+<section id="contact" class="zinc">
   <div class="wrap contact">
-    <div>
-      <header class="head"><span class="mono"><?= sprintf('%02d', ++$n) ?></span><h2><?= e($T['h_contact']) ?></h2></header>
-      <p class="section-lead"><?= e($T['contact_lead']) ?></p>
+    <div class="reveal">
+      <h2><?= e($T['h_contact']) ?>.</h2>
+      <p class="feature-text"><?= e($T['contact_lead']) ?></p>
       <?php if ($email !== ''): ?><p><a class="mail" href="mailto:<?= e($email) ?>"><?= e($email) ?></a></p><?php endif; ?>
       <?php if ($socials): ?>
-      <ul class="socials mono">
-        <?php foreach ($socials as $label => $url): ?><li><a href="<?= e($url) ?>" rel="noopener me" target="_blank"><?= e($label) ?> ↗</a></li><?php endforeach; ?>
+      <ul class="socials">
+        <?php foreach ($socials as $label => $url): ?><li><a class="more" href="<?= e($url) ?>" rel="noopener me" target="_blank"><?= e($label) ?></a></li><?php endforeach; ?>
       </ul>
       <?php endif; ?>
     </div>
-    <form method="post" action="<?= e($base) ?>contact.php">
+    <form class="card reveal" method="post" action="<?= e($base) ?>contact.php">
       <?php if ($sent === '1'): ?><p class="flash" role="status"><?= e($T['sent_ok']) ?></p>
       <?php elseif ($sent === '0'): ?><p class="flash" role="alert"><?= e($T['sent_ko']) ?></p><?php endif; ?>
       <input type="hidden" name="lang" value="<?= $lang ?>">
       <input type="hidden" name="ts" value="<?= time() ?>">
       <p class="hp" aria-hidden="true"><label>Website <input type="text" name="website" tabindex="-1" autocomplete="off"></label></p>
-      <label><span class="mono"><?= e($T['f_name']) ?></span><input type="text" name="name" required maxlength="120" autocomplete="name"></label>
-      <label><span class="mono"><?= e($T['f_email']) ?></span><input type="email" name="email" required maxlength="160" autocomplete="email"></label>
-      <label><span class="mono"><?= e($T['f_topic']) ?></span>
+      <label><span><?= e($T['f_name']) ?></span><input type="text" name="name" required maxlength="120" autocomplete="name"></label>
+      <label><span><?= e($T['f_email']) ?></span><input type="email" name="email" required maxlength="160" autocomplete="email"></label>
+      <label><span><?= e($T['f_topic']) ?></span>
         <select name="topic">
           <?php foreach ($T['topics'] as $val => $label): ?><option value="<?= $val ?>"><?= e($label) ?></option><?php endforeach; ?>
         </select>
       </label>
-      <label><span class="mono"><?= e($T['f_message']) ?></span><textarea name="message" rows="5" required maxlength="5000"></textarea></label>
-      <button class="btn solid" type="submit"><?= e($T['f_send']) ?></button>
+      <label><span><?= e($T['f_message']) ?></span><textarea name="message" rows="5" required maxlength="5000"></textarea></label>
+      <button class="btn" type="submit"><?= e($T['f_send']) ?></button>
     </form>
   </div>
 </section>
 </main>
 
-<footer class="foot dark">
-  <div class="wrap mono">
-    <span>© <?= date('Y') ?> Arnaud Guilloux</span>
-    <span><?= e($T['legal']) ?><?php if (trim((string) ($settings['siret'] ?? '')) !== ''): ?> SIRET <?= e($settings['siret']) ?>.<?php endif; ?></span>
+<footer class="foot">
+  <div class="wrap">
+    <p><?= e($T['legal']) ?><?php if (trim((string) ($settings['siret'] ?? '')) !== ''): ?> SIRET <?= e($settings['siret']) ?>.<?php endif; ?></p>
+    <p>© <?= date('Y') ?> Arnaud Guilloux</p>
   </div>
 </footer>
+
+<script>
+(function () {
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var items = document.querySelectorAll('.reveal, .grow');
+  if (reduce || !('IntersectionObserver' in window)) {
+    items.forEach(function (el) { el.classList.add('in'); });
+  } else {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
+    }, { rootMargin: '0px 0px -12% 0px' });
+    items.forEach(function (el) { io.observe(el); });
+  }
+
+  var car = document.getElementById('carousel'), dots = document.getElementById('dots');
+  if (car && dots && 'IntersectionObserver' in window) {
+    var slides = car.querySelectorAll('.slide'), marks = dots.children;
+    Array.prototype.forEach.call(marks, function (m, i) {
+      m.addEventListener('click', function () { slides[i].scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', inline: 'center', block: 'nearest' }); });
+    });
+    var so = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) {
+          var k = Array.prototype.indexOf.call(slides, en.target);
+          Array.prototype.forEach.call(marks, function (m, i) { m.classList.toggle('on', i === k); });
+        }
+      });
+    }, { root: car, threshold: 0.6 });
+    slides.forEach(function (s) { so.observe(s); });
+  }
+
+  var btn = document.getElementById('show-all'), list = document.getElementById('results');
+  if (btn && list) {
+    list.classList.add('collapsed'); btn.hidden = false;
+    btn.addEventListener('click', function () { list.classList.remove('collapsed'); btn.hidden = true; });
+  }
+})();
+</script>
 </body>
 </html>

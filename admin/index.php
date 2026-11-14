@@ -60,7 +60,7 @@ $SCHEMA = [
         'title_en' => ['Titre (EN)', 'text'],
         'desc_fr'  => ['Description (FR)', 'textarea'],
         'desc_en'  => ['Description (EN)', 'textarea'],
-        'price'    => ['Tarif « à partir de » (€)', 'number'],
+        'price'    => ['Tarif « à partir de » en € (vide = sur demande)', 'number'],
         'unit_fr'  => ['Unité (FR) — ex. la séance', 'text'],
         'unit_en'  => ['Unité (EN) — ex. per session', 'text'],
     ]],
