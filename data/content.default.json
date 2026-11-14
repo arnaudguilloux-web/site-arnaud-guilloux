@@ -1,0 +1,70 @@
+{
+  "settings": {
+    "draft": "1",
+    "contact_email": "",
+    "instagram": "",
+    "strava": "",
+    "linkedin": "",
+    "siret": ""
+  },
+  "hero": {
+    "kicker_fr": "Triathlète professionnel · Longue distance",
+    "kicker_en": "Professional triathlete · Long distance",
+    "lead_fr": "Je cours sur le circuit longue distance sous les couleurs du Nissa Triathlon. Entre deux courses, j'accompagne des athlètes de tous niveaux depuis Saint-Renan, en Bretagne : conseil, tests physiologiques et bike fitting.",
+    "lead_en": "I race the long-distance circuit for Nissa Triathlon. Between races, I work with athletes of all levels from Saint-Renan, Brittany: consulting, physiological testing and bike fitting."
+  },
+  "stats": [
+    { "value": "10+", "label_fr": "Saisons en longue distance", "label_en": "Seasons in long-distance racing" },
+    { "value": "3", "label_fr": "Qualifications aux Mondiaux", "label_en": "World Championship qualifications" },
+    { "value": "8 h 15", "label_fr": "Record sur distance IRONMAN", "label_en": "IRONMAN-distance best" }
+  ],
+  "results": [
+    { "year": "2026", "race": "Exemple — IRONMAN France", "location": "Nice", "rank": "3", "note_fr": "Catégorie pro", "note_en": "Pro field" },
+    { "year": "2026", "race": "Exemple — Triathlon longue distance", "location": "Bretagne", "rank": "1", "note_fr": "", "note_en": "" },
+    { "year": "2025", "race": "Exemple — IRONMAN 70.3", "location": "Les Sables-d'Olonne", "rank": "5", "note_fr": "Catégorie pro", "note_en": "Pro field" },
+    { "year": "2025", "race": "Exemple — Championnat de France longue distance", "location": "France", "rank": "2", "note_fr": "", "note_en": "" }
+  ],
+  "qualifications": [
+    { "year": "2026", "event": "Exemple — Championnat du monde IRONMAN", "location": "Kailua-Kona, Hawaï", "note_fr": "", "note_en": "" },
+    { "year": "2025", "event": "Exemple — Championnat du monde IRONMAN 70.3", "location": "Marbella, Espagne", "note_fr": "", "note_en": "" }
+  ],
+  "services": [
+    {
+      "title_fr": "Consulting",
+      "title_en": "Consulting",
+      "desc_fr": "Un échange en tête-à-tête pour faire le point : analyse de votre entraînement, stratégie de course, nutrition, choix du matériel. Vous repartez avec un plan d'action clair.",
+      "desc_en": "A one-to-one session to take stock: training review, race strategy, nutrition, equipment choices. You leave with a clear action plan.",
+      "price": "90",
+      "unit_fr": "la séance",
+      "unit_en": "per session"
+    },
+    {
+      "title_fr": "Tests physiologiques",
+      "title_en": "Physiological testing",
+      "desc_fr": "Profil lactate et seuils mesurés à vélo ou en course à pied, pour caler vos zones d'entraînement sur des données et non sur des estimations.",
+      "desc_en": "Lactate profile and thresholds measured on the bike or on the run, so your training zones rest on data rather than estimates.",
+      "price": "150",
+      "unit_fr": "le test",
+      "unit_en": "per test"
+    },
+    {
+      "title_fr": "Bike fitting",
+      "title_en": "Bike fitting",
+      "desc_fr": "Étude posturale complète sur votre vélo de route ou de chrono : confort, puissance et aérodynamisme, réglés pour tenir la position sur la durée.",
+      "desc_en": "A full position study on your road or TT bike: comfort, power and aerodynamics, set up so you can hold the position for hours.",
+      "price": "180",
+      "unit_fr": "l'étude",
+      "unit_en": "per fitting"
+    }
+  ],
+  "partners": [
+    { "name": "Nissa Triathlon", "url": "", "role_fr": "Club", "role_en": "Club" },
+    { "name": "Votre marque", "url": "", "role_fr": "Partenaire — exemple", "role_en": "Partner — example" },
+    { "name": "Votre marque", "url": "", "role_fr": "Partenaire — exemple", "role_en": "Partner — example" }
+  ],
+  "calendar": [
+    { "date": "2027-03-21", "race": "Exemple — Triathlon d'ouverture", "location": "France", "format": "Half", "note_fr": "", "note_en": "" },
+    { "date": "2027-06-27", "race": "Exemple — IRONMAN France", "location": "Nice", "format": "IRONMAN", "note_fr": "Objectif de la saison", "note_en": "Season goal" },
+    { "date": "2027-10-09", "race": "Exemple — Championnat du monde IRONMAN", "location": "Kailua-Kona, Hawaï", "format": "IRONMAN", "note_fr": "", "note_en": "" }
+  ]
+}

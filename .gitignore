@@ -1,0 +1,7 @@
+# Données créées par le back office sur le serveur : jamais versionnées,
+# jamais écrasées par un déploiement.
+data/content.json
+data/content.json.tmp
+data/content.bak.json
+data/admin.php
+data/throttle.json
