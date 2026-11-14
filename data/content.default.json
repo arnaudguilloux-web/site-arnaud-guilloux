@@ -2,10 +2,12 @@
   "settings": {
     "draft": "1",
     "contact_email": "",
-    "instagram": "",
-    "strava": "",
+    "instagram": "https://www.instagram.com/arnaudguilloux/",
+    "strava": "https://www.strava.com/pros/563273",
     "linkedin": "",
-    "siret": ""
+    "siret": "",
+    "facebook": "https://www.facebook.com/arnaudguillouxtriathlete",
+    "x": "https://twitter.com/arnaud_guillx"
   },
   "hero": {
     "kicker_fr": "Triathlète professionnel · Longue distance",
@@ -280,6 +282,30 @@
       "url": "",
       "role_fr": "Club",
       "role_en": "Club"
+    },
+    {
+      "name": "HOKA",
+      "url": "https://www.hoka.com/",
+      "role_fr": "Partenaire",
+      "role_en": "Partner"
+    },
+    {
+      "name": "EnoWatt",
+      "url": "",
+      "role_fr": "Partenaire",
+      "role_en": "Partner"
+    },
+    {
+      "name": "Surpas",
+      "url": "https://surpasofficial.com/",
+      "role_fr": "Partenaire",
+      "role_en": "Partner"
+    },
+    {
+      "name": "AquaSelf",
+      "url": "",
+      "role_fr": "Partenaire",
+      "role_en": "Partner"
     }
   ],
   "calendar": []

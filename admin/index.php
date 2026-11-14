@@ -83,9 +83,11 @@ $SCHEMA = [
     ]],
     'settings' => ['label' => 'Réglages', 'type' => 'single', 'fields' => [
         'draft'         => ['Bandeau « contenu d\'exemple » (masque aussi le site des moteurs de recherche)', 'bool'],
-        'contact_email' => ['E-mail de contact (reçoit le formulaire, affiché sur le site)', 'email'],
+        'contact_email' => ['E-mail qui reçoit le formulaire (jamais affiché sur le site)', 'email'],
         'instagram'     => ['Instagram (https://…)', 'url'],
         'strava'        => ['Strava (https://…)', 'url'],
+        'facebook'      => ['Facebook (https://…)', 'url'],
+        'x'             => ['X / Twitter (https://…)', 'url'],
         'linkedin'      => ['LinkedIn (https://…)', 'url'],
         'siret'         => ['SIRET (mentions légales)', 'text'],
     ]],

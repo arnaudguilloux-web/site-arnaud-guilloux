@@ -159,7 +159,7 @@ $T = [
 ][$lang];
 
 $socials = [];
-foreach (['instagram' => 'Instagram', 'strava' => 'Strava', 'linkedin' => 'LinkedIn'] as $key => $label) {
+foreach (['instagram' => 'Instagram', 'strava' => 'Strava', 'facebook' => 'Facebook', 'x' => 'X', 'linkedin' => 'LinkedIn'] as $key => $label) {
     $url = trim((string) ($settings[$key] ?? ''));
     if (preg_match('#^https?://#i', $url)) {
         $socials[$label] = $url;
@@ -198,7 +198,7 @@ $n = 0; // numérotation des sections
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=2">
+<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=4">
 <script>document.documentElement.classList.add('js');</script>
 <script type="application/ld+json"><?= json_encode($jsonLd, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) ?></script>
 </head>
@@ -222,32 +222,31 @@ $n = 0; // numérotation des sections
 
 <main>
 <section class="hero">
-  <div class="wrap">
+  <img class="hero-bg" src="<?= e($base) ?>assets/img/roth-solarer-berg.jpg" width="2000" height="1333" alt="<?= e($T['alt_hero']) ?>" fetchpriority="high">
+  <div class="wrap hero-inner">
     <p class="mono kicker"><?= e(tr($hero, 'kicker')) ?></p>
     <h1>Arnaud Guilloux</h1>
-    <p class="mono place">Nissa Triathlon · <?= e($T['place']) ?></p>
-    <figure class="hero-media">
-      <img src="<?= e($base) ?>assets/img/roth-solarer-berg.jpg" width="2000" height="1333" alt="<?= e($T['alt_hero']) ?>" fetchpriority="high">
-    </figure>
-    <div class="hero-cta reveal">
-      <p class="lead"><?= e(tr($hero, 'lead')) ?></p>
-      <div class="cta">
-        <a class="btn" href="#prestations"><?= e($T['cta_coaching']) ?></a>
-        <a class="btn ghost" href="#partenaires"><?= e($T['cta_sponsor']) ?></a>
-      </div>
+    <div class="cta">
+      <a class="btn" href="#prestations"><?= e($T['cta_coaching']) ?></a>
+      <a class="btn glass" href="#partenaires"><?= e($T['cta_sponsor']) ?></a>
     </div>
-    <?php if (!empty($c['stats'])): ?>
-    <dl class="stats reveal">
-      <?php foreach ($c['stats'] as $st): ?>
-      <div>
-        <dd><?= e($st['value'] ?? '') ?></dd>
-        <dt><?= e(tr($st, 'label')) ?></dt>
-      </div>
-      <?php endforeach; ?>
-    </dl>
-    <?php endif; ?>
+    <p class="mono place">Nissa Triathlon · <?= e($T['place']) ?></p>
   </div>
 </section>
+
+<div class="wrap intro">
+  <p class="lead reveal"><?= e(tr($hero, 'lead')) ?></p>
+  <?php if (!empty($c['stats'])): ?>
+  <dl class="stats reveal">
+    <?php foreach ($c['stats'] as $st): ?>
+    <div>
+      <dd><?= e($st['value'] ?? '') ?></dd>
+      <dt><?= e(tr($st, 'label')) ?></dt>
+    </div>
+    <?php endforeach; ?>
+  </dl>
+  <?php endif; ?>
+</div>
 
 <section class="zinc highlights">
   <div class="wrap head-row">
@@ -414,7 +413,6 @@ $n = 0; // numérotation des sections
     <div class="reveal">
       <h2><?= e($T['h_contact']) ?>.</h2>
       <p class="feature-text"><?= e($T['contact_lead']) ?></p>
-      <?php if ($email !== ''): ?><p><a class="mail" href="mailto:<?= e($email) ?>"><?= e($email) ?></a></p><?php endif; ?>
       <?php if ($socials): ?>
       <ul class="socials">
         <?php foreach ($socials as $label => $url): ?><li><a class="more" href="<?= e($url) ?>" rel="noopener me" target="_blank"><?= e($label) ?></a></li><?php endforeach; ?>
