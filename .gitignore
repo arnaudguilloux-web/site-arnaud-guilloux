@@ -5,3 +5,16 @@ data/content.json.tmp
 data/content.bak.json
 data/admin.php
 data/throttle.json
+
+# Fichiers système et éditeurs
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*~
+
+# Journaux et secrets locaux
+*.log
+.env
+.env.*
