@@ -69,13 +69,11 @@ $T = [
         'title'        => 'Arnaud Guilloux — Triathlète professionnel longue distance · Coaching, tests, bike fitting',
         'description'  => 'Arnaud Guilloux, triathlète professionnel longue distance (Nissa Triathlon), basé à Saint-Renan. Coaching, tests physiologiques, bike fitting et partenariats.',
         'draft'        => 'Site en préparation — contenu en cours de validation.',
-        'on_request'   => 'Sur demande',
         'h_highlights' => 'Temps forts.',
         'see_results'  => 'Voir le palmarès',
         'see_worlds'   => 'Les Mondiaux',
         'show_all'     => 'Afficher tout le palmarès',
         'worlds_big'   => ['Championnat du monde IRONMAN.', '%d fois au départ.'],
-        'services_big' => ['Votre préparation.', 'Mes outils de pro.'],
         'h_coaching'   => 'Coaching',
         'coaching_big' => ['Le coaching.', 'Orienté performance.'],
         'coaching_cta' => 'Parler de votre objectif',
@@ -92,7 +90,6 @@ $T = [
         ],
         'alt_hero'     => 'Arnaud Guilloux à vélo entre deux haies de spectateurs au Challenge Roth',
         'alt_kona'     => ['Arnaud Guilloux et son vélo sur un champ de lave à Hawaï', 'Arnaud Guilloux au dépôt des vélos du Championnat du monde IRONMAN'],
-        'alt_portrait' => 'Arnaud Guilloux devant le phare du Petit Minou, en Bretagne',
         'nav'          => ['palmares' => 'Palmarès', 'mondiaux' => 'Mondiaux', 'coaching' => 'Coaching', 'partenaires' => 'Partenaires', 'calendrier' => 'Calendrier', 'contact' => 'Contact'],
         'cta_coaching' => 'Coaching',
         'cta_sponsor'  => 'Devenir partenaire',
@@ -100,10 +97,6 @@ $T = [
         'h_results'    => 'Palmarès',
         'h_qualif'     => 'Qualifications aux Mondiaux',
         'qualif_lead'  => 'Se qualifier chez les professionnels, c\'est gagner sa place course après course.',
-        'h_services'   => 'Prestations',
-        'services_lead' => 'Ce que j\'applique à ma propre préparation, mis au service de la vôtre. À Saint-Renan ou à distance selon la prestation.',
-        'from'         => 'À partir de',
-        'ask'          => 'Demander un créneau',
         'h_partners'   => 'Partenaires',
         'pitch_title'  => 'Associez votre marque à la longue distance.',
         'pitch_text'   => 'Un athlète professionnel ancré en Bretagne et présent sur le circuit international. Visibilité en course, contenus, tests de matériel, interventions en entreprise : construisons un partenariat à votre mesure.',
@@ -127,13 +120,11 @@ $T = [
         'title'        => 'Arnaud Guilloux — Professional long-distance triathlete · Coaching, testing, bike fitting',
         'description'  => 'Arnaud Guilloux, professional long-distance triathlete (Nissa Triathlon), based in Saint-Renan, Brittany. Coaching, physiological testing, bike fitting and partnerships.',
         'draft'        => 'Site in preparation — content under review.',
-        'on_request'   => 'On request',
         'h_highlights' => 'Highlights.',
         'see_results'  => 'See the results',
         'see_worlds'   => 'World Championships',
         'show_all'     => 'Show all results',
         'worlds_big'   => ['IRONMAN World Championship.', '%d times on the start line.'],
-        'services_big' => ['Your preparation.', 'A pro\'s toolkit.'],
         'h_coaching'   => 'Coaching',
         'coaching_big' => ['Coaching.', 'Performance-driven.'],
         'coaching_cta' => 'Talk about your goal',
@@ -150,7 +141,6 @@ $T = [
         ],
         'alt_hero'     => 'Arnaud Guilloux riding between two walls of spectators at Challenge Roth',
         'alt_kona'     => ['Arnaud Guilloux and his bike on a lava field in Hawaii', 'Arnaud Guilloux at bike check-in for the IRONMAN World Championship'],
-        'alt_portrait' => 'Arnaud Guilloux in front of the Petit Minou lighthouse, Brittany',
         'nav'          => ['palmares' => 'Results', 'mondiaux' => 'Worlds', 'coaching' => 'Coaching', 'partenaires' => 'Partners', 'calendrier' => 'Calendar', 'contact' => 'Contact'],
         'cta_coaching' => 'Coaching',
         'cta_sponsor'  => 'Become a partner',
@@ -158,10 +148,6 @@ $T = [
         'h_results'    => 'Results',
         'h_qualif'     => 'World Championship qualifications',
         'qualif_lead'  => 'In the pro field, a qualification is earned one race at a time.',
-        'h_services'   => 'Services',
-        'services_lead' => 'What I apply to my own preparation, put to work for yours. In Saint-Renan or remotely, depending on the service.',
-        'from'         => 'From',
-        'ask'          => 'Request a slot',
         'h_partners'   => 'Partners',
         'pitch_title'  => 'Put your brand on the long-distance stage.',
         'pitch_text'   => 'A professional athlete rooted in Brittany and racing the international circuit. Race-day visibility, content, product testing, talks for your teams: let\'s build a partnership that fits you.',
@@ -223,7 +209,7 @@ $n = 0; // numérotation des sections
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=7">
+<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=8">
 <script>document.documentElement.classList.add('js');</script>
 <script type="application/ld+json"><?= json_encode($jsonLd, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) ?></script>
 </head>

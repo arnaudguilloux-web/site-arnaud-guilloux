@@ -247,35 +247,6 @@
       "note_en": "22nd · 8:53:40"
     }
   ],
-  "services": [
-    {
-      "title_fr": "Consulting",
-      "title_en": "Consulting",
-      "desc_fr": "Un échange en tête-à-tête pour faire le point : analyse de votre entraînement, stratégie de course, nutrition, choix du matériel. Vous repartez avec un plan d'action clair.",
-      "desc_en": "A one-to-one session to take stock: training review, race strategy, nutrition, equipment choices. You leave with a clear action plan.",
-      "price": "",
-      "unit_fr": "Contactez-moi pour un devis",
-      "unit_en": "Contact me for a quote"
-    },
-    {
-      "title_fr": "Tests physiologiques",
-      "title_en": "Physiological testing",
-      "desc_fr": "Profil lactate et seuils mesurés à vélo ou en course à pied, pour caler vos zones d'entraînement sur des données et non sur des estimations.",
-      "desc_en": "Lactate profile and thresholds measured on the bike or on the run, so your training zones rest on data rather than estimates.",
-      "price": "190",
-      "unit_fr": "le test",
-      "unit_en": "per test"
-    },
-    {
-      "title_fr": "Bike fitting",
-      "title_en": "Bike fitting",
-      "desc_fr": "Étude posturale complète sur votre vélo de route ou de chrono : confort, puissance et aérodynamisme, réglés pour tenir la position sur la durée.",
-      "desc_en": "A full position study on your road or TT bike: comfort, power and aerodynamics, set up so you can hold the position for hours.",
-      "price": "150",
-      "unit_fr": "vélo de route · 200 € vélo de chrono",
-      "unit_en": "road bike · €200 TT bike"
-    }
-  ],
   "partners": [
     {
       "name": "Nissa Triathlon",
