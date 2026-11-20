@@ -93,7 +93,7 @@ $T = [
         'alt_hero'     => 'Arnaud Guilloux à vélo entre deux haies de spectateurs au Challenge Roth',
         'alt_kona'     => ['Arnaud Guilloux et son vélo sur un champ de lave à Hawaï', 'Arnaud Guilloux au dépôt des vélos du Championnat du monde IRONMAN'],
         'alt_portrait' => 'Arnaud Guilloux devant le phare du Petit Minou, en Bretagne',
-        'nav'          => ['palmares' => 'Palmarès', 'mondiaux' => 'Mondiaux', 'coaching' => 'Coaching', 'prestations' => 'Prestations', 'partenaires' => 'Partenaires', 'calendrier' => 'Calendrier', 'contact' => 'Contact'],
+        'nav'          => ['palmares' => 'Palmarès', 'mondiaux' => 'Mondiaux', 'coaching' => 'Coaching', 'partenaires' => 'Partenaires', 'calendrier' => 'Calendrier', 'contact' => 'Contact'],
         'cta_coaching' => 'Coaching',
         'cta_sponsor'  => 'Devenir partenaire',
         'place'        => 'Saint-Renan, Bretagne',
@@ -151,7 +151,7 @@ $T = [
         'alt_hero'     => 'Arnaud Guilloux riding between two walls of spectators at Challenge Roth',
         'alt_kona'     => ['Arnaud Guilloux and his bike on a lava field in Hawaii', 'Arnaud Guilloux at bike check-in for the IRONMAN World Championship'],
         'alt_portrait' => 'Arnaud Guilloux in front of the Petit Minou lighthouse, Brittany',
-        'nav'          => ['palmares' => 'Results', 'mondiaux' => 'Worlds', 'coaching' => 'Coaching', 'prestations' => 'Services', 'partenaires' => 'Partners', 'calendrier' => 'Calendar', 'contact' => 'Contact'],
+        'nav'          => ['palmares' => 'Results', 'mondiaux' => 'Worlds', 'coaching' => 'Coaching', 'partenaires' => 'Partners', 'calendrier' => 'Calendar', 'contact' => 'Contact'],
         'cta_coaching' => 'Coaching',
         'cta_sponsor'  => 'Become a partner',
         'place'        => 'Saint-Renan, Brittany',
@@ -223,7 +223,7 @@ $n = 0; // numérotation des sections
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=6">
+<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=7">
 <script>document.documentElement.classList.add('js');</script>
 <script type="application/ld+json"><?= json_encode($jsonLd, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) ?></script>
 </head>
@@ -400,40 +400,6 @@ $n = 0; // numérotation des sections
       <button type="button" class="arrow" id="qnext" aria-label="<?= e($T['next']) ?>">›</button>
     </div>
     <?php if ($T['quotes_note'] !== ''): ?><p class="mono quotes-note"><?= e($T['quotes_note']) ?></p><?php endif; ?>
-  </div>
-</section>
-<?php endif; ?>
-
-<?php if (!empty($c['services'])): ?>
-<section id="prestations">
-  <div class="wrap">
-    <div class="split">
-      <div>
-        <p class="eyebrow reveal"><?= e($T['h_services']) ?></p>
-        <h2 class="big reveal"><?= e($T['services_big'][0]) ?><br><span><?= e($T['services_big'][1]) ?></span></h2>
-        <p class="feature-text reveal"><?= e($T['services_lead']) ?></p>
-      </div>
-      <figure class="portrait"><img class="grow" src="<?= e($base) ?>assets/img/petit-minou.jpg" alt="<?= e($T['alt_portrait']) ?>" loading="lazy"></figure>
-    </div>
-    <div class="services">
-      <?php foreach ($c['services'] as $sv):
-          $price = trim((string) ($sv['price'] ?? '')); ?>
-      <article class="card reveal">
-        <h3><?= e(tr($sv, 'title')) ?></h3>
-        <p><?= e(tr($sv, 'desc')) ?></p>
-        <div class="price">
-          <?php if ($price !== ''): ?>
-          <span class="mono"><?= e($T['from']) ?></span>
-          <strong><?= e($price) ?> €</strong>
-          <?php else: ?>
-          <strong><?= e($T['on_request']) ?></strong>
-          <?php endif; ?>
-          <span class="unit"><?= e(tr($sv, 'unit')) ?></span>
-        </div>
-        <a class="more" href="#contact"><?= e($T['ask']) ?></a>
-      </article>
-      <?php endforeach; ?>
-    </div>
   </div>
 </section>
 <?php endif; ?>

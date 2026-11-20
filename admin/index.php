@@ -80,15 +80,6 @@ $SCHEMA = [
         'name'         => ['Prénom', 'text'],
         'city'         => ['Ville (facultatif)', 'text'],
     ]],
-    'services' => ['label' => 'Prestations', 'type' => 'list', 'title' => 'title_fr', 'sub' => 'price', 'fields' => [
-        'title_fr' => ['Titre (FR)', 'text'],
-        'title_en' => ['Titre (EN)', 'text'],
-        'desc_fr'  => ['Description (FR)', 'textarea'],
-        'desc_en'  => ['Description (EN)', 'textarea'],
-        'price'    => ['Tarif « à partir de » en € (vide = sur demande)', 'number'],
-        'unit_fr'  => ['Unité (FR) — ex. la séance', 'text'],
-        'unit_en'  => ['Unité (EN) — ex. per session', 'text'],
-    ]],
     'partners' => ['label' => 'Partenaires', 'type' => 'list', 'title' => 'name', 'sub' => 'role_fr', 'fields' => [
         'name'    => ['Nom', 'text'],
         'url'     => ['Site web (https://…)', 'url'],
