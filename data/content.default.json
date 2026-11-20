@@ -311,37 +311,87 @@
   "calendar": [],
   "coaching": {
     "intro_fr": "Ce que je mesure et règle sur moi, je le fais pour vous. Je coache des athlètes de tous niveaux. Le point de départ : un objectif.",
-    "intro_en": "What I measure and fine-tune on myself, I do for you. I coach athletes of all levels. The starting point: a goal.",
-    "points_fr": "Suivi et échanges réguliers\nPlans d'entraînement\nTesting\nStages",
-    "points_en": "Regular follow-up and exchanges\nTraining plans\nTesting\nTraining camps",
-    "price_fr": "Tarif sur demande",
-    "price_en": "Rate on request"
+    "intro_en": "What I measure and fine-tune on myself, I do for you. I coach athletes of all levels. The starting point: a goal."
   },
   "testimonials": [
     {
-      "quote": "Parti de zéro en natation et à vélo avec un seul semi-marathon en poche, son coaching exigeant mais toujours à l'écoute m'a apporté la rigueur et le soutien moral nécessaires pour franchir des caps que je pensais impossibles : mon premier Ironman 70.3 à Nice en 2021",
+      "highlight_fr": "1er IRONMAN 70.3",
+      "highlight_en": "First IRONMAN 70.3",
+      "context_fr": "Nice · 2021",
+      "context_en": "Nice · 2021",
+      "quote": "Parti de zéro en natation et à vélo avec un seul semi-marathon en poche, son coaching exigeant mais toujours à l'écoute m'a apporté la rigueur et le soutien moral nécessaires pour franchir des caps que je pensais impossibles",
       "name": "Antonio",
       "city": "Plouarzel"
     },
     {
+      "highlight_fr": "9 h 06",
+      "highlight_en": "9:06",
+      "context_fr": "IRONMAN Texas · billet pour Kona",
+      "context_en": "IRONMAN Texas · Kona slot",
       "quote": "Pas besoin d'être \"déjà assez bon\" pour se faire coacher : c'est justement pour progresser qu'on y va. Arnaud est exigeant mais jamais dans l'excès, et il te dit les choses franchement.",
       "name": "Martin",
       "city": "Paris"
     },
     {
-      "quote": "Arnaud a une vraie expertise de l'Ironman, notamment dans sa capacité à reproduire les conditions de fatigue propres à cette discipline et à travailler la durabilité.",
-      "name": "Louis",
-      "city": ""
-    },
-    {
+      "highlight_fr": "2 h 16 à vélo",
+      "highlight_en": "2:16 on the bike",
+      "context_fr": "IRONMAN 70.3 Málaga",
+      "context_en": "IRONMAN 70.3 Málaga",
       "quote": "Arnaud saura t'accompagner et jongler avec tes différentes contraintes tout en te faisant progresser.",
       "name": "Guillaume",
       "city": ""
     },
     {
-      "quote": "15e place en groupe d'âge aux championnats du monde à Kona en 2026",
+      "highlight_fr": "15e",
+      "highlight_en": "15th",
+      "context_fr": "Groupe d'âge · Championnat du monde, Kona 2026",
+      "context_en": "Age group · World Championship, Kona 2026",
+      "quote": "Une meilleure planification de la charge, une optimisation des zones de travail, une amélioration des points faibles, un ajustement en temps réel des imprévus",
       "name": "Phil",
       "city": ""
+    },
+    {
+      "highlight_fr": "Stage en Bretagne",
+      "highlight_en": "Camp in Brittany",
+      "context_fr": "Tests physiologiques et bike fit",
+      "context_en": "Physiological testing and bike fit",
+      "quote": "Arnaud a une vraie expertise de l'Ironman, notamment dans sa capacité à reproduire les conditions de fatigue propres à cette discipline et à travailler la durabilité.",
+      "name": "Louis",
+      "city": ""
+    }
+  ],
+  "coaching_items": [
+    {
+      "title_fr": "Plans d'entraînement",
+      "title_en": "Training plans",
+      "detail_fr": "Suivi et échanges réguliers inclus",
+      "detail_en": "Regular follow-up and exchanges included",
+      "price_fr": "Sur demande",
+      "price_en": "On request"
+    },
+    {
+      "title_fr": "Stages",
+      "title_en": "Training camps",
+      "detail_fr": "",
+      "detail_en": "",
+      "price_fr": "Sur demande",
+      "price_en": "On request"
+    },
+    {
+      "title_fr": "Tests physiologiques",
+      "title_en": "Physiological testing",
+      "detail_fr": "VO2 et lactate",
+      "detail_en": "VO2 and lactate",
+      "price_fr": "À partir de 190 €",
+      "price_en": "From €190"
+    },
+    {
+      "title_fr": "Bike fitting",
+      "title_en": "Bike fitting",
+      "detail_fr": "Étude posturale",
+      "detail_en": "Postural study",
+      "price_fr": "À partir de 150 € vélo de route · 200 € vélo de chrono",
+      "price_en": "From €150 road bike · €200 TT bike"
     }
   ]
 }

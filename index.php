@@ -41,9 +41,9 @@ function rank_label(string $rank): string
     return e($rank);
 }
 
-/* Coaching : un point par ligne. Témoignages : seulement ceux qui ont une citation. */
-$coachPoints = array_values(array_filter(array_map('trim', preg_split('/\R/u', tr($coaching, 'points')) ?: []), static function ($l) {
-    return $l !== '';
+/* Coaching : lignes d'offres. Témoignages : seulement ceux qui ont une citation. */
+$coachItems = array_values(array_filter($c['coaching_items'] ?? [], static function ($i) {
+    return is_array($i) && trim((string) ($i['title_fr'] ?? '')) !== '';
 }));
 $quotes = array_values(array_filter($c['testimonials'] ?? [], static function ($q) {
     return is_array($q) && trim((string) ($q['quote'] ?? '')) !== '';
@@ -82,6 +82,8 @@ $T = [
         'h_quotes'     => 'Témoignages',
         'quotes_big'   => ['Ce que disent', 'mes athlètes.'],
         'quotes_note'  => '',
+        'prev'         => 'Précédent',
+        'next'         => 'Suivant',
         'slides'       => [
             ['roth-arrivee', 'Challenge Roth 2026.', '7 h 46 min 30 sur la distance IRONMAN.'],
             ['brasil-podium', 'IRONMAN Brasil 2026.', 'Troisième en 7 h 38.'],
@@ -138,6 +140,8 @@ $T = [
         'h_quotes'     => 'Testimonials',
         'quotes_big'   => ['What my', 'athletes say.'],
         'quotes_note'  => 'Testimonials are shown in their original French.',
+        'prev'         => 'Previous',
+        'next'         => 'Next',
         'slides'       => [
             ['roth-arrivee', 'Challenge Roth 2026.', '7:46:30 over the IRONMAN distance.'],
             ['brasil-podium', 'IRONMAN Brasil 2026.', 'Third place in 7:38.'],
@@ -219,7 +223,7 @@ $n = 0; // numérotation des sections
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=5">
+<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=6">
 <script>document.documentElement.classList.add('js');</script>
 <script type="application/ld+json"><?= json_encode($jsonLd, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) ?></script>
 </head>
@@ -341,7 +345,7 @@ $n = 0; // numérotation des sections
 </section>
 <?php endif; ?>
 
-<?php if (tr($coaching, 'intro') !== '' || $coachPoints): ?>
+<?php if (tr($coaching, 'intro') !== '' || $coachItems): ?>
 <section id="coaching">
   <div class="wrap">
     <p class="eyebrow reveal"><?= e($T['h_coaching']) ?></p>
@@ -351,14 +355,16 @@ $n = 0; // numérotation des sections
         <?php if (tr($coaching, 'intro') !== ''): ?><p class="feature-text"><?= e(tr($coaching, 'intro')) ?></p><?php endif; ?>
         <a class="btn" href="#contact"><?= e($T['coaching_cta']) ?></a>
       </div>
-      <div class="reveal">
-        <?php if ($coachPoints): ?>
-        <ul class="coach-points">
-          <?php foreach ($coachPoints as $pt): ?><li><?= e($pt) ?></li><?php endforeach; ?>
-        </ul>
-        <?php endif; ?>
-        <?php if (tr($coaching, 'price') !== ''): ?><p class="mono coach-price"><?= e(tr($coaching, 'price')) ?></p><?php endif; ?>
-      </div>
+      <?php if ($coachItems): ?>
+      <ul class="offers reveal">
+        <?php foreach ($coachItems as $it): ?>
+        <li>
+          <span class="offer-what"><strong><?= e(tr($it, 'title')) ?></strong><?php if (tr($it, 'detail') !== ''): ?><span><?= e(tr($it, 'detail')) ?></span><?php endif; ?></span>
+          <?php if (tr($it, 'price') !== ''): ?><span class="mono offer-price"><?= e(tr($it, 'price')) ?></span><?php endif; ?>
+        </li>
+        <?php endforeach; ?>
+      </ul>
+      <?php endif; ?>
     </div>
   </div>
 </section>
@@ -369,15 +375,29 @@ $n = 0; // numérotation des sections
   <div class="wrap">
     <p class="eyebrow reveal"><?= e($T['h_quotes']) ?></p>
     <h2 class="big reveal"><?= e($T['quotes_big'][0]) ?><br><span><?= e($T['quotes_big'][1]) ?></span></h2>
-    <div class="quotes">
-      <?php foreach ($quotes as $q):
-          $qname = trim((string) ($q['name'] ?? ''));
-          $qcity = trim((string) ($q['city'] ?? '')); ?>
-      <figure class="card quote reveal">
-        <blockquote lang="fr"><p>«&nbsp;<?= e(trim((string) $q['quote'])) ?>&nbsp;»</p></blockquote>
-        <?php if ($qname !== ''): ?><figcaption class="mono"><?= e($qname) ?><?= $qcity !== '' ? ' – ' . e($qcity) : '' ?></figcaption><?php endif; ?>
-      </figure>
-      <?php endforeach; ?>
+  </div>
+  <div class="carousel qcar" id="qcar" tabindex="0" aria-label="<?= e($T['h_quotes']) ?>">
+    <?php foreach ($quotes as $q):
+        $qname = trim((string) ($q['name'] ?? ''));
+        $qcity = trim((string) ($q['city'] ?? ''));
+        $qhl   = tr($q, 'highlight');
+        $qctx  = tr($q, 'context'); ?>
+    <figure class="qcard">
+      <?php if ($qhl !== ''): ?>
+      <div class="q-hl"><strong><?= e($qhl) ?></strong><?php if ($qctx !== ''): ?><span class="mono"><?= e($qctx) ?></span><?php endif; ?></div>
+      <?php endif; ?>
+      <blockquote lang="fr"><p>«&nbsp;<?= e(trim((string) $q['quote'])) ?>&nbsp;»</p></blockquote>
+      <?php if ($qname !== ''): ?><figcaption class="mono"><?= e($qname) ?><?= $qcity !== '' ? ' – ' . e($qcity) : '' ?></figcaption><?php endif; ?>
+    </figure>
+    <?php endforeach; ?>
+  </div>
+  <div class="wrap">
+    <div class="qctrl">
+      <button type="button" class="arrow" id="qprev" aria-label="<?= e($T['prev']) ?>">‹</button>
+      <div class="dots" id="qdots" aria-hidden="true">
+        <?php foreach ($quotes as $i => $q): ?><span<?= $i === 0 ? ' class="on"' : '' ?>></span><?php endforeach; ?>
+      </div>
+      <button type="button" class="arrow" id="qnext" aria-label="<?= e($T['next']) ?>">›</button>
     </div>
     <?php if ($T['quotes_note'] !== ''): ?><p class="mono quotes-note"><?= e($T['quotes_note']) ?></p><?php endif; ?>
   </div>
@@ -523,9 +543,10 @@ $n = 0; // numérotation des sections
     items.forEach(function (el) { io.observe(el); });
   }
 
-  var car = document.getElementById('carousel'), dots = document.getElementById('dots');
-  if (car && dots && 'IntersectionObserver' in window) {
-    var slides = car.querySelectorAll('.slide'), marks = dots.children;
+  function carousel(carId, dotsId, itemSel, prevId, nextId) {
+    var car = document.getElementById(carId), dots = document.getElementById(dotsId);
+    if (!car || !dots || !('IntersectionObserver' in window)) return;
+    var slides = car.querySelectorAll(itemSel), marks = dots.children;
     Array.prototype.forEach.call(marks, function (m, i) {
       m.addEventListener('click', function () { slides[i].scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', inline: 'center', block: 'nearest' }); });
     });
@@ -538,7 +559,17 @@ $n = 0; // numérotation des sections
       });
     }, { root: car, threshold: 0.6 });
     slides.forEach(function (s) { so.observe(s); });
+    [[prevId, -1], [nextId, 1]].forEach(function (a) {
+      var b = a[0] && document.getElementById(a[0]);
+      if (!b) return;
+      b.addEventListener('click', function () {
+        var step = slides[0].getBoundingClientRect().width + 24;
+        car.scrollBy({ left: a[1] * step, behavior: reduce ? 'auto' : 'smooth' });
+      });
+    });
   }
+  carousel('carousel', 'dots', '.slide');
+  carousel('qcar', 'qdots', '.qcard', 'qprev', 'qnext');
 
   var btn = document.getElementById('show-all'), list = document.getElementById('results');
   if (btn && list) {
