@@ -7,9 +7,9 @@ Site vitrine bilingue (FR `/`, EN `/en/`) en PHP sans dépendance, pour héberge
 | Fichier | Rôle |
 | --- | --- |
 | `index.php` | Page publique (FR/EN), rendue côté serveur à partir du contenu |
-| `assets/style.css` | Styles (noir & blanc, Archivo + IBM Plex Mono) |
+| `assets/style.css` | Styles (thème clair, encre bleu nuit + accent marine, Inter). Couleurs, rayons et espacements se règlent dans `:root` |
 | `contact.php` | Envoi du formulaire de contact par e-mail |
-| `admin/` | Back office mobile |
+| `admin/` | Back office mobile (styles propres, en ligne dans `admin/index.php`) |
 | `data/content.default.json` | Contenu de départ, versionné |
 | `data/content.json` | Contenu en ligne, écrit par le back office (non versionné) |
 | `.github/workflows/deploy.yml` | Déploiement automatique vers OVH à chaque push sur `main` |

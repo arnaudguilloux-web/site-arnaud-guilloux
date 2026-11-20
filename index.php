@@ -69,7 +69,7 @@ $T = [
         'title'        => 'Arnaud Guilloux — Triathlète professionnel longue distance · Coaching, tests, bike fitting',
         'description'  => 'Arnaud Guilloux, triathlète professionnel longue distance (Nissa Triathlon), basé à Saint-Renan. Coaching, tests physiologiques, bike fitting et partenariats.',
         'draft'        => 'Site en préparation — contenu en cours de validation.',
-        'h_highlights' => 'Temps forts.',
+        'h_highlights' => 'Temps forts',
         'see_results'  => 'Voir le palmarès',
         'see_worlds'   => 'Les Mondiaux',
         'show_all'     => 'Afficher tout le palmarès',
@@ -120,7 +120,7 @@ $T = [
         'title'        => 'Arnaud Guilloux — Professional long-distance triathlete · Coaching, testing, bike fitting',
         'description'  => 'Arnaud Guilloux, professional long-distance triathlete (Nissa Triathlon), based in Saint-Renan, Brittany. Coaching, physiological testing, bike fitting and partnerships.',
         'draft'        => 'Site in preparation — content under review.',
-        'h_highlights' => 'Highlights.',
+        'h_highlights' => 'Highlights',
         'see_results'  => 'See the results',
         'see_worlds'   => 'World Championships',
         'show_all'     => 'Show all results',
@@ -205,12 +205,11 @@ $n = 0; // numérotation des sections
 <meta property="og:title" content="<?= e($T['title']) ?>">
 <meta property="og:description" content="<?= e($T['description']) ?>">
 <meta property="og:image" content="<?= e($origin . $base) ?>assets/img/roth-solarer-berg.jpg">
-<meta name="theme-color" content="#000000">
+<meta name="theme-color" content="#ffffff">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=9">
-<script>document.documentElement.classList.add('js');</script>
 <script type="application/ld+json"><?= json_encode($jsonLd, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) ?></script>
 </head>
 <body>
@@ -218,7 +217,7 @@ $n = 0; // numérotation des sections
 
 <header class="top">
   <div class="wrap">
-    <a class="brand" href="<?= e($home[$lang]) ?>">Arnaud Guilloux</a>
+    <a class="brand" href="<?= e($home[$lang]) ?>">Arnaud <strong>Guilloux</strong></a>
     <nav class="nav" aria-label="Sections">
       <?php foreach ($T['nav'] as $id => $label): ?>
       <a href="#<?= $id ?>"><?= e($label) ?></a>
@@ -233,22 +232,26 @@ $n = 0; // numérotation des sections
 
 <main>
 <section class="hero">
-  <img class="hero-bg" src="<?= e($base) ?>assets/img/roth-solarer-berg.jpg" width="2000" height="1333" alt="<?= e($T['alt_hero']) ?>" fetchpriority="high">
-  <div class="wrap hero-inner">
-    <p class="mono kicker"><?= e(tr($hero, 'kicker')) ?></p>
-    <h1>Arnaud Guilloux</h1>
-    <div class="cta">
-      <a class="btn" href="#coaching"><?= e($T['cta_coaching']) ?></a>
-      <a class="btn glass" href="#partenaires"><?= e($T['cta_sponsor']) ?></a>
+  <div class="wrap">
+    <div class="hero-panel">
+      <img class="hero-bg" src="<?= e($base) ?>assets/img/roth-solarer-berg.jpg" width="2000" height="1333" alt="<?= e($T['alt_hero']) ?>" fetchpriority="high">
+      <div class="hero-inner">
+        <p class="mono kicker"><?= e(tr($hero, 'kicker')) ?></p>
+        <h1>Arnaud Guilloux</h1>
+        <div class="cta">
+          <a class="btn" href="#coaching"><?= e($T['cta_coaching']) ?></a>
+          <a class="btn glass" href="#partenaires"><?= e($T['cta_sponsor']) ?></a>
+        </div>
+        <p class="mono place">Nissa Triathlon · <?= e($T['place']) ?></p>
+      </div>
     </div>
-    <p class="mono place">Nissa Triathlon · <?= e($T['place']) ?></p>
   </div>
 </section>
 
 <div class="wrap intro">
-  <p class="lead reveal"><?= e(tr($hero, 'lead')) ?></p>
+  <p class="lead"><?= e(tr($hero, 'lead')) ?></p>
   <?php if (!empty($c['stats'])): ?>
-  <dl class="stats reveal">
+  <dl class="stats">
     <?php foreach ($c['stats'] as $st): ?>
     <div>
       <dd><?= e($st['value'] ?? '') ?></dd>
@@ -259,24 +262,23 @@ $n = 0; // numérotation des sections
   <?php endif; ?>
 </div>
 
-<section class="zinc highlights">
-  <div class="wrap head-row">
-    <h2 class="reveal"><?= e($T['h_highlights']) ?></h2>
-    <p class="links reveal">
-      <a class="more" href="#palmares"><?= e($T['see_results']) ?></a>
-      <a class="more" href="#mondiaux"><?= e($T['see_worlds']) ?></a>
-    </p>
-  </div>
-  <div class="carousel" id="carousel" tabindex="0" aria-label="<?= e($T['h_highlights']) ?>">
-    <?php foreach ($T['slides'] as $sl): ?>
-    <figure class="slide">
-      <img src="<?= e($base) ?>assets/img/<?= e($sl[0]) ?>.jpg" alt="" loading="lazy">
-      <figcaption><strong><?= e($sl[1]) ?></strong><span><?= e($sl[2]) ?></span></figcaption>
-    </figure>
-    <?php endforeach; ?>
-  </div>
-  <div class="dots" id="dots" aria-hidden="true">
-    <?php foreach ($T['slides'] as $i => $sl): ?><span<?= $i === 0 ? ' class="on"' : '' ?>></span><?php endforeach; ?>
+<section class="soft highlights">
+  <div class="wrap">
+    <div class="head-row">
+      <h2><?= e($T['h_highlights']) ?></h2>
+      <p class="links">
+        <a class="more" href="#palmares"><?= e($T['see_results']) ?></a>
+        <a class="more" href="#mondiaux"><?= e($T['see_worlds']) ?></a>
+      </p>
+    </div>
+    <div class="shots">
+      <?php foreach ($T['slides'] as $sl): ?>
+      <figure class="slide">
+        <img src="<?= e($base) ?>assets/img/<?= e($sl[0]) ?>.jpg" alt="" loading="lazy">
+        <figcaption><strong><?= e($sl[1]) ?></strong><span><?= e($sl[2]) ?></span></figcaption>
+      </figure>
+      <?php endforeach; ?>
+    </div>
   </div>
 </section>
 
@@ -284,8 +286,8 @@ $n = 0; // numérotation des sections
     $firstRows = 8; ?>
 <section id="palmares">
   <div class="wrap">
-    <h2 class="reveal"><?= e($T['h_results']) ?>.</h2>
-    <ol class="rows results reveal" id="results">
+    <h2><?= e($T['h_results']) ?></h2>
+    <ol class="rows results" id="results">
       <?php foreach (array_values($c['results']) as $i => $r): ?>
       <li<?= $i >= $firstRows ? ' class="extra"' : '' ?>>
         <span class="mono year"><?= e($r['year'] ?? '') ?></span>
@@ -294,7 +296,7 @@ $n = 0; // numérotation des sections
           <strong><?= e($r['race'] ?? '') ?></strong>
           <?php if (($r['location'] ?? '') !== ''): ?><span class="where"><?= e($r['location']) ?></span><?php endif; ?>
         </span>
-        <span class="mono note"><?= e(tr($r, 'note')) ?></span>
+        <span class="note"><?= e(tr($r, 'note')) ?></span>
       </li>
       <?php endforeach; ?>
     </ol>
@@ -306,16 +308,16 @@ $n = 0; // numérotation des sections
 <?php endif; ?>
 
 <?php if (!empty($c['qualifications'])): ?>
-<section id="mondiaux" class="zinc">
+<section id="mondiaux" class="soft">
   <div class="wrap">
-    <p class="eyebrow reveal"><?= e($T['h_qualif']) ?></p>
-    <h2 class="big reveal"><?= e($T['worlds_big'][0]) ?><br><span><?= e(sprintf($T['worlds_big'][1], count($c['qualifications']))) ?></span></h2>
+    <p class="eyebrow"><?= e($T['h_qualif']) ?></p>
+    <h2 class="big"><?= e($T['worlds_big'][0]) ?> <span><?= e(sprintf($T['worlds_big'][1], count($c['qualifications']))) ?></span></h2>
     <div class="duo">
-      <figure><img class="grow" src="<?= e($base) ?>assets/img/kona-lave.jpg" alt="<?= e($T['alt_kona'][0]) ?>" loading="lazy"></figure>
-      <figure><img class="grow" src="<?= e($base) ?>assets/img/kona-check-in.jpg" alt="<?= e($T['alt_kona'][1]) ?>" loading="lazy"></figure>
+      <figure><img src="<?= e($base) ?>assets/img/kona-lave.jpg" alt="<?= e($T['alt_kona'][0]) ?>" loading="lazy"></figure>
+      <figure><img src="<?= e($base) ?>assets/img/kona-check-in.jpg" alt="<?= e($T['alt_kona'][1]) ?>" loading="lazy"></figure>
     </div>
-    <p class="feature-text reveal"><?= e($T['qualif_lead']) ?></p>
-    <ul class="qualifs reveal">
+    <p class="feature-text"><?= e($T['qualif_lead']) ?></p>
+    <ul class="qualifs">
       <?php foreach ($c['qualifications'] as $q): ?>
       <li>
         <span class="q-year"><?= e($q['year'] ?? '') ?></span>
@@ -323,7 +325,7 @@ $n = 0; // numérotation des sections
           <strong><?= e($q['event'] ?? '') ?></strong>
           <span><?= e($q['location'] ?? '') ?></span>
         </span>
-        <span class="mono note"><?= e(tr($q, 'note')) ?></span>
+        <span class="note"><?= e(tr($q, 'note')) ?></span>
       </li>
       <?php endforeach; ?>
     </ul>
@@ -334,19 +336,19 @@ $n = 0; // numérotation des sections
 <?php if (tr($coaching, 'intro') !== '' || $coachItems): ?>
 <section id="coaching">
   <div class="wrap">
-    <p class="eyebrow reveal"><?= e($T['h_coaching']) ?></p>
-    <h2 class="big reveal"><?= e($T['coaching_big'][0]) ?><br><span><?= e($T['coaching_big'][1]) ?></span></h2>
+    <p class="eyebrow"><?= e($T['h_coaching']) ?></p>
+    <h2 class="big"><?= e($T['coaching_big'][0]) ?> <span><?= e($T['coaching_big'][1]) ?></span></h2>
     <div class="coach">
-      <div class="reveal">
+      <div>
         <?php if (tr($coaching, 'intro') !== ''): ?><p class="feature-text"><?= e(tr($coaching, 'intro')) ?></p><?php endif; ?>
         <a class="btn" href="#contact"><?= e($T['coaching_cta']) ?></a>
       </div>
       <?php if ($coachItems): ?>
-      <ul class="offers reveal">
+      <ul class="offers">
         <?php foreach ($coachItems as $it): ?>
         <li>
           <span class="offer-what"><strong><?= e(tr($it, 'title')) ?></strong><?php if (tr($it, 'detail') !== ''): ?><span><?= e(tr($it, 'detail')) ?></span><?php endif; ?></span>
-          <?php if (tr($it, 'price') !== ''): ?><span class="mono offer-price"><?= e(tr($it, 'price')) ?></span><?php endif; ?>
+          <?php if (tr($it, 'price') !== ''): ?><span class="offer-price"><?= e(tr($it, 'price')) ?></span><?php endif; ?>
         </li>
         <?php endforeach; ?>
       </ul>
@@ -357,10 +359,10 @@ $n = 0; // numérotation des sections
 <?php endif; ?>
 
 <?php if ($quotes): ?>
-<section id="temoignages" class="zinc">
+<section id="temoignages" class="soft">
   <div class="wrap">
-    <p class="eyebrow reveal"><?= e($T['h_quotes']) ?></p>
-    <h2 class="big reveal"><?= e($T['quotes_big'][0]) ?><br><span><?= e($T['quotes_big'][1]) ?></span></h2>
+    <p class="eyebrow"><?= e($T['h_quotes']) ?></p>
+    <h2 class="big"><?= e($T['quotes_big'][0]) ?> <span><?= e($T['quotes_big'][1]) ?></span></h2>
   </div>
   <div class="carousel qcar" id="qcar" tabindex="0" aria-label="<?= e($T['h_quotes']) ?>">
     <?php foreach ($quotes as $q):
@@ -390,12 +392,12 @@ $n = 0; // numérotation des sections
 </section>
 <?php endif; ?>
 
-<section id="partenaires" class="zinc">
+<section id="partenaires">
   <div class="wrap">
-    <p class="eyebrow reveal"><?= e($T['h_partners']) ?></p>
-    <h2 class="big reveal"><?= e($T['pitch_title']) ?></h2>
+    <p class="eyebrow"><?= e($T['h_partners']) ?></p>
+    <h2 class="big"><?= e($T['pitch_title']) ?></h2>
     <div class="pitch">
-      <div class="reveal">
+      <div>
         <p class="feature-text"><?= e($T['pitch_text']) ?></p>
         <ul>
           <?php foreach ($T['pitch_points'] as $pt): ?><li><?= e($pt) ?></li><?php endforeach; ?>
@@ -403,7 +405,7 @@ $n = 0; // numérotation des sections
         <a class="btn" href="#contact"><?= e($T['pitch_cta']) ?></a>
       </div>
       <?php if (!empty($c['partners'])): ?>
-      <ul class="partners reveal">
+      <ul class="partners">
         <?php foreach ($c['partners'] as $p):
             $purl = trim((string) ($p['url'] ?? ''));
             $ok   = (bool) preg_match('#^https?://#i', $purl); ?>
@@ -420,11 +422,11 @@ $n = 0; // numérotation des sections
   </div>
 </section>
 
-<section id="calendrier">
+<section id="calendrier" class="soft">
   <div class="wrap">
-    <h2 class="reveal"><?= e($T['h_calendar']) ?>.</h2>
+    <h2><?= e($T['h_calendar']) ?></h2>
     <?php if ($upcoming): ?>
-    <ol class="rows calendar reveal">
+    <ol class="rows calendar">
       <?php foreach ($upcoming as $ev):
           [$y, $m, $d] = array_map('intval', explode('-', $ev['date'])); ?>
       <li>
@@ -433,21 +435,21 @@ $n = 0; // numérotation des sections
           <strong><?= e($ev['race'] ?? '') ?></strong>
           <?php if (($ev['location'] ?? '') !== ''): ?><span class="where"><?= e($ev['location']) ?></span><?php endif; ?>
         </span>
-        <span class="mono note"><?= e(tr($ev, 'note')) ?></span>
+        <span class="note"><?= e(tr($ev, 'note')) ?></span>
         <?php if (($ev['format'] ?? '') !== ''): ?><span class="mono tag"><?= e($ev['format']) ?></span><?php else: ?><span></span><?php endif; ?>
       </li>
       <?php endforeach; ?>
     </ol>
     <?php else: ?>
-    <p class="feature-text reveal" style="margin-top:28px"><?= e($T['no_events']) ?></p>
+    <p class="feature-text" style="margin-top:20px"><?= e($T['no_events']) ?></p>
     <?php endif; ?>
   </div>
 </section>
 
-<section id="contact" class="zinc">
+<section id="contact">
   <div class="wrap contact">
-    <div class="reveal">
-      <h2><?= e($T['h_contact']) ?>.</h2>
+    <div>
+      <h2><?= e($T['h_contact']) ?></h2>
       <p class="feature-text"><?= e($T['contact_lead']) ?></p>
       <?php if ($socials): ?>
       <ul class="socials">
@@ -455,7 +457,7 @@ $n = 0; // numérotation des sections
       </ul>
       <?php endif; ?>
     </div>
-    <form class="card reveal" method="post" action="<?= e($base) ?>contact.php">
+    <form class="card" method="post" action="<?= e($base) ?>contact.php">
       <?php if ($sent === '1'): ?><p class="flash" role="status"><?= e($T['sent_ok']) ?></p>
       <?php elseif ($sent === '0'): ?><p class="flash" role="alert"><?= e($T['sent_ko']) ?></p><?php endif; ?>
       <input type="hidden" name="lang" value="<?= $lang ?>">
@@ -485,20 +487,11 @@ $n = 0; // numérotation des sections
 <script>
 (function () {
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var items = document.querySelectorAll('.reveal, .grow');
-  if (reduce || !('IntersectionObserver' in window)) {
-    items.forEach(function (el) { el.classList.add('in'); });
-  } else {
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
-    }, { rootMargin: '0px 0px -12% 0px' });
-    items.forEach(function (el) { io.observe(el); });
-  }
 
-  function carousel(carId, dotsId, itemSel, prevId, nextId) {
-    var car = document.getElementById(carId), dots = document.getElementById(dotsId);
-    if (!car || !dots || !('IntersectionObserver' in window)) return;
-    var slides = car.querySelectorAll(itemSel), marks = dots.children;
+  /* Carrousel des témoignages */
+  var car = document.getElementById('qcar'), dots = document.getElementById('qdots');
+  if (car && dots && 'IntersectionObserver' in window) {
+    var slides = car.querySelectorAll('.qcard'), marks = dots.children;
     Array.prototype.forEach.call(marks, function (m, i) {
       m.addEventListener('click', function () { slides[i].scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', inline: 'center', block: 'nearest' }); });
     });
@@ -511,18 +504,17 @@ $n = 0; // numérotation des sections
       });
     }, { root: car, threshold: 0.6 });
     slides.forEach(function (s) { so.observe(s); });
-    [[prevId, -1], [nextId, 1]].forEach(function (a) {
-      var b = a[0] && document.getElementById(a[0]);
+    [['qprev', -1], ['qnext', 1]].forEach(function (a) {
+      var b = document.getElementById(a[0]);
       if (!b) return;
       b.addEventListener('click', function () {
-        var step = slides[0].getBoundingClientRect().width + 24;
+        var step = slides[0].getBoundingClientRect().width + 20;
         car.scrollBy({ left: a[1] * step, behavior: reduce ? 'auto' : 'smooth' });
       });
     });
   }
-  carousel('carousel', 'dots', '.slide');
-  carousel('qcar', 'qdots', '.qcard', 'qprev', 'qnext');
 
+  /* Palmarès : afficher tout */
   var btn = document.getElementById('show-all'), list = document.getElementById('results');
   if (btn && list) {
     list.classList.add('collapsed'); btn.hidden = false;
