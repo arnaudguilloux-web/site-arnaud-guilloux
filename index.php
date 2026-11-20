@@ -14,6 +14,7 @@ $origin = (is_https() ? 'https://' : 'http://') . $host;
 $c        = load_content();
 $settings = $c['settings'] ?? [];
 $hero     = $c['hero'] ?? [];
+$coaching = $c['coaching'] ?? [];
 $draft    = ($settings['draft'] ?? '1') === '1';
 $email    = trim((string) ($settings['contact_email'] ?? ''));
 $sent     = $_GET['sent'] ?? null;
@@ -39,6 +40,14 @@ function rank_label(string $rank): string
     }
     return e($rank);
 }
+
+/* Coaching : un point par ligne. Témoignages : seulement ceux qui ont une citation. */
+$coachPoints = array_values(array_filter(array_map('trim', preg_split('/\R/u', tr($coaching, 'points')) ?: []), static function ($l) {
+    return $l !== '';
+}));
+$quotes = array_values(array_filter($c['testimonials'] ?? [], static function ($q) {
+    return is_array($q) && trim((string) ($q['quote'] ?? '')) !== '';
+}));
 
 $months = [
     'fr' => ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.'],
@@ -67,6 +76,12 @@ $T = [
         'show_all'     => 'Afficher tout le palmarès',
         'worlds_big'   => ['Championnat du monde IRONMAN.', '%d fois au départ.'],
         'services_big' => ['Votre préparation.', 'Mes outils de pro.'],
+        'h_coaching'   => 'Coaching',
+        'coaching_big' => ['Le coaching.', 'Orienté performance.'],
+        'coaching_cta' => 'Parler de votre objectif',
+        'h_quotes'     => 'Témoignages',
+        'quotes_big'   => ['Ce que disent', 'mes athlètes.'],
+        'quotes_note'  => '',
         'slides'       => [
             ['roth-arrivee', 'Challenge Roth 2026.', '7 h 46 min 30 sur la distance IRONMAN.'],
             ['brasil-podium', 'IRONMAN Brasil 2026.', 'Troisième en 7 h 38.'],
@@ -76,8 +91,8 @@ $T = [
         'alt_hero'     => 'Arnaud Guilloux à vélo entre deux haies de spectateurs au Challenge Roth',
         'alt_kona'     => ['Arnaud Guilloux et son vélo sur un champ de lave à Hawaï', 'Arnaud Guilloux au dépôt des vélos du Championnat du monde IRONMAN'],
         'alt_portrait' => 'Arnaud Guilloux devant le phare du Petit Minou, en Bretagne',
-        'nav'          => ['palmares' => 'Palmarès', 'mondiaux' => 'Mondiaux', 'prestations' => 'Prestations', 'partenaires' => 'Partenaires', 'calendrier' => 'Calendrier', 'contact' => 'Contact'],
-        'cta_coaching' => 'Coaching & tests',
+        'nav'          => ['palmares' => 'Palmarès', 'mondiaux' => 'Mondiaux', 'coaching' => 'Coaching', 'prestations' => 'Prestations', 'partenaires' => 'Partenaires', 'calendrier' => 'Calendrier', 'contact' => 'Contact'],
+        'cta_coaching' => 'Coaching',
         'cta_sponsor'  => 'Devenir partenaire',
         'place'        => 'Saint-Renan, Bretagne',
         'h_results'    => 'Palmarès',
@@ -117,6 +132,12 @@ $T = [
         'show_all'     => 'Show all results',
         'worlds_big'   => ['IRONMAN World Championship.', '%d times on the start line.'],
         'services_big' => ['Your preparation.', 'A pro\'s toolkit.'],
+        'h_coaching'   => 'Coaching',
+        'coaching_big' => ['Coaching.', 'Performance-driven.'],
+        'coaching_cta' => 'Talk about your goal',
+        'h_quotes'     => 'Testimonials',
+        'quotes_big'   => ['What my', 'athletes say.'],
+        'quotes_note'  => 'Testimonials are shown in their original French.',
         'slides'       => [
             ['roth-arrivee', 'Challenge Roth 2026.', '7:46:30 over the IRONMAN distance.'],
             ['brasil-podium', 'IRONMAN Brasil 2026.', 'Third place in 7:38.'],
@@ -126,8 +147,8 @@ $T = [
         'alt_hero'     => 'Arnaud Guilloux riding between two walls of spectators at Challenge Roth',
         'alt_kona'     => ['Arnaud Guilloux and his bike on a lava field in Hawaii', 'Arnaud Guilloux at bike check-in for the IRONMAN World Championship'],
         'alt_portrait' => 'Arnaud Guilloux in front of the Petit Minou lighthouse, Brittany',
-        'nav'          => ['palmares' => 'Results', 'mondiaux' => 'Worlds', 'prestations' => 'Services', 'partenaires' => 'Partners', 'calendrier' => 'Calendar', 'contact' => 'Contact'],
-        'cta_coaching' => 'Coaching & testing',
+        'nav'          => ['palmares' => 'Results', 'mondiaux' => 'Worlds', 'coaching' => 'Coaching', 'prestations' => 'Services', 'partenaires' => 'Partners', 'calendrier' => 'Calendar', 'contact' => 'Contact'],
+        'cta_coaching' => 'Coaching',
         'cta_sponsor'  => 'Become a partner',
         'place'        => 'Saint-Renan, Brittany',
         'h_results'    => 'Results',
@@ -198,7 +219,7 @@ $n = 0; // numérotation des sections
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=4">
+<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=5">
 <script>document.documentElement.classList.add('js');</script>
 <script type="application/ld+json"><?= json_encode($jsonLd, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) ?></script>
 </head>
@@ -227,7 +248,7 @@ $n = 0; // numérotation des sections
     <p class="mono kicker"><?= e(tr($hero, 'kicker')) ?></p>
     <h1>Arnaud Guilloux</h1>
     <div class="cta">
-      <a class="btn" href="#prestations"><?= e($T['cta_coaching']) ?></a>
+      <a class="btn" href="#coaching"><?= e($T['cta_coaching']) ?></a>
       <a class="btn glass" href="#partenaires"><?= e($T['cta_sponsor']) ?></a>
     </div>
     <p class="mono place">Nissa Triathlon · <?= e($T['place']) ?></p>
@@ -316,6 +337,49 @@ $n = 0; // numérotation des sections
       </li>
       <?php endforeach; ?>
     </ul>
+  </div>
+</section>
+<?php endif; ?>
+
+<?php if (tr($coaching, 'intro') !== '' || $coachPoints): ?>
+<section id="coaching">
+  <div class="wrap">
+    <p class="eyebrow reveal"><?= e($T['h_coaching']) ?></p>
+    <h2 class="big reveal"><?= e($T['coaching_big'][0]) ?><br><span><?= e($T['coaching_big'][1]) ?></span></h2>
+    <div class="coach">
+      <div class="reveal">
+        <?php if (tr($coaching, 'intro') !== ''): ?><p class="feature-text"><?= e(tr($coaching, 'intro')) ?></p><?php endif; ?>
+        <a class="btn" href="#contact"><?= e($T['coaching_cta']) ?></a>
+      </div>
+      <div class="reveal">
+        <?php if ($coachPoints): ?>
+        <ul class="coach-points">
+          <?php foreach ($coachPoints as $pt): ?><li><?= e($pt) ?></li><?php endforeach; ?>
+        </ul>
+        <?php endif; ?>
+        <?php if (tr($coaching, 'price') !== ''): ?><p class="mono coach-price"><?= e(tr($coaching, 'price')) ?></p><?php endif; ?>
+      </div>
+    </div>
+  </div>
+</section>
+<?php endif; ?>
+
+<?php if ($quotes): ?>
+<section id="temoignages" class="zinc">
+  <div class="wrap">
+    <p class="eyebrow reveal"><?= e($T['h_quotes']) ?></p>
+    <h2 class="big reveal"><?= e($T['quotes_big'][0]) ?><br><span><?= e($T['quotes_big'][1]) ?></span></h2>
+    <div class="quotes">
+      <?php foreach ($quotes as $q):
+          $qname = trim((string) ($q['name'] ?? ''));
+          $qcity = trim((string) ($q['city'] ?? '')); ?>
+      <figure class="card quote reveal">
+        <blockquote lang="fr"><p>«&nbsp;<?= e(trim((string) $q['quote'])) ?>&nbsp;»</p></blockquote>
+        <?php if ($qname !== ''): ?><figcaption class="mono"><?= e($qname) ?><?= $qcity !== '' ? ' – ' . e($qcity) : '' ?></figcaption><?php endif; ?>
+      </figure>
+      <?php endforeach; ?>
+    </div>
+    <?php if ($T['quotes_note'] !== ''): ?><p class="mono quotes-note"><?= e($T['quotes_note']) ?></p><?php endif; ?>
   </div>
 </section>
 <?php endif; ?>

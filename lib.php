@@ -11,17 +11,33 @@ const DATA_DIR     = __DIR__ . '/data';
 const CONTENT_FILE = DATA_DIR . '/content.json';
 const DEFAULT_FILE = DATA_DIR . '/content.default.json';
 
+function read_json_file(string $file): ?array
+{
+    if (!is_file($file)) {
+        return null;
+    }
+    $data = json_decode((string) file_get_contents($file), true);
+    return is_array($data) ? $data : null;
+}
+
+/*
+ * Le contenu enregistré par le back office prime. Les rubriques qu'il ne
+ * contient pas encore (ajoutées depuis par une mise à jour du site) sont
+ * complétées avec le contenu par défaut.
+ */
 function load_content(): array
 {
-    foreach ([CONTENT_FILE, DEFAULT_FILE] as $file) {
-        if (is_file($file)) {
-            $data = json_decode((string) file_get_contents($file), true);
-            if (is_array($data)) {
-                return $data;
-            }
+    $default = read_json_file(DEFAULT_FILE) ?? [];
+    $saved   = read_json_file(CONTENT_FILE);
+    if ($saved === null) {
+        return $default;
+    }
+    foreach ($default as $key => $value) {
+        if (!array_key_exists($key, $saved)) {
+            $saved[$key] = $value;
         }
     }
-    return [];
+    return $saved;
 }
 
 function save_content(array $content): bool

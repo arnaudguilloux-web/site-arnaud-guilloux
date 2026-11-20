@@ -55,6 +55,21 @@ $SCHEMA = [
         'note_fr'  => ['Note (FR)', 'text'],
         'note_en'  => ['Note (EN)', 'text'],
     ]],
+    'coaching' => ['label' => 'Coaching', 'type' => 'single', 'fields' => [
+        'intro_fr'  => ['Texte de présentation (FR)', 'textarea'],
+        'intro_en'  => ['Texte de présentation (EN)', 'textarea'],
+        'points_fr' => ['Ce que comprend le coaching (FR) — un point par ligne', 'textarea'],
+        'points_en' => ['Ce que comprend le coaching (EN) — un point par ligne', 'textarea'],
+        'price_fr'  => ['Mention tarif (FR) — ex. Tarif sur demande', 'text'],
+        'price_en'  => ['Mention tarif (EN) — ex. Rate on request', 'text'],
+    ]],
+    'testimonials' => ['label' => 'Témoignages', 'type' => 'list', 'title' => 'name', 'sub' => 'city',
+        'help' => 'Citation telle que l\'athlète l\'a écrite : on choisit un extrait, on ne réécrit pas ses mots. Signature affichée : « Prénom – Ville » (ville facultative). Ne publier qu\'avec l\'accord de l\'athlète.',
+        'fields' => [
+        'quote' => ['Citation (extrait, sans guillemets)', 'textarea'],
+        'name'  => ['Prénom', 'text'],
+        'city'  => ['Ville (facultatif)', 'text'],
+    ]],
     'services' => ['label' => 'Prestations', 'type' => 'list', 'title' => 'title_fr', 'sub' => 'price', 'fields' => [
         'title_fr' => ['Titre (FR)', 'text'],
         'title_en' => ['Titre (EN)', 'text'],
@@ -364,7 +379,7 @@ button { font-family:inherit; }
     <input type="hidden" name="section" value="<?= e($section) ?>">
 
     <?php if ($def['type'] === 'list'): ?>
-    <p class="help"><?= $section === 'calendar'
+    <p class="help"><?= isset($def['help']) ? e($def['help']) . ' ' : '' ?><?= $section === 'calendar'
         ? 'Les courses sont triées par date à l\'enregistrement ; les courses passées disparaissent du site automatiquement.'
         : 'L\'ordre affiché ici est celui du site. Utilisez ↑ ↓ pour réordonner.' ?></p>
     <button type="button" class="add" id="add">+ Ajouter</button>

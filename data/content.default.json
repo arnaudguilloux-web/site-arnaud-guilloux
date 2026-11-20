@@ -308,5 +308,40 @@
       "role_en": "Partner"
     }
   ],
-  "calendar": []
+  "calendar": [],
+  "coaching": {
+    "intro_fr": "Ce que je mesure et règle sur moi, je le fais pour vous. Je coache des athlètes de tous niveaux. Le point de départ : un objectif.",
+    "intro_en": "What I measure and fine-tune on myself, I do for you. I coach athletes of all levels. The starting point: a goal.",
+    "points_fr": "Suivi et échanges réguliers\nPlans d'entraînement\nTesting\nStages",
+    "points_en": "Regular follow-up and exchanges\nTraining plans\nTesting\nTraining camps",
+    "price_fr": "Tarif sur demande",
+    "price_en": "Rate on request"
+  },
+  "testimonials": [
+    {
+      "quote": "Parti de zéro en natation et à vélo avec un seul semi-marathon en poche, son coaching exigeant mais toujours à l'écoute m'a apporté la rigueur et le soutien moral nécessaires pour franchir des caps que je pensais impossibles : mon premier Ironman 70.3 à Nice en 2021",
+      "name": "Antonio",
+      "city": "Plouarzel"
+    },
+    {
+      "quote": "Pas besoin d'être \"déjà assez bon\" pour se faire coacher : c'est justement pour progresser qu'on y va. Arnaud est exigeant mais jamais dans l'excès, et il te dit les choses franchement.",
+      "name": "Martin",
+      "city": "Paris"
+    },
+    {
+      "quote": "Arnaud a une vraie expertise de l'Ironman, notamment dans sa capacité à reproduire les conditions de fatigue propres à cette discipline et à travailler la durabilité.",
+      "name": "Louis",
+      "city": ""
+    },
+    {
+      "quote": "Arnaud saura t'accompagner et jongler avec tes différentes contraintes tout en te faisant progresser.",
+      "name": "Guillaume",
+      "city": ""
+    },
+    {
+      "quote": "15e place en groupe d'âge aux championnats du monde à Kona en 2026",
+      "name": "Phil",
+      "city": ""
+    }
+  ]
 }

@@ -178,6 +178,19 @@ h3 { font-weight: 600; font-size: clamp(1.4rem, 2.2vw, 1.75rem); line-height: 1.
 .unit { color: var(--gray); font-size: 15px; }
 .services .more { align-self: flex-start; margin-top: 6px; }
 
+/* ---------- Coaching ---------- */
+.coach { display: grid; grid-template-columns: 1.15fr .85fr; gap: clamp(28px, 6vw, 80px); align-items: start; }
+.coach .feature-text { margin-bottom: 28px; }
+.coach-points { border-top: 1px solid var(--line); }
+.coach-points li { padding-block: 14px; border-bottom: 1px solid var(--line); color: var(--gray-2); }
+.coach-price { margin-top: 18px; }
+
+/* ---------- Témoignages ---------- */
+.quotes { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: clamp(12px, 2vw, 20px); }
+.quote { display: flex; flex-direction: column; justify-content: space-between; gap: 24px; }
+.quote blockquote { margin: 0; font-weight: 600; font-size: clamp(1.1rem, 1.7vw, 1.3rem); line-height: 1.35; letter-spacing: -.01em; }
+.quotes-note { margin-top: 24px; }
+
 /* ---------- Partenaires ---------- */
 .pitch { display: grid; grid-template-columns: 1.15fr .85fr; gap: clamp(28px, 6vw, 80px); align-items: start; }
 .pitch ul:not(.partners) { margin-block: 26px 30px; border-top: 1px solid var(--line); }
@@ -214,7 +227,7 @@ form .btn { align-self: flex-start; }
   .brand { flex: 1; }
   .nav { order: 3; flex: 0 0 100%; justify-content: flex-start; gap: 22px; }
   html { scroll-padding-top: 104px; }
-  .split, .pitch, .contact { grid-template-columns: 1fr; }
+  .split, .pitch, .contact, .coach { grid-template-columns: 1fr; }
   .portrait { max-width: 440px; }
   .duo { grid-template-columns: 1fr; }
   .duo figure { height: 56vh; }
