@@ -17,19 +17,34 @@
   },
   "stats": [
     {
-      "value": "5",
-      "label_fr": "Championnats du monde IRONMAN",
-      "label_en": "IRONMAN World Championships"
-    },
-    {
       "value": "7 h 38",
       "label_fr": "Sur IRONMAN — Brasil 2026",
       "label_en": "IRONMAN time — Brasil 2026"
     },
     {
-      "value": "N° 42",
-      "label_fr": "Mondial au classement PTO 2023",
-      "label_en": "PTO world ranking, 2023"
+      "value": "5",
+      "label_fr": "Championnats du monde IRONMAN",
+      "label_en": "IRONMAN World Championships"
+    },
+    {
+      "value": "4",
+      "label_fr": "Victoires, dont IRONMAN Wales 2019 (record de l'épreuve)",
+      "label_en": "Wins, including IRONMAN Wales 2019 (course record)"
+    },
+    {
+      "value": "4",
+      "label_fr": "Podiums sur distance IRONMAN",
+      "label_en": "Podiums over the IRONMAN distance"
+    },
+    {
+      "value": "Top 100",
+      "label_fr": "5 saisons de suite au classement mondial PTO, 2020–2024",
+      "label_en": "PTO world ranking, five seasons in a row, 2020–2024"
+    },
+    {
+      "value": "2 h 37",
+      "label_fr": "Marathon après 4 h 15 de vélo — Challenge Roth 2026",
+      "label_en": "Marathon after 4h15 on the bike — Challenge Roth 2026"
     }
   ],
   "results": [
