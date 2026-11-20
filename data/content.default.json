@@ -319,7 +319,7 @@
       "context_en": "Age group · World Championship, Kona 2026",
       "quote": "Une meilleure planification de la charge, une optimisation des zones de travail, une amélioration des points faibles, un ajustement en temps réel des imprévus",
       "name": "Phil",
-      "city": ""
+      "city": "Toulouse"
     },
     {
       "highlight_fr": "Stage en Bretagne",
@@ -328,7 +328,25 @@
       "context_en": "Physiological testing and bike fit",
       "quote": "Arnaud a une vraie expertise de l'Ironman, notamment dans sa capacité à reproduire les conditions de fatigue propres à cette discipline et à travailler la durabilité.",
       "name": "Louis",
-      "city": ""
+      "city": "Paris"
+    },
+    {
+      "highlight_fr": "Objectif marathon",
+      "highlight_en": "Marathon goal",
+      "context_fr": "Temps visé atteint",
+      "context_en": "Target time reached",
+      "quote": "Avant tout, une vraie tranquillité d'esprit ! Je n'ai plus à me demander quoi faire ni comment organiser mes entraînements. Je prends ma montre et c'est parti !",
+      "name": "Mohamed",
+      "city": "Casablanca"
+    },
+    {
+      "highlight_fr": "5 km en 19 min 24",
+      "highlight_en": "5K in 19:24",
+      "context_fr": "Nouveau record · mai 2025",
+      "context_en": "New PB · May 2025",
+      "quote": "Le coaching m'a apporté rigueur, fierté, partage et rencontres.",
+      "name": "Alexis",
+      "city": "Brest"
     }
   ],
   "coaching_items": [
