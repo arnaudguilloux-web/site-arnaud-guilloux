@@ -76,7 +76,6 @@ $T = [
     'fr' => [
         'title'        => 'Arnaud Guilloux — Triathlète professionnel longue distance · Coaching, tests, bike fitting',
         'description'  => 'Arnaud Guilloux, triathlète professionnel longue distance (Nissa Triathlon), basé à Saint-Renan. Coaching, tests physiologiques, bike fitting et partenariats.',
-        'draft'        => 'Site en préparation — contenu en cours de validation.',
         'h_highlights' => 'Temps forts',
         'see_results'  => 'Voir le palmarès',
         'see_worlds'   => 'Les Mondiaux',
@@ -126,7 +125,6 @@ $T = [
     'en' => [
         'title'        => 'Arnaud Guilloux — Professional long-distance triathlete · Coaching, testing, bike fitting',
         'description'  => 'Arnaud Guilloux, professional long-distance triathlete (Nissa Triathlon), based in Saint-Renan, Brittany. Coaching, physiological testing, bike fitting and partnerships.',
-        'draft'        => 'Site in preparation — content under review.',
         'h_highlights' => 'Highlights',
         'see_results'  => 'See the results',
         'see_worlds'   => 'World Championships',
@@ -220,12 +218,10 @@ $n = 0; // numérotation des sections
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=9">
+<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=10">
 <script type="application/ld+json"><?= json_encode($jsonLd, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) ?></script>
 </head>
 <body>
-<?php if ($draft): ?><p class="draft"><?= e($T['draft']) ?></p><?php endif; ?>
-
 <header class="top">
   <div class="wrap">
     <a class="brand" href="<?= e($home[$lang]) ?>">Arnaud <strong>Guilloux</strong></a>
@@ -247,13 +243,15 @@ $n = 0; // numérotation des sections
     <div class="hero-panel">
       <img class="hero-bg" src="<?= e($base) ?>assets/img/roth-solarer-berg.jpg" width="2000" height="1333" alt="<?= e($T['alt_hero']) ?>" fetchpriority="high">
       <div class="hero-inner">
-        <p class="mono kicker"><?= e(tr($hero, 'kicker')) ?></p>
-        <h1>Arnaud Guilloux</h1>
+        <div class="hero-copy">
+          <p class="mono kicker"><?= e(tr($hero, 'kicker')) ?></p>
+          <h1>Arnaud Guilloux</h1>
+          <p class="mono place">Nissa Triathlon · <?= e($T['place']) ?></p>
+        </div>
         <div class="cta">
           <a class="btn" href="#coaching"><?= e($T['cta_coaching']) ?></a>
           <a class="btn glass" href="#partenaires"><?= e($T['cta_sponsor']) ?></a>
         </div>
-        <p class="mono place">Nissa Triathlon · <?= e($T['place']) ?></p>
       </div>
     </div>
   </div>

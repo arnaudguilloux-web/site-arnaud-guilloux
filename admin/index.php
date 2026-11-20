@@ -104,7 +104,7 @@ $SCHEMA = [
         'lead_en'   => ['Texte d\'accroche (EN)', 'textarea'],
     ]],
     'settings' => ['label' => 'Réglages', 'type' => 'single', 'fields' => [
-        'draft'         => ['Bandeau « contenu d\'exemple » (masque aussi le site des moteurs de recherche)', 'bool'],
+        'draft'         => ['Site masqué des moteurs de recherche (noindex) : à désactiver au lancement', 'bool'],
         'contact_email' => ['E-mail qui reçoit le formulaire (jamais affiché sur le site)', 'email'],
         'instagram'     => ['Instagram (https://…)', 'url'],
         'strava'        => ['Strava (https://…)', 'url'],
