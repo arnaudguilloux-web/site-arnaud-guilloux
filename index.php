@@ -26,6 +26,14 @@ function tr(array $item, string $key): string
     return (string) ($v !== '' ? $v : ($item[$key . '_fr'] ?? ''));
 }
 
+/* Champ texte avec variante anglaise facultative (clé_en), repli sur la version française. */
+function loc(array $item, string $key): string
+{
+    global $lang;
+    $v = $lang === 'en' ? trim((string) ($item[$key . '_en'] ?? '')) : '';
+    return $v !== '' ? $v : (string) ($item[$key] ?? '');
+}
+
 function rank_label(string $rank): string
 {
     global $lang;
@@ -103,7 +111,6 @@ $T = [
         'pitch_points' => ['Visibilité en course et sur les réseaux', 'Retours terrain et tests de matériel', 'Interventions et sorties avec vos équipes'],
         'pitch_cta'    => 'Parler d\'un partenariat',
         'h_calendar'   => 'Calendrier',
-        'no_events'    => 'Le programme de la prochaine saison sera annoncé ici.',
         'h_contact'    => 'Contact',
         'contact_lead' => 'Un projet sportif, une prestation à réserver ou un partenariat à imaginer : écrivez-moi.',
         'f_name'       => 'Nom',
@@ -154,7 +161,6 @@ $T = [
         'pitch_points' => ['Visibility on race day and on social media', 'Field feedback and product testing', 'Talks and rides with your teams'],
         'pitch_cta'    => 'Talk about a partnership',
         'h_calendar'   => 'Calendar',
-        'no_events'    => 'Next season\'s schedule will be announced here.',
         'h_contact'    => 'Contact',
         'contact_lead' => 'A sporting goal, a service to book or a partnership to shape: get in touch.',
         'f_name'       => 'Name',
@@ -168,6 +174,11 @@ $T = [
         'legal'        => 'Publisher: Arnaud Guilloux, Saint-Renan, France. Hosting: OVH SAS, 2 rue Kellermann, 59100 Roubaix, France.',
     ],
 ][$lang];
+
+/* Pas de course à venir : on masque le lien du menu et la section Calendrier. */
+if (!$upcoming) {
+    unset($T['nav']['calendrier']);
+}
 
 $socials = [];
 foreach (['instagram' => 'Instagram', 'strava' => 'Strava', 'facebook' => 'Facebook', 'x' => 'X', 'linkedin' => 'LinkedIn'] as $key => $label) {
@@ -293,8 +304,8 @@ $n = 0; // numérotation des sections
         <span class="mono year"><?= e($r['year'] ?? '') ?></span>
         <span class="rank"><?= rank_label(trim((string) ($r['rank'] ?? ''))) ?></span>
         <span class="what">
-          <strong><?= e($r['race'] ?? '') ?></strong>
-          <?php if (($r['location'] ?? '') !== ''): ?><span class="where"><?= e($r['location']) ?></span><?php endif; ?>
+          <strong><?= e(loc($r, 'race')) ?></strong>
+          <?php if (loc($r, 'location') !== ''): ?><span class="where"><?= e(loc($r, 'location')) ?></span><?php endif; ?>
         </span>
         <span class="note"><?= e(tr($r, 'note')) ?></span>
       </li>
@@ -322,8 +333,8 @@ $n = 0; // numérotation des sections
       <li>
         <span class="q-year"><?= e($q['year'] ?? '') ?></span>
         <span class="q-what">
-          <strong><?= e($q['event'] ?? '') ?></strong>
-          <span><?= e($q['location'] ?? '') ?></span>
+          <strong><?= e(loc($q, 'event')) ?></strong>
+          <span><?= e(loc($q, 'location')) ?></span>
         </span>
         <span class="note"><?= e(tr($q, 'note')) ?></span>
       </li>
@@ -422,29 +433,27 @@ $n = 0; // numérotation des sections
   </div>
 </section>
 
+<?php if ($upcoming): ?>
 <section id="calendrier" class="soft">
   <div class="wrap">
     <h2><?= e($T['h_calendar']) ?></h2>
-    <?php if ($upcoming): ?>
     <ol class="rows calendar">
       <?php foreach ($upcoming as $ev):
           [$y, $m, $d] = array_map('intval', explode('-', $ev['date'])); ?>
       <li>
         <time datetime="<?= e($ev['date']) ?>"><b><?= sprintf('%02d', $d) ?></b><span class="mono"><?= e($months[$lang][$m - 1] ?? '') ?> <?= $y ?></span></time>
         <span class="what">
-          <strong><?= e($ev['race'] ?? '') ?></strong>
-          <?php if (($ev['location'] ?? '') !== ''): ?><span class="where"><?= e($ev['location']) ?></span><?php endif; ?>
+          <strong><?= e(loc($ev, 'race')) ?></strong>
+          <?php if (loc($ev, 'location') !== ''): ?><span class="where"><?= e(loc($ev, 'location')) ?></span><?php endif; ?>
         </span>
         <span class="note"><?= e(tr($ev, 'note')) ?></span>
         <?php if (($ev['format'] ?? '') !== ''): ?><span class="mono tag"><?= e($ev['format']) ?></span><?php else: ?><span></span><?php endif; ?>
       </li>
       <?php endforeach; ?>
     </ol>
-    <?php else: ?>
-    <p class="feature-text" style="margin-top:20px"><?= e($T['no_events']) ?></p>
-    <?php endif; ?>
   </div>
 </section>
+<?php endif; ?>
 
 <section id="contact">
   <div class="wrap contact">

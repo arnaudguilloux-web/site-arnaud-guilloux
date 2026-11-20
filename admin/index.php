@@ -35,7 +35,9 @@ $SCHEMA = [
     'calendar' => ['label' => 'Calendrier', 'type' => 'list', 'title' => 'race', 'sub' => 'date', 'fields' => [
         'date'     => ['Date', 'date'],
         'race'     => ['Course', 'text'],
+        'race_en'  => ['Course (EN, si le nom diffère)', 'text'],
         'location' => ['Lieu', 'text'],
+        'location_en' => ['Lieu (EN, si différent)', 'text'],
         'format'   => ['Format (IRONMAN, 70.3, Half…)', 'text'],
         'note_fr'  => ['Note (FR)', 'text'],
         'note_en'  => ['Note (EN)', 'text'],
@@ -43,7 +45,9 @@ $SCHEMA = [
     'results' => ['label' => 'Palmarès', 'type' => 'list', 'title' => 'race', 'sub' => 'year', 'fields' => [
         'year'     => ['Année', 'number'],
         'race'     => ['Course', 'text'],
+        'race_en'  => ['Course (EN, si le nom diffère)', 'text'],
         'location' => ['Lieu', 'text'],
+        'location_en' => ['Lieu (EN, si différent)', 'text'],
         'rank'     => ['Place (1, 2, 3… ou texte libre)', 'text'],
         'note_fr'  => ['Note (FR)', 'text'],
         'note_en'  => ['Note (EN)', 'text'],
@@ -51,7 +55,9 @@ $SCHEMA = [
     'qualifications' => ['label' => 'Mondiaux', 'type' => 'list', 'title' => 'event', 'sub' => 'year', 'fields' => [
         'year'     => ['Année', 'number'],
         'event'    => ['Épreuve', 'text'],
+        'event_en' => ['Épreuve (EN, si le nom diffère)', 'text'],
         'location' => ['Lieu', 'text'],
+        'location_en' => ['Lieu (EN, si différent)', 'text'],
         'note_fr'  => ['Note (FR)', 'text'],
         'note_en'  => ['Note (EN)', 'text'],
     ]],

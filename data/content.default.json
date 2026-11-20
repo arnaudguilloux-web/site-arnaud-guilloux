@@ -60,6 +60,7 @@
       "year": "2026",
       "race": "Challenge Roth",
       "location": "Roth, Allemagne",
+      "location_en": "Roth, Germany",
       "rank": "12",
       "note_fr": "7 h 46 min 30",
       "note_en": "7:46:30"
@@ -68,6 +69,7 @@
       "year": "2025",
       "race": "IRONMAN Chattanooga",
       "location": "Tennessee, États-Unis",
+      "location_en": "Tennessee, USA",
       "rank": "5",
       "note_fr": "7 h 38 min 52",
       "note_en": "7:38:52"
@@ -84,6 +86,7 @@
       "year": "2024",
       "race": "IRONMAN Cairns",
       "location": "Australie",
+      "location_en": "Australia",
       "rank": "4",
       "note_fr": "7 h 50 min 59",
       "note_en": "7:50:59"
@@ -92,6 +95,7 @@
       "year": "2024",
       "race": "IRONMAN Lake Placid",
       "location": "New York, États-Unis",
+      "location_en": "New York, USA",
       "rank": "4",
       "note_fr": "8 h 07 min 46",
       "note_en": "8:07:46"
@@ -107,6 +111,7 @@
     {
       "year": "2023",
       "race": "Championnat du monde IRONMAN",
+      "race_en": "IRONMAN World Championship",
       "location": "Nice",
       "rank": "12",
       "note_fr": "8 h 28 min 53",
@@ -115,6 +120,7 @@
     {
       "year": "2023",
       "race": "Triathlon de l'Alpe d'Huez L",
+      "race_en": "Alpe d'Huez Triathlon L",
       "location": "Alpe d'Huez",
       "rank": "2",
       "note_fr": "5 h 50 min 52",
@@ -132,6 +138,7 @@
       "year": "2023",
       "race": "IRONMAN Texas",
       "location": "The Woodlands, États-Unis",
+      "location_en": "The Woodlands, USA",
       "rank": "4",
       "note_fr": "7 h 54 min 20",
       "note_en": "7:54:20"
@@ -156,6 +163,7 @@
       "year": "2021",
       "race": "IRONMAN Lake Placid",
       "location": "New York, États-Unis",
+      "location_en": "New York, USA",
       "rank": "2",
       "note_fr": "8 h 23 min 12",
       "note_en": "8:23:12"
@@ -172,6 +180,7 @@
       "year": "2021",
       "race": "IRONMAN 70.3 Warsaw",
       "location": "Varsovie",
+      "location_en": "Warsaw",
       "rank": "2",
       "note_fr": "3 h 43 min 54",
       "note_en": "3:43:54"
@@ -180,6 +189,7 @@
       "year": "2019",
       "race": "IRONMAN Wales",
       "location": "Tenby, pays de Galles",
+      "location_en": "Tenby, Wales",
       "rank": "1",
       "note_fr": "8 h 48 min 06 · record de l'épreuve",
       "note_en": "8:48:06 · course record"
@@ -188,6 +198,7 @@
       "year": "2019",
       "race": "IRONMAN Hamburg",
       "location": "Hambourg",
+      "location_en": "Hamburg",
       "rank": "4",
       "note_fr": "8 h 29 min 14",
       "note_en": "8:29:14"
@@ -203,6 +214,7 @@
     {
       "year": "2016",
       "race": "Championnat de France longue distance",
+      "race_en": "French Long Distance Championship",
       "location": "Baudreix",
       "rank": "3",
       "note_fr": "",
@@ -211,6 +223,7 @@
     {
       "year": "2015",
       "race": "Triathlon de l'Alpe d'Huez L",
+      "race_en": "Alpe d'Huez Triathlon L",
       "location": "Alpe d'Huez",
       "rank": "1",
       "note_fr": "Premier vainqueur français",
@@ -219,6 +232,7 @@
     {
       "year": "2015",
       "race": "Championnat de France longue distance",
+      "race_en": "French Long Distance Championship",
       "location": "Gravelines",
       "rank": "2",
       "note_fr": "",
@@ -229,20 +243,25 @@
     {
       "year": "2026",
       "event": "Championnat du monde IRONMAN",
+      "event_en": "IRONMAN World Championship",
       "location": "Kailua-Kona, Hawaï",
+      "location_en": "Kailua-Kona, Hawaii",
       "note_fr": "34e · 8 h 38 min 50",
       "note_en": "34th · 8:38:50"
     },
     {
       "year": "2024",
       "event": "Championnat du monde IRONMAN",
+      "event_en": "IRONMAN World Championship",
       "location": "Kailua-Kona, Hawaï",
+      "location_en": "Kailua-Kona, Hawaii",
       "note_fr": "Abandon (DNF)",
       "note_en": "DNF"
     },
     {
       "year": "2023",
       "event": "Championnat du monde IRONMAN",
+      "event_en": "IRONMAN World Championship",
       "location": "Nice, France",
       "note_fr": "12e · 8 h 28 min 53",
       "note_en": "12th · 8:28:53"
@@ -250,13 +269,16 @@
     {
       "year": "2022",
       "event": "Championnat du monde IRONMAN",
+      "event_en": "IRONMAN World Championship",
       "location": "Kailua-Kona, Hawaï",
+      "location_en": "Kailua-Kona, Hawaii",
       "note_fr": "38e · 8 h 40 min 38",
       "note_en": "38th · 8:40:38"
     },
     {
       "year": "2022",
       "event": "Championnat du monde IRONMAN (édition 2021)",
+      "event_en": "IRONMAN World Championship (2021 edition)",
       "location": "St. George, Utah",
       "note_fr": "22e · 8 h 53 min 40",
       "note_en": "22nd · 8:53:40"
