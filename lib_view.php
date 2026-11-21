@@ -63,17 +63,26 @@ function results_rows(array $c): array
     return $rows;
 }
 
-/* Une ligne du palmarès (balise <li>). */
+/* Une ligne du palmarès (balise <li>). Si la course vient de PTO, la ligne renvoie vers sa page PTO (nouvel onglet). */
 function result_li(array $r, string $badgeTitle, string $badgeText): string
 {
-    $rank  = trim((string) ($r['rank'] ?? ''));
-    $isPos = ctype_digit($rank);
+    global $lang;
+    $rank   = trim((string) ($r['rank'] ?? ''));
+    $isPos  = ctype_digit($rank);
     // Pas de classement (DNF…) : tiret à la place du rang, mention à la place du temps.
-    $note  = implode(' · ', array_filter([$isPos ? fmt_time((string) ($r['time'] ?? '')) : $rank, tr($r, 'note')], 'strlen'));
-    $h  = '<li>';
+    $note   = implode(' · ', array_filter([$isPos ? fmt_time((string) ($r['time'] ?? '')) : $rank, tr($r, 'note')], 'strlen'));
+    $pto    = trim((string) ($r['pto'] ?? ''));
+    $linked = (bool) preg_match('#^[a-z0-9][a-z0-9_-]*/\d{4}$#i', $pto);
+    $race   = e(loc($r, 'race'));
+    if ($linked) {
+        $label = loc($r, 'race') . ($lang === 'en' ? ' — result on PTO (opens in a new tab)' : ' — résultat sur PTO (nouvel onglet)');
+        $race  = '<a class="pto-link" href="https://stats.protriathletes.org/race/' . e($pto) . '/results" target="_blank" rel="noopener noreferrer" aria-label="' . e($label) . '">'
+               . $race . '<span class="ext" aria-hidden="true"> ↗</span></a>';
+    }
+    $h  = '<li' . ($linked ? ' class="has-link"' : '') . '>';
     $h .= '<span class="mono year">' . e($r['year'] ?? '') . '</span>';
     $h .= '<span class="rank' . ($isPos ? '' : ' dnf') . '">' . ($isPos ? rank_label($rank) : '-') . '</span>';
-    $h .= '<span class="what"><strong>' . e(loc($r, 'race')) . '</strong>';
+    $h .= '<span class="what"><strong>' . $race . '</strong>';
     if (!empty($r['worlds'])) {
         $h .= '<span class="badge" title="' . e($badgeTitle) . '">' . e($badgeText) . '</span>';
     }
