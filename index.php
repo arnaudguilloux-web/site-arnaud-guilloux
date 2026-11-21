@@ -107,6 +107,7 @@ $T = [
         'worlds_big'   => ['Championnat du monde IRONMAN.', '%d fois au départ.'],
         'h_coaching'   => 'Coaching',
         'coaching_big' => ['Le coaching.', 'Orienté performance.'],
+        'coaching_box' => 'Coaching – Orienté performance',
         'coaching_cta' => 'Parler de votre objectif',
         'coaching_more' => 'Découvrir le coaching',
         'worlds_badge' => 'WC',
@@ -157,6 +158,7 @@ $T = [
         'worlds_big'   => ['IRONMAN World Championship.', '%d times on the start line.'],
         'h_coaching'   => 'Coaching',
         'coaching_big' => ['Coaching.', 'Performance-driven.'],
+        'coaching_box' => 'Coaching – Performance-driven',
         'coaching_cta' => 'Talk about your goal',
         'coaching_more' => 'Discover coaching',
         'worlds_badge' => 'WC',
@@ -288,8 +290,7 @@ $n = 0; // numérotation des sections
     <p class="lead"><?= club_link(e(tr($hero, 'lead'))) ?></p>
     <?php if (tr($coaching, 'intro') !== '' || $coachItems): ?>
     <aside class="intro-coach">
-      <p class="mono eyebrow"><?= e($T['h_coaching']) ?></p>
-      <p class="intro-coach-title"><?= e($T['coaching_big'][0]) ?> <?= e($T['coaching_big'][1]) ?></p>
+      <p class="intro-coach-title"><?= e($T['coaching_box']) ?></p>
       <?php if (tr($coaching, 'intro') !== ''): ?><p class="intro-coach-text"><?= e(tr($coaching, 'intro')) ?></p><?php endif; ?>
       <a class="more" href="#coaching"><?= e($T['coaching_more']) ?></a>
     </aside>
