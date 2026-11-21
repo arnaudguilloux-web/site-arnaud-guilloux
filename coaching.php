@@ -101,12 +101,7 @@ $T = [
 <?php endif; ?>
 </main>
 
-<footer class="foot">
-  <div class="wrap">
-    <p><?= e($T['legal']) ?></p>
-    <p>© <?= date('Y') ?> Arnaud Guilloux</p>
-  </div>
-</footer>
+<?= site_footer($T['legal'], $settings) ?>
 <script src="<?= e($base) ?>assets/carousel.js?v=1"></script>
 <script>
 carousel('qcar', 'qdots', 'qprev', 'qnext', '.qcard');

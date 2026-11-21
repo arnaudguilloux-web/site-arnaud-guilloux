@@ -395,12 +395,7 @@ $renderForm = function (bool $withFlash) use ($T, $lang, $base, $sent): void { ?
 </section>
 </main>
 
-<footer class="foot">
-  <div class="wrap">
-    <p><?= e($T['legal']) ?><?php if (trim((string) ($settings['siret'] ?? '')) !== ''): ?> SIRET <?= e($settings['siret']) ?>.<?php endif; ?></p>
-    <p>© <?= date('Y') ?> Arnaud Guilloux</p>
-  </div>
-</footer>
+<?= site_footer($T['legal'], $settings) ?>
 
 <dialog class="modal" id="contact-dialog" aria-labelledby="cd-title">
   <div class="modal-box">

@@ -228,3 +228,15 @@ function site_header(string $lang, array $home, array $self, array $c, string $c
     $h .= '<script src="' . e($base) . 'assets/nav.js?v=1" defer></script>';
     return $h;
 }
+
+/** Pied de page commun : mentions légales (+ SIRET si renseigné) et copyright. */
+function site_footer(string $legal, array $settings): string
+{
+    $siret = preg_replace('/\D/', '', (string) ($settings['siret'] ?? ''));
+    if (strlen($siret) === 14) {
+        $siret = substr($siret, 0, 3) . ' ' . substr($siret, 3, 3) . ' ' . substr($siret, 6, 3) . ' ' . substr($siret, 9);
+    }
+    $line = $legal . ($siret !== '' ? ' SIRET ' . $siret . '.' : '');
+    return '<footer class="foot"><div class="wrap"><p>' . e($line) . '</p><p>© ' . date('Y') . ' Arnaud Guilloux</p></div></footer>';
+}
+
