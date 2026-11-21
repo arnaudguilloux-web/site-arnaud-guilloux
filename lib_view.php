@@ -224,6 +224,7 @@ function site_header(string $lang, array $home, array $self, array $c, string $c
             $href = ($id === $current && isset($pages[$id])) ? $base . $pages[$id] . $suffix : (($onHome ? '' : $home[$lang]) . '#' . $id);
         }
         $on   = $id === $current ? ' class="on" aria-current="page"' : '';
+        if ($id === 'top' && $onHome) { $on .= ' data-top="1"'; }   /* actif tant qu'on est en haut de page (scroll-spy) */
         $a   .= '<li><a href="' . e($href) . '"' . $on . '><strong>' . e($label) . '</strong><span>' . e($hint) . '</span></a></li>';
     }
 
@@ -231,7 +232,8 @@ function site_header(string $lang, array $home, array $self, array $c, string $c
     $k = '';
     foreach ($T['coach_items'] as $id => [$label, $hint]) {
         $href = $id === 'top' ? $coachUrl : (($onCoach ? '' : $coachUrl) . '#' . $id);
-        $k   .= '<li><a href="' . e($href) . '"><strong>' . e($label) . '</strong><span>' . e($hint) . '</span></a></li>';
+        $top  = ($id === 'top' && $onCoach) ? ' data-top="1"' : '';
+        $k   .= '<li><a href="' . e($href) . '"' . $top . '><strong>' . e($label) . '</strong><span>' . e($hint) . '</span></a></li>';
     }
 
     $h  = '<header class="top"><div class="wrap">';
@@ -249,7 +251,7 @@ function site_header(string $lang, array $home, array $self, array $c, string $c
         $h .= '<a href="' . e($dest) . '" hreflang="' . $code . '" lang="' . $code . '"' . ($lang === $code ? ' aria-current="true"' : '') . '>' . $txt . '</a>';
     }
     $h .= '</div></div></header>';
-    $h .= '<script src="' . e($base) . 'assets/nav.js?v=4" defer></script>';
+    $h .= '<script src="' . e($base) . 'assets/nav.js?v=5" defer></script>';
     return $h;
 }
 

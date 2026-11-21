@@ -33,13 +33,15 @@
 
 /* Scroll-spy : met en avant, dans les sous-menus, la section visible (liens en #ancre de la page courante). */
 (function () {
-  var links = Array.prototype.slice.call(document.querySelectorAll('.nav .sub a[href^="#"]'));
-  if (!links.length) return;
+  var links = Array.prototype.slice.call(document.querySelectorAll('.nav .sub a[href^="#"]:not([data-top])'));
+  var topLink = document.querySelector('.nav .sub a[data-top]');   /* « Présentation » : actif en haut de page */
+  if (!links.length && !topLink) return;
   var targets = links.map(function (a) { return document.getElementById(a.getAttribute('href').slice(1)); });
   function spy() {
     var cur = -1;
     targets.forEach(function (el, i) { if (el && el.getBoundingClientRect().top <= 120) cur = i; });
     links.forEach(function (a, i) { a.classList.toggle('on', i === cur); });
+    if (topLink) topLink.classList.toggle('on', cur === -1);
     Array.prototype.forEach.call(document.querySelectorAll('.nav .has-sub'), function (w) {
       var t = w.querySelector('.nav-trigger');
       t.classList.toggle('on', t.getAttribute('data-page-on') === '1' || !!w.querySelector('.sub a.on'));
