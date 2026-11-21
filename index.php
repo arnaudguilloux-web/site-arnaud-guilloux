@@ -34,6 +34,19 @@ function loc(array $item, string $key): string
     return $v !== '' ? $v : (string) ($item[$key] ?? '');
 }
 
+/* Transforme la première mention du club (dans un texte déjà échappé) en lien vers le site du club. */
+function club_link(string $html): string
+{
+    $name = 'Nissa Triathlon';
+    $pos  = strpos($html, $name);
+    if ($pos === false) {
+        return $html;
+    }
+    return substr($html, 0, $pos)
+        . '<a href="https://nissa-triathlon-team.org" target="_blank" rel="noopener">' . $name . '</a>'
+        . substr($html, $pos + strlen($name));
+}
+
 function rank_label(string $rank): string
 {
     global $lang;
@@ -218,7 +231,7 @@ $n = 0; // numérotation des sections
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=19">
+<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=20">
 <script type="application/ld+json"><?= json_encode($jsonLd, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) ?></script>
 </head>
 <body>
@@ -258,7 +271,7 @@ $n = 0; // numérotation des sections
 </section>
 
 <div class="wrap intro">
-  <p class="lead"><?= e(tr($hero, 'lead')) ?></p>
+  <p class="lead"><?= club_link(e(tr($hero, 'lead'))) ?></p>
   <?php if (!empty($c['stats'])): ?>
   <dl class="stats">
     <?php foreach ($c['stats'] as $st): ?>

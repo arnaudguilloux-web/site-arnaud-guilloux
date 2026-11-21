@@ -102,6 +102,7 @@ h1 { font-weight: 700; font-size: clamp(2rem, 4.2vw, 2.875rem); line-height: 1.0
 .place { margin-top: 10px; font-size: 10px; letter-spacing: .14em; color: rgba(255, 255, 255, .72); }
 
 .intro { --gap: clamp(28px, 3.4vw, 40px); padding-block: var(--gap) clamp(56px, 7vw, 88px); }
+.lead a { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
 .lead { max-width: 40em; font-weight: 400; font-size: clamp(1rem, 1.4vw, 1.125rem); line-height: 1.6; text-wrap: pretty; }
 /* Chiffres clés : bandeau ouvert sur les côtés, filets fins entre les tuiles, picto à gauche. */
 .stats { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: var(--gap); border-bottom: 1px solid var(--line); }
