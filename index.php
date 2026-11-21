@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 require __DIR__ . '/lib.php';
+require_once __DIR__ . '/lib_view.php';
 require_once __DIR__ . '/lib_gallery.php';
 
 /* ---------- Langue et URLs ---------- */
@@ -20,32 +21,6 @@ $draft    = ($settings['draft'] ?? '1') === '1';
 $email    = trim((string) ($settings['contact_email'] ?? ''));
 $sent     = $_GET['sent'] ?? null;
 
-function tr(array $item, string $key): string
-{
-    global $lang;
-    $v = $item[$key . '_' . $lang] ?? '';
-    return (string) ($v !== '' ? $v : ($item[$key . '_fr'] ?? ''));
-}
-
-/* Temps « H:MM:SS » : notation sportive en français (7h38'00), inchangé en anglais. */
-function fmt_time(string $t): string
-{
-    global $lang;
-    $t = trim($t);
-    if ($lang === 'fr' && preg_match('/^(\d+):(\d{2}):(\d{2})$/', $t, $m)) {
-        return $m[1] . 'h' . $m[2] . "'" . $m[3];
-    }
-    return $t;
-}
-
-/* Champ texte avec variante anglaise facultative (clé_en), repli sur la version française. */
-function loc(array $item, string $key): string
-{
-    global $lang;
-    $v = $lang === 'en' ? trim((string) ($item[$key . '_en'] ?? '')) : '';
-    return $v !== '' ? $v : (string) ($item[$key] ?? '');
-}
-
 /* Transforme la première mention du club (dans un texte déjà échappé) en lien vers le site du club. */
 function club_link(string $html): string
 {
@@ -59,20 +34,6 @@ function club_link(string $html): string
         . substr($html, $pos + strlen($name));
 }
 
-function rank_label(string $rank): string
-{
-    global $lang;
-    if ($rank !== '' && ctype_digit($rank)) {
-        $n = (int) $rank;
-        if ($lang === 'fr') {
-            return $n . '<sup>' . ($n === 1 ? 'er' : 'e') . '</sup>';
-        }
-        $v   = $n % 100;
-        $suf = ($v >= 11 && $v <= 13) ? 'th' : ([1 => 'st', 2 => 'nd', 3 => 'rd'][$n % 10] ?? 'th');
-        return $n . '<sup>' . $suf . '</sup>';
-    }
-    return e($rank);
-}
 
 /* Coaching : lignes d'offres. Témoignages : seulement ceux qui ont une citation. */
 $coachItems = array_values(array_filter($c['coaching_items'] ?? [], static function ($i) {
@@ -234,7 +195,7 @@ $n = 0; // numérotation des sections
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=36">
+<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=38">
 <script type="application/ld+json"><?= json_encode($jsonLd, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) ?></script>
 </head>
 <body>
@@ -326,40 +287,19 @@ $n = 0; // numérotation des sections
 </section>
 
 <?php
-/* Palmarès : les courses cochées « affichée » dans le back office, de la plus récente à la plus ancienne. */
-require_once __DIR__ . '/lib_pto.php';
-$rows = [];
-foreach (results_sort(array_values($c['results'] ?? [])) as $r) {
-    if ((string) ($r['visible'] ?? '1') === '0') {
-        continue;
-    }
-    $r['year']   = (string) results_year($r) ?: '';
-    $r['worlds'] = isset($r['worlds'])
-        ? (string) $r['worlds'] === '1'
-        : (bool) preg_match('/championnat du monde|world championship/i', ($r['race'] ?? '') . ' ' . ($r['race_en'] ?? ''));
-    $rows[] = $r;
-}
+$rows      = results_rows($c);
 $firstRows = 8; ?>
 <?php if ($rows): ?>
 <section id="palmares">
   <div class="wrap">
     <h2><?= e($T['h_results']) ?></h2>
-    <ol class="rows results" id="results">
-      <?php foreach ($rows as $i => $r): ?>
-      <li<?= $i >= $firstRows ? ' class="extra"' : '' ?>>
-        <span class="mono year"><?= e($r['year'] ?? '') ?></span>
-        <span class="rank<?= ctype_digit(trim((string) ($r['rank'] ?? ''))) ? '' : ' dnf' ?>"><?= rank_label(trim((string) ($r['rank'] ?? ''))) ?></span>
-        <span class="what">
-          <strong><?= e(loc($r, 'race')) ?></strong>
-          <?php if (!empty($r['worlds'])): ?><span class="badge" title="<?= e(rtrim($T['worlds_big'][0], '.')) ?>"><?= e($T['worlds_badge']) ?></span><?php endif; ?>
-          <?php if (loc($r, 'location') !== ''): ?><span class="where"><?= e(loc($r, 'location')) ?></span><?php endif; ?>
-        </span>
-        <span class="note"><?= e(implode(' · ', array_filter([fmt_time((string) ($r['time'] ?? '')), tr($r, 'note')], 'strlen'))) ?></span>
-      </li>
+    <ol class="rows results">
+      <?php foreach (array_slice($rows, 0, $firstRows) as $r): ?>
+      <?= result_li($r, rtrim($T['worlds_big'][0], '.'), $T['worlds_badge']) . "\n" ?>
       <?php endforeach; ?>
     </ol>
     <?php if (count($rows) > $firstRows): ?>
-    <button class="more" type="button" id="show-all" hidden><?= e($T['show_all']) ?> (<?= count($rows) ?>)</button>
+    <a class="more show-all" href="<?= e($base) ?>palmares.php<?= $lang === 'en' ? '?lang=en' : '' ?>"><?= e($T['show_all']) ?> (<?= count($rows) ?>)</a>
     <?php endif; ?>
   </div>
 </section>
@@ -558,13 +498,6 @@ $firstRows = 8; ?>
   }
   carousel('scar', 'sdots', 'sprev', 'snext', '.slide');
   carousel('qcar', 'qdots', 'qprev', 'qnext', '.qcard');
-
-  /* Palmarès : afficher tout */
-  var btn = document.getElementById('show-all'), list = document.getElementById('results');
-  if (btn && list) {
-    list.classList.add('collapsed'); btn.hidden = false;
-    btn.addEventListener('click', function () { list.classList.remove('collapsed'); btn.hidden = true; });
-  }
 })();
 </script>
 </body>
