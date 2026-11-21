@@ -207,6 +207,8 @@ h1 { font-weight: 700; font-size: clamp(2rem, 4.2vw, 2.875rem); line-height: 1.0
 .partners li:has(a):hover { border-color: var(--accent); }
 .partners li > a, .partners li:not(:has(a)) { display: flex; flex-direction: column; gap: 4px; padding: 18px 20px; text-decoration: none; }
 .partners strong { font-weight: 700; font-size: 1.125rem; letter-spacing: -.02em; }
+.partners .ext { display: inline-block; vertical-align: -1px; margin-left: 8px; color: var(--text-3); transition: color .18s; }
+.partners a:hover .ext, .partners a:focus-visible .ext { color: var(--accent); }
 
 /* ---------- Contact ---------- */
 .contact { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 6vw, 80px); align-items: start; }

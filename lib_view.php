@@ -97,7 +97,7 @@ function result_li(array $r, string $badgeTitle, string $badgeText): string
     if ($linked) {
         $label = loc($r, 'race') . ($lang === 'en' ? ' — result on PTO (opens in a new tab)' : ' — résultat sur PTO (nouvel onglet)');
         $race  = '<a class="pto-link" href="https://stats.protriathletes.org/race/' . e($pto) . '/results" target="_blank" rel="noopener noreferrer" aria-label="' . e($label) . '">'
-               . $race . '<svg class="ext" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14 4h6v6"/><path d="M20 4l-9 9"/><path d="M18 14v4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4"/></svg></a>';
+               . $race . ext_icon_svg() . '</a>';
     }
     $h  = '<li' . ($linked ? ' class="has-link"' : '') . '>';
     $h .= '<span class="mono year">' . e($r['year'] ?? '') . '</span>';
@@ -131,4 +131,10 @@ function testimonials(array $c): array
     return array_values(array_filter($c['testimonials'] ?? [], static function ($q) {
         return is_array($q) && trim((string) ($q['quote'] ?? '')) !== '';
     }));
+}
+
+/** Picto « s'ouvre dans un nouvel onglet » (partagé : palmarès, partenaires). */
+function ext_icon_svg(): string
+{
+    return '<svg class="ext" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14 4h6v6"/><path d="M20 4l-9 9"/><path d="M18 14v4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4"/></svg>';
 }

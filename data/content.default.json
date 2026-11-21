@@ -949,7 +949,7 @@
   "partners": [
     {
       "name": "Nissa Triathlon",
-      "url": "",
+      "url": "https://nissa-triathlon-team.org",
       "role_fr": "Club",
       "role_en": "Club"
     },
@@ -961,7 +961,7 @@
     },
     {
       "name": "EnoWatt",
-      "url": "",
+      "url": "https://enowatt.fr",
       "role_fr": "Partenaire",
       "role_en": "Partner"
     },
@@ -973,7 +973,7 @@
     },
     {
       "name": "AquaSelf",
-      "url": "",
+      "url": "https://www.aquaself.fr",
       "role_fr": "Partenaire",
       "role_en": "Partner"
     }
