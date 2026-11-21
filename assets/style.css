@@ -61,13 +61,11 @@ section { padding-block: clamp(36px, 4.5vw, 56px); }
 .nav-trigger .chev { transition: transform .18s; }
 .has-sub.open > .nav-trigger .chev { transform: rotate(180deg); }
 
-/* Sous-menu « L'athlète » (inspiration Triathlon Lab : panneau sombre, filet tricolore, titre + sous-titre) */
+/* Sous-menu « L'Athlète » (inspiration Triathlon Lab : panneau sombre, titre + sous-titre) */
 .has-sub { position: relative; display: flex; align-self: stretch; }
 .sub { position: absolute; top: 100%; left: 0; z-index: 30; min-width: 300px; background: var(--ink); color: #fff; border-radius: 0 0 var(--r-card) var(--r-card); box-shadow: 0 20px 48px rgba(15, 27, 36, .35); overflow: hidden; visibility: hidden; opacity: 0; transform: translateY(-4px); transition: opacity .16s, transform .16s, visibility 0s .16s; }
-.sub::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 3px; background: linear-gradient(90deg, var(--swim) 0 33.33%, var(--bike) 33.33% 66.66%, var(--run) 66.66% 100%); }
 .has-sub.open > .sub { visibility: visible; opacity: 1; transform: none; transition-delay: 0s; }
 @media (hover: hover) { .has-sub:hover > .sub { visibility: visible; opacity: 1; transform: none; transition-delay: 0s; } .has-sub:hover > .nav-trigger { color: var(--ink); background: var(--soft); } }
-.sub ul { padding-top: 3px; }
 .nav .sub a { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; padding: 14px 20px; background: transparent; color: #fff; white-space: normal; border-top: 1px solid rgba(255, 255, 255, .1); }
 .nav .sub li:first-child a { border-top: 0; }
 .nav .sub a::after { display: none; }

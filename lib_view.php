@@ -161,14 +161,14 @@ function site_header(string $lang, array $home, array $self, array $c, string $c
 {
     $en = $lang === 'en';
     $T  = $en
-        ? ['athlete' => 'The athlete', 'coach' => 'The coach', 'ads' => 'My listings', 'new_tab' => 'opens in a new tab',
+        ? ['athlete' => 'The Athlete', 'coach' => 'The Coach', 'ads' => 'My listings', 'new_tab' => 'opens in a new tab',
            'sub' => [
                'highlights' => ['Highlights', 'Photos from the big races'],
                'palmares'   => ['Results', 'The full race record'],
                'partenaires' => ['Partners', 'Those who back me'],
                'contact'    => ['Contact', 'A question, a project'],
            ]]
-        : ['athlete' => "L'athlète", 'coach' => 'Le coach', 'ads' => 'Mes annonces', 'new_tab' => 'nouvel onglet',
+        : ['athlete' => "L'Athlète", 'coach' => 'Le Coach', 'ads' => 'Mes annonces', 'new_tab' => 'nouvel onglet',
            'sub' => [
                'highlights' => ['Highlights', 'Photos des grandes courses'],
                'palmares'   => ['Palmarès', 'Tous les résultats'],
