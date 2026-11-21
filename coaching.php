@@ -88,7 +88,7 @@ $F = contact_strings($lang);
         <?php if (($oico = offer_icon_svg((string) ($it['icon'] ?? ''))) !== ''): ?><span class="offer-ico"><?= $oico ?></span><?php endif; ?>
         <h3><?= e(tr($it, 'title')) ?></h3>
         <?php if (tr($it, 'detail') !== ''): ?><p class="offer-detail"><?= e(tr($it, 'detail')) ?></p><?php endif; ?>
-        <?php if (tr($it, 'price') !== ''): ?><p class="offer-price"><?= e(tr($it, 'price')) ?></p><?php endif; ?>
+        <?php if (tr($it, 'price') !== ''): ?><p class="offer-price"><?= implode('<br>', array_map('e', explode(' · ', tr($it, 'price')))) ?></p><?php endif; ?>
         <a class="card-cta" href="#contact" data-contact="coaching"><?= e($T['card_cta']) ?></a>
       </li>
       <?php endforeach; ?>

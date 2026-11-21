@@ -85,7 +85,7 @@ $SCHEMA = [
         'intro_en' => ['Texte de présentation (EN)', 'textarea'],
     ]],
     'coaching_items' => ['label' => 'Offres coaching', 'type' => 'list', 'title' => 'title_fr', 'sub' => 'price_fr',
-        'help' => 'Les lignes affichées dans la section Coaching. Le tarif est un texte libre : « À partir de 190 € », « Sur demande »…',
+        'help' => 'Les lignes affichées dans la section Coaching. Le tarif est un texte libre : « À partir de 190 € », « Sur demande »… Un « · » (point médian entouré d\'espaces) dans le tarif passe à la ligne.',
         'fields' => [
         'title_fr'  => ['Titre (FR)', 'text'],
         'title_en'  => ['Titre (EN)', 'text'],
