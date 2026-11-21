@@ -52,7 +52,7 @@ section { padding-block: clamp(36px, 4.5vw, 56px); }
 .brand strong { font-weight: 800; color: var(--accent); }
 .nav { display: flex; justify-content: center; align-self: stretch; gap: 4px; flex: 1; }
 .nav a, .nav-trigger { position: relative; display: flex; align-items: center; font-size: 13px; font-weight: 700; color: var(--text-2); text-decoration: none; white-space: nowrap; padding: 10px clamp(10px, 1.4vw, 16px); transition: color .18s, background-color .18s; }
-.nav-trigger { gap: 7px; border: 0; background: transparent; font-family: inherit; cursor: pointer; }
+.nav-trigger { gap: 7px; }
 .nav a::after, .nav-trigger::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--accent); transform: scaleX(0); transition: transform .18s; }
 .nav a:hover, .nav a:focus-visible, .nav a.on, .nav-trigger:hover, .nav-trigger:focus-visible, .nav-trigger.on, .has-sub.open > .nav-trigger { color: var(--ink); background: var(--soft); }
 .nav .ext { margin-left: 6px; color: var(--text-3); transition: color .18s; }
@@ -64,7 +64,7 @@ section { padding-block: clamp(36px, 4.5vw, 56px); }
 /* Sous-menu « L'Athlète » (inspiration Triathlon Lab : panneau sombre, titre + sous-titre) */
 .has-sub { position: relative; display: flex; align-self: stretch; }
 .sub { position: absolute; top: 100%; left: 0; z-index: 30; min-width: 300px; background: var(--ink); color: #fff; border-radius: 0 0 var(--r-card) var(--r-card); box-shadow: 0 20px 48px rgba(15, 27, 36, .35); overflow: hidden; visibility: hidden; opacity: 0; transform: translateY(-4px); transition: opacity .16s, transform .16s, visibility 0s .16s; }
-.has-sub.open > .sub { visibility: visible; opacity: 1; transform: none; transition-delay: 0s; }
+.has-sub.open > .sub, .has-sub:has(:focus-visible) > .sub { visibility: visible; opacity: 1; transform: none; transition-delay: 0s; }
 @media (hover: hover) { .has-sub:hover > .sub { visibility: visible; opacity: 1; transform: none; transition-delay: 0s; } .has-sub:hover > .nav-trigger { color: var(--ink); background: var(--soft); } }
 .nav .sub a { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; padding: 14px 20px; background: transparent; color: #fff; white-space: normal; border-top: 1px solid rgba(255, 255, 255, .1); }
 .nav .sub li:first-child a { border-top: 0; }
@@ -339,3 +339,5 @@ html:has(dialog[open]) { overflow: hidden; }
 .card-cta::after { content: " →"; }
 .card-cta:hover, .card-cta:focus-visible { text-decoration: underline; text-underline-offset: 4px; }
 @media (max-width: 760px) { .offer-cards { grid-template-columns: 1fr; } }
+/* Échap : referme le sous-menu même si la souris ou le focus restent dessus */
+.has-sub.esc > .sub { visibility: hidden !important; opacity: 0 !important; }

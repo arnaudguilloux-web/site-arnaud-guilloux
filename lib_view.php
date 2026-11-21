@@ -207,11 +207,11 @@ function site_header(string $lang, array $home, array $self, array $c, string $c
     $pages    = ['highlights' => 'galerie.php', 'palmares' => 'palmares.php'];
     $onCoach  = $current === 'coaching';
 
-    $group = static function (string $key, string $label, bool $isCurrent, string $items) use ($T): string {
+    $group = static function (string $key, string $label, string $href, bool $isCurrent, string $items): string {
         return '<div class="has-sub">'
-            . '<button class="nav-trigger' . ($isCurrent ? ' on' : '') . '" type="button" data-page-on="' . ($isCurrent ? '1' : '0') . '" aria-haspopup="true" aria-expanded="false" aria-controls="sub-' . $key . '">'
+            . '<a class="nav-trigger' . ($isCurrent ? ' on' : '') . '" href="' . e($href) . '" data-page-on="' . ($isCurrent ? '1' : '0') . '" aria-haspopup="true" aria-expanded="false" aria-controls="sub-' . $key . '">'
             . e($label)
-            . '<svg class="chev" viewBox="0 0 12 8" width="10" height="7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M1 1.5l5 5 5-5"/></svg></button>'
+            . '<svg class="chev" viewBox="0 0 12 8" width="10" height="7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M1 1.5l5 5 5-5"/></svg></a>'
             . '<div class="sub" id="sub-' . $key . '"><ul>' . $items . '</ul></div></div>';
     };
 
@@ -237,8 +237,9 @@ function site_header(string $lang, array $home, array $self, array $c, string $c
     $h  = '<header class="top"><div class="wrap">';
     $h .= '<a class="brand" href="' . e($home[$lang]) . '">Arnaud <strong>Guilloux</strong></a>';
     $h .= '<nav class="nav" aria-label="Sections">';
-    $h .= $group('athlete', $T['athlete'], isset($T['athlete_items'][$current]), $a);
-    $h .= $group('coach', $T['coach'], $onCoach, $k);
+    /* Sur ordinateur, cliquer le titre ouvre la page ; le sous-menu s'ouvre au survol. Sur mobile / tactile, le clic déplie le sous-menu. */
+    $h .= $group('athlete', $T['athlete'], $onHome ? '#' : $home[$lang], isset($T['athlete_items'][$current]), $a);
+    $h .= $group('coach', $T['coach'], $coachUrl, $onCoach, $k);
     $h .= '<a href="' . e($adsUrl) . '" target="_blank" rel="noopener noreferrer" aria-label="' . e($T['ads'] . ' — ' . $T['new_tab']) . '">' . e($T['ads']) . ext_icon_svg() . '</a>';
     $h .= '</nav>';
 
@@ -248,7 +249,7 @@ function site_header(string $lang, array $home, array $self, array $c, string $c
         $h .= '<a href="' . e($dest) . '" hreflang="' . $code . '" lang="' . $code . '"' . ($lang === $code ? ' aria-current="true"' : '') . '>' . $txt . '</a>';
     }
     $h .= '</div></div></header>';
-    $h .= '<script src="' . e($base) . 'assets/nav.js?v=3" defer></script>';
+    $h .= '<script src="' . e($base) . 'assets/nav.js?v=4" defer></script>';
     return $h;
 }
 
