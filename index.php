@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 require __DIR__ . '/lib.php';
+require_once __DIR__ . '/lib_gallery.php';
 
 /* ---------- Langue et URLs ---------- */
 $uri  = (string) ($_SERVER['REQUEST_URI'] ?? '/');
@@ -100,7 +101,8 @@ $T = [
     'fr' => [
         'title'        => 'Arnaud Guilloux — Triathlète professionnel longue distance · Coaching, tests, bike fitting',
         'description'  => 'Arnaud Guilloux, triathlète professionnel longue distance (Nissa Triathlon), basé à Saint-Renan. Coaching, tests physiologiques, bike fitting et partenariats.',
-        'h_highlights' => 'Temps forts',
+        'h_highlights' => 'Highlights',
+        'see_gallery'  => 'Voir la galerie',
         'see_results'  => 'Voir le palmarès',
         'see_worlds'   => 'Les Mondiaux',
         'show_all'     => 'Afficher tout le palmarès',
@@ -116,14 +118,6 @@ $T = [
         'quotes_note'  => '',
         'prev'         => 'Précédent',
         'next'         => 'Suivant',
-        'slides'       => [
-            ['roth-arrivee', 'Challenge Roth 2026.', '7h46\'30 sur la distance IRONMAN.'],
-            ['brasil-podium', 'IRONMAN Brasil 2026.', 'Troisième en 7h38.'],
-            ['kona-lave', 'Kona, Hawaï.', 'Sur les champs de lave.'],
-            ['kona-check-in', 'Championnat du monde IRONMAN.', 'Au dépôt des vélos.'],
-            ['roth-velo', '180 km à vélo.', 'Là où se construit la course.'],
-            ['roth-course', 'Puis un marathon.', 'Jusqu\'à la ligne.'],
-        ],
         'alt_hero'     => 'Arnaud Guilloux à vélo entre deux haies de spectateurs au Challenge Roth',
         'nav'          => ['palmares' => 'Palmarès', 'coaching' => 'Coaching', 'partenaires' => 'Partenaires', 'calendrier' => 'Calendrier', 'contact' => 'Contact'],
         'cta_coaching' => 'Coaching',
@@ -152,6 +146,7 @@ $T = [
         'title'        => 'Arnaud Guilloux — Professional long-distance triathlete · Coaching, testing, bike fitting',
         'description'  => 'Arnaud Guilloux, professional long-distance triathlete (Nissa Triathlon), based in Saint-Renan, Brittany. Coaching, physiological testing, bike fitting and partnerships.',
         'h_highlights' => 'Highlights',
+        'see_gallery'  => 'See the gallery',
         'see_results'  => 'See the results',
         'see_worlds'   => 'World Championships',
         'show_all'     => 'Show all results',
@@ -167,14 +162,6 @@ $T = [
         'quotes_note'  => 'Testimonials are shown in their original French.',
         'prev'         => 'Previous',
         'next'         => 'Next',
-        'slides'       => [
-            ['roth-arrivee', 'Challenge Roth 2026.', '7:46:30 over the IRONMAN distance.'],
-            ['brasil-podium', 'IRONMAN Brasil 2026.', 'Third place in 7:38.'],
-            ['kona-lave', 'Kona, Hawaii.', 'On the lava fields.'],
-            ['kona-check-in', 'IRONMAN World Championship.', 'At bike check-in.'],
-            ['roth-velo', '180 km on the bike.', 'Where the race is built.'],
-            ['roth-course', 'Then a marathon.', 'All the way to the line.'],
-        ],
         'alt_hero'     => 'Arnaud Guilloux riding between two walls of spectators at Challenge Roth',
         'nav'          => ['palmares' => 'Results', 'coaching' => 'Coaching', 'partenaires' => 'Partners', 'calendrier' => 'Calendar', 'contact' => 'Contact'],
         'cta_coaching' => 'Coaching',
@@ -225,6 +212,7 @@ $jsonLd = [
     'sameAs'       => array_values($socials),
 ];
 
+$slides = array_slice(gallery_items(), 0, 5); // carrousel Highlights : 5 premières photos (la galerie montre tout)
 $n = 0; // numérotation des sections
 ?>
 <!doctype html>
@@ -246,7 +234,7 @@ $n = 0; // numérotation des sections
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=28">
+<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=30">
 <script type="application/ld+json"><?= json_encode($jsonLd, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) ?></script>
 </head>
 <body>
@@ -314,15 +302,15 @@ $n = 0; // numérotation des sections
     <div class="head-row">
       <h2><?= e($T['h_highlights']) ?></h2>
       <p class="links">
-        <a class="more" href="#palmares"><?= e($T['see_results']) ?></a>
+        <a class="more" href="<?= e($base) ?>galerie.php<?= $lang === 'en' ? '?lang=en' : '' ?>"><?= e($T['see_gallery']) ?></a>
       </p>
     </div>
   </div>
   <div class="carousel scar" id="scar" tabindex="0" aria-label="<?= e($T['h_highlights']) ?>">
-    <?php foreach ($T['slides'] as $sl): ?>
+    <?php foreach ($slides as $sl): ?>
     <figure class="slide">
       <img src="<?= e($base) ?>assets/img/<?= e($sl[0]) ?>.jpg" alt="" loading="lazy">
-      <figcaption><strong><?= e($sl[1]) ?></strong><span><?= e($sl[2]) ?></span></figcaption>
+      <figcaption><strong><?= e($sl[$lang === 'en' ? 3 : 1]) ?></strong><span><?= e($sl[$lang === 'en' ? 4 : 2]) ?></span></figcaption>
     </figure>
     <?php endforeach; ?>
   </div>
@@ -330,7 +318,7 @@ $n = 0; // numérotation des sections
     <div class="qctrl">
       <button type="button" class="arrow" id="sprev" aria-label="<?= e($T['prev']) ?>">‹</button>
       <div class="dots" id="sdots" aria-hidden="true">
-        <?php foreach ($T['slides'] as $i => $sl): ?><span<?= $i === 0 ? ' class="on"' : '' ?>></span><?php endforeach; ?>
+        <?php foreach ($slides as $i => $sl): ?><span<?= $i === 0 ? ' class="on"' : '' ?>></span><?php endforeach; ?>
       </div>
       <button type="button" class="arrow" id="snext" aria-label="<?= e($T['next']) ?>">›</button>
     </div>
@@ -530,7 +518,7 @@ $firstRows = 8; ?>
 (function () {
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* Carrousels (Temps forts, témoignages) */
+  /* Carrousels (Highlights, témoignages) */
   function carousel(carId, dotsId, prevId, nextId, sel) {
     var car = document.getElementById(carId), dots = document.getElementById(dotsId);
     if (!car || !dots || !('IntersectionObserver' in window)) return;
