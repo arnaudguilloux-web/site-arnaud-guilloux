@@ -23,6 +23,7 @@ function gallery_items(?string $type = null): array
         ['kona-parc-velo',      'Kona, Hawaï.',                  'Au parc à vélo avec Geoffroy.',    'Kona, Hawaii.',                'At the bike park with Geoffroy.', 'coach', '50% 50%'],
         ['texas-athletes',      'IRONMAN Texas.',                'Avec une bonne partie des athlètes.', 'IRONMAN Texas.',            'With many of the athletes.', 'coach', '50% 30%'],
         ['kona-depose-velos',   'Championnat du monde IRONMAN.', 'Dépose des vélos, Hawaï.',        'IRONMAN World Championship.',  'Bike drop-off, Hawaii.', 'coach', '50% 40%'],
+        ['lanzarote-stage',     'Stage à Lanzarote.', 'Fin de longue journée.',                   'Lanzarote camp.',              'End of a long day.', 'coach', '50% 40%'],
     ];
     if ($type === null) {
         return $all;
