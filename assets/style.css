@@ -48,10 +48,12 @@ section { padding-block: clamp(36px, 4.5vw, 56px); }
 .top .wrap { display: flex; align-items: center; gap: 20px; height: 60px; }
 .brand { font-weight: 400; font-size: 18px; letter-spacing: -.02em; text-decoration: none; white-space: nowrap; }
 .brand strong { font-weight: 800; }
-.nav { display: flex; justify-content: center; gap: clamp(14px, 2.4vw, 30px); flex: 1; overflow-x: auto; scrollbar-width: none; }
+.nav { display: flex; justify-content: center; align-self: stretch; gap: 4px; flex: 1; overflow-x: auto; scrollbar-width: none; }
 .nav::-webkit-scrollbar { display: none; }
-.nav a { font-size: 13px; font-weight: 500; color: var(--text-2); text-decoration: none; white-space: nowrap; padding: 10px 0; transition: color .18s; }
-.nav a:hover { color: var(--ink); }
+.nav a { position: relative; display: flex; align-items: center; font-size: 13px; font-weight: 500; color: var(--text-2); text-decoration: none; white-space: nowrap; padding: 10px clamp(10px, 1.4vw, 16px); transition: color .18s, background-color .18s; }
+.nav a::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--accent); transform: scaleX(0); transition: transform .18s; }
+.nav a:hover, .nav a:focus-visible { color: var(--ink); background: var(--soft); }
+.nav a:hover::after, .nav a:focus-visible::after { transform: scaleX(1); }
 .lang { display: flex; border: 1px solid var(--line-strong); border-radius: var(--r-sm); overflow: hidden; }
 .lang a { font: 700 11px/1 var(--sans); letter-spacing: .06em; text-decoration: none; color: var(--ink); padding: 9px 11px; }
 .lang a[aria-current] { background: var(--accent); color: #fff; }
@@ -229,7 +231,7 @@ form .btn { align-self: flex-start; }
 @media (max-width: 760px) {
   .top .wrap { flex-wrap: wrap; height: auto; padding-top: 10px; row-gap: 0; }
   .brand { flex: 1; }
-  .nav { order: 3; flex: 0 0 100%; justify-content: flex-start; gap: 20px; }
+  .nav { order: 3; flex: 0 0 100%; justify-content: flex-start; gap: 0; margin-inline: -10px; }
   html { scroll-padding-top: 104px; }
   .pitch, .contact, .coach, .duo, .intro-grid { grid-template-columns: 1fr; }
   .stats { grid-template-columns: repeat(2, 1fr); }
