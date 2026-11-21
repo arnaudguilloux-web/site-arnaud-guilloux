@@ -64,10 +64,13 @@ function results_rows(array $c): array
 }
 
 /* Famille de course affichée en label : IRONMAN 70.3, IRONMAN ou Challenge (vide pour les autres courses).
-   Déduite du nom ; les championnats du monde n'en ont pas (le nom et le badge WC suffisent). */
+   Déduite du nom ; les championnats du monde IRONMAN reçoivent IRONMAN en plus du badge WC. */
 function race_label(array $r): string
 {
     $name = trim((string) ($r['race'] ?? ''));
+    if (!empty($r['worlds']) && preg_match('/IRONMAN/i', $name . ' ' . ($r['race_en'] ?? ''))) {
+        return 'IRONMAN'; // championnats du monde IRONMAN : label IRONMAN en plus du badge WC
+    }
     if (preg_match('/^IRONMAN\b.*\b70\.3\b/i', $name)) {
         return 'IRONMAN 70.3';
     }
@@ -103,7 +106,7 @@ function result_li(array $r, string $badgeTitle, string $badgeText): string
     if (!empty($r['worlds'])) {
         $h .= '<span class="badge" title="' . e($badgeTitle) . '">' . e($badgeText) . '</span>';
     }
-    $kind = empty($r['worlds']) ? race_label($r) : '';
+    $kind = race_label($r);
     if ($kind !== '') {
         $h .= '<span class="kind">' . e($kind) . '</span>';
     }
