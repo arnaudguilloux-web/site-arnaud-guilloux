@@ -1054,6 +1054,42 @@
       "quote": "Le coaching m'a apporté rigueur, fierté, partage et rencontres.",
       "name": "Alexis",
       "city": "Brest"
+    },
+    {
+      "highlight_fr": "À nouveau coaché",
+      "highlight_en": "Back with Arnaud",
+      "context_fr": "Ami d'abord, athlète ensuite",
+      "context_en": "A friend first, then an athlete",
+      "quote": "Arnaud était un ami avant d'être mon coach, il n'était plus mon coach mais toujours mon ami et il est à nouveau mon coach et toujours mon ami... Bref tu veux performer sans te prendre la tête alors t'es au bon endroit !",
+      "name": "Pierre",
+      "city": "Brest"
+    },
+    {
+      "highlight_fr": "",
+      "highlight_en": "",
+      "context_fr": "",
+      "context_en": "",
+      "quote": "Arnaud est un expert sur la manière et la méthode à te faire progresser pour être performant sans oublier que le plaisir doit être aussi présent.",
+      "name": "Erik",
+      "city": ""
+    },
+    {
+      "highlight_fr": "4h18",
+      "highlight_en": "4:18",
+      "context_fr": "Half-Ironman de Tours",
+      "context_en": "Tours Half-Ironman",
+      "quote": "Le coaching m'a permis de réaliser les deux performances dont je suis le plus fier à ce jour : 1h14 sur semi-marathon et 4h18 sur le Half-Ironman de Tours.",
+      "name": "Alexandre",
+      "city": "Versailles"
+    },
+    {
+      "highlight_fr": "",
+      "highlight_en": "",
+      "context_fr": "",
+      "context_en": "",
+      "quote": "Dès le premier contact j'ai trouvé Arnaud super investi dans mon projet, alors qu'il était en vacances dans la foulée de Kona.",
+      "name": "Xavier",
+      "city": ""
     }
   ],
   "coaching_items": [
