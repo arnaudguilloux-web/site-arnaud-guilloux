@@ -194,7 +194,7 @@ $n = 0; // numérotation des sections
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=44">
+<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=45">
 <script type="application/ld+json"><?= json_encode($jsonLd, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) ?></script>
 </head>
 <body>
@@ -257,7 +257,7 @@ $n = 0; // numérotation des sections
   <?php endif; ?>
 </div>
 
-<section class="soft highlights">
+<section class="highlights">
   <div class="wrap">
     <div class="head-row">
       <h2><?= e($T['h_highlights']) ?></h2>
@@ -345,7 +345,7 @@ $resultsUrl = $base . 'palmares.php' . ($lang === 'en' ? '?lang=en' : ''); ?>
 </section>
 
 <?php if ($upcoming): ?>
-<section id="calendrier" class="soft">
+<section id="calendrier">
   <div class="wrap">
     <h2><?= e($T['h_calendar']) ?></h2>
     <ol class="rows calendar">

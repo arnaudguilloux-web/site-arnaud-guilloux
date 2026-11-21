@@ -38,6 +38,8 @@ img { display: block; max-width: 100%; }
 .wrap { max-width: 1200px; margin: 0 auto; padding-inline: var(--gutter); }
 section { padding-block: clamp(36px, 4.5vw, 56px); }
 .soft { background: var(--soft); border-block: 1px solid var(--line); }
+/* Alternance de fond automatique entre les sections de la home (robuste aux sections masquées) */
+.hero ~ section:nth-of-type(even) { background: var(--soft); border-block: 1px solid var(--line); }
 
 /* Petit label en capitales */
 .mono, .eyebrow { font: 700 11px/1.4 var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--text-3); }
