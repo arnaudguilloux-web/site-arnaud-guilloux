@@ -335,7 +335,7 @@ $resultsUrl = $base . 'palmares.php' . ($lang === 'en' ? '?lang=en' : ''); ?>
 
 <?= contact_dialog_html($F, $lang, $base) ?>
 
-<script src="<?= e($base) ?>assets/carousel.js?v=1"></script>
+<script src="<?= e($base) ?>assets/carousel.js?v=2"></script>
 <script>
 (function () {
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;

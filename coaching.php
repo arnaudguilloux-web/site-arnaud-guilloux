@@ -132,7 +132,7 @@ $F = contact_strings($lang);
 
 <?= contact_dialog_html($F, $lang, $base) ?>
 <?= site_footer($T['legal'], $settings, $lang) ?>
-<script src="<?= e($base) ?>assets/carousel.js?v=1"></script>
+<script src="<?= e($base) ?>assets/carousel.js?v=2"></script>
 <script>
 carousel('qcar', 'qdots', 'qprev', 'qnext', '.qcard');
 </script>
