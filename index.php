@@ -89,8 +89,6 @@ $T = [
         'pitch_text'   => 'Un athlète professionnel ancré en Bretagne et présent sur le circuit international. Visibilité en course, contenus, tests de matériel, interventions en entreprise : construisons un partenariat à votre mesure.',
         'pitch_points' => ['Visibilité en course et sur les réseaux', 'Retours terrain et tests de matériel', 'Interventions et sorties avec vos équipes'],
         'h_calendar'   => 'Calendrier',
-        'h_contact'    => 'Contact',
-        'contact_lead' => 'Un projet sportif, une prestation à réserver ou un partenariat à imaginer : écrivez-moi.',
         'legal'        => 'Éditeur : Arnaud Guilloux, Saint-Renan (29). Hébergement : OVH SAS, 2 rue Kellermann, 59100 Roubaix.',
     ],
     'en' => [
@@ -125,8 +123,6 @@ $T = [
         'pitch_text'   => 'A professional athlete rooted in Brittany and racing the international circuit. Race-day visibility, content, product testing, talks for your teams: let\'s build a partnership that fits you.',
         'pitch_points' => ['Visibility on race day and on social media', 'Field feedback and product testing', 'Talks and rides with your teams'],
         'h_calendar'   => 'Calendar',
-        'h_contact'    => 'Contact',
-        'contact_lead' => 'A sporting goal, a service to book or a partnership to shape: get in touch.',
         'legal'        => 'Publisher: Arnaud Guilloux, Saint-Renan, France. Hosting: OVH SAS, 2 rue Kellermann, 59100 Roubaix, France.',
     ],
 ][$lang];
@@ -168,7 +164,7 @@ $n = 0; // numérotation des sections
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=63">
+<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=64">
 <script type="application/ld+json"><?= json_encode($jsonLd, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) ?></script>
 </head>
 <body>
@@ -332,20 +328,7 @@ $resultsUrl = $base . 'palmares.php' . ($lang === 'en' ? '?lang=en' : ''); ?>
 </section>
 <?php endif; ?>
 
-<section id="contact">
-  <div class="wrap contact">
-    <div>
-      <h2><?= e($T['h_contact']) ?></h2>
-      <p class="feature-text"><?= e($T['contact_lead']) ?></p>
-      <?php if ($socials): ?>
-      <ul class="socials">
-        <?php foreach ($socials as $label => $url): ?><li><a class="more" href="<?= e($url) ?>" rel="noopener me" target="_blank"><?= e($label) ?></a></li><?php endforeach; ?>
-      </ul>
-      <?php endif; ?>
-    </div>
-    <?= contact_form_html($F, $lang, $base, $sent === null ? null : (string) $sent, true) ?>
-  </div>
-</section>
+<?= contact_section_html($F, $lang, $base, $sent === null ? null : (string) $sent, $socials) ?>
 </main>
 
 <?= site_footer($T['legal'], $settings, $lang) ?>

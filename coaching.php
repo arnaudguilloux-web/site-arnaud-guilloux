@@ -21,13 +21,11 @@ $T = [
              'alt' => 'Arnaud Guilloux en course à pied sur le Challenge Roth', 'cta' => 'Parler de votre objectif',
              'h_offers' => 'Offres', 'offers_big' => ['Ce que', 'je propose.'], 'card_cta' => 'Me contacter',
              'h_quotes' => 'Témoignages', 'quotes_big' => ['Ce que disent', 'mes athlètes.'], 'quotes_note' => '', 'prev' => 'Précédent', 'next' => 'Suivant',
-             'h_final' => 'Contact', 'final_big' => ['Un objectif en tête ?', 'Parlons-en.'],
              'legal' => 'Éditeur : Arnaud Guilloux, Saint-Renan (29). Hébergement : OVH SAS, 2 rue Kellermann, 59100 Roubaix.'],
     'en' => ['title' => 'Coaching — Arnaud Guilloux', 'kicker' => 'Arnaud Guilloux · Professional triathlete', 'h1' => 'Coaching', 'place' => 'Performance-driven',
              'alt' => 'Arnaud Guilloux running at Challenge Roth', 'cta' => 'Talk about your goal',
              'h_offers' => 'Offers', 'offers_big' => ['What', 'I offer.'], 'card_cta' => 'Get in touch',
              'h_quotes' => 'Testimonials', 'quotes_big' => ['What my', 'athletes say.'], 'quotes_note' => 'Testimonials are shown in their original French.', 'prev' => 'Previous', 'next' => 'Next',
-             'h_final' => 'Contact', 'final_big' => ['A goal in mind?', 'Let\'s talk.'],
              'legal' => 'Publisher: Arnaud Guilloux, Saint-Renan, France. Hosting: OVH SAS, 2 rue Kellermann, 59100 Roubaix, France.'],
 ][$lang];
 $F = contact_strings($lang);
@@ -46,7 +44,7 @@ $F = contact_strings($lang);
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=63">
+<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=64">
 </head>
 <body>
 <?= site_header($lang, $home, $self, $c, 'coaching') ?>
@@ -63,7 +61,7 @@ $F = contact_strings($lang);
           <p class="mono place"><?= e($T['place']) ?></p>
         </div>
         <div class="cta">
-          <a class="btn" href="<?= e($home[$lang]) ?>#contact" data-contact="coaching"><?= e($T['cta']) ?></a>
+          <a class="btn" href="#contact" data-contact="coaching"><?= e($T['cta']) ?></a>
         </div>
       </div>
     </div>
@@ -87,7 +85,7 @@ $F = contact_strings($lang);
         <h3><?= e(tr($it, 'title')) ?></h3>
         <?php if (tr($it, 'detail') !== ''): ?><p class="offer-detail"><?= e(tr($it, 'detail')) ?></p><?php endif; ?>
         <?php if (tr($it, 'price') !== ''): ?><p class="offer-price"><?= e(tr($it, 'price')) ?></p><?php endif; ?>
-        <a class="card-cta" href="<?= e($home[$lang]) ?>#contact" data-contact="coaching"><?= e($T['card_cta']) ?></a>
+        <a class="card-cta" href="#contact" data-contact="coaching"><?= e($T['card_cta']) ?></a>
       </li>
       <?php endforeach; ?>
     </ul>
@@ -129,15 +127,7 @@ $F = contact_strings($lang);
 </section>
 <?php endif; ?>
 
-<section id="parlons">
-  <div class="wrap final">
-    <div>
-      <p class="eyebrow"><?= e($T['h_final']) ?></p>
-      <h2 class="big"><?= e($T['final_big'][0]) ?> <span><?= e($T['final_big'][1]) ?></span></h2>
-    </div>
-    <a class="btn" href="<?= e($home[$lang]) ?>#contact" data-contact="coaching"><?= e($T['cta']) ?></a>
-  </div>
-</section>
+<?= contact_section_html($F, $lang, $base, null, social_links($settings)) ?>
 </main>
 
 <?= contact_dialog_html($F, $lang, $base) ?>

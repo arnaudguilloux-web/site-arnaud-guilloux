@@ -175,7 +175,7 @@ function site_header(string $lang, array $home, array $self, array $c, string $c
                'top'         => ['Overview', 'Performance-driven'],
                'offres'      => ['Offers', 'Plans, camps, testing, bike fitting'],
                'temoignages' => ['Testimonials', 'What my athletes say'],
-               'parlons'     => ['Contact', 'A goal? Let\'s talk'],
+               'contact'     => ['Contact', 'A goal? Let\'s talk'],
            ]]
         : ['athlete' => "L'Athlète", 'coach' => 'Le Coach', 'ads' => 'Mes Annonces', 'new_tab' => 'nouvel onglet',
            'athlete_items' => [
@@ -188,7 +188,7 @@ function site_header(string $lang, array $home, array $self, array $c, string $c
                'top'         => ['Présentation', 'Orienté performance'],
                'offres'      => ['Offres', 'Plans, stages, tests, bike fitting'],
                'temoignages' => ['Témoignages', 'Ce que disent mes athlètes'],
-               'parlons'     => ['Contact', 'Un objectif ? Parlons-en'],
+               'contact'     => ['Contact', 'Un objectif ? Parlons-en'],
            ]];
 
     /* Lien externe « Mes Annonces » : réglable dans l'admin (Réglages), sinon page d'accueil Troc-Vélo. */
@@ -270,11 +270,11 @@ function site_footer(string $legal, array $settings, string $lang = 'fr'): strin
 function contact_strings(string $lang): array
 {
     return $lang === 'en'
-        ? ['h_contact' => 'Contact', 'f_name' => 'Name', 'f_email' => 'Email', 'f_topic' => 'Topic', 'f_message' => 'Message', 'f_send' => 'Send', 'f_close' => 'Close',
+        ? ['h_contact' => 'Contact', 'contact_lead' => 'A sporting goal, a service to book or a partnership to shape: get in touch.', 'f_name' => 'Name', 'f_email' => 'Email', 'f_topic' => 'Topic', 'f_message' => 'Message', 'f_send' => 'Send', 'f_close' => 'Close',
            'topics' => ['coaching' => 'Coaching, testing, bike fitting', 'sponsoring' => 'Partnership / sponsoring', 'other' => 'Other'],
            'sent_ok' => 'Thank you, your message is on its way. I\'ll get back to you shortly.',
            'sent_ko' => 'The message could not be sent. Check the fields or email me directly.']
-        : ['h_contact' => 'Contact', 'f_name' => 'Nom', 'f_email' => 'E-mail', 'f_topic' => 'Sujet', 'f_message' => 'Message', 'f_send' => 'Envoyer', 'f_close' => 'Fermer',
+        : ['h_contact' => 'Contact', 'contact_lead' => 'Un projet sportif, une prestation à réserver ou un partenariat à imaginer : écrivez-moi.', 'f_name' => 'Nom', 'f_email' => 'E-mail', 'f_topic' => 'Sujet', 'f_message' => 'Message', 'f_send' => 'Envoyer', 'f_close' => 'Fermer',
            'topics' => ['coaching' => 'Coaching, tests, bike fitting', 'sponsoring' => 'Partenariat / sponsoring', 'other' => 'Autre'],
            'sent_ok' => 'Merci, votre message est bien parti. Je vous réponds rapidement.',
            'sent_ko' => 'Le message n\'a pas pu être envoyé. Vérifiez les champs ou écrivez-moi directement.'];
@@ -315,5 +315,21 @@ function contact_dialog_html(array $F, string $lang, string $base): string
         . contact_form_html($F, $lang, $base, null, false)
         . '</div></dialog>'
         . '<script src="' . e($base) . 'assets/contact.js?v=1" defer></script>';
+}
+
+/** Section Contact (identique sur l'accueil et la page Coaching) : texte, réseaux sociaux, formulaire. */
+function contact_section_html(array $F, string $lang, string $base, ?string $sent, array $socials): string
+{
+    $h = '<section id="contact"><div class="wrap contact"><div>'
+       . '<h2>' . e($F['h_contact']) . '</h2>'
+       . '<p class="feature-text">' . e($F['contact_lead']) . '</p>';
+    if ($socials) {
+        $h .= '<ul class="socials">';
+        foreach ($socials as $label => $url) {
+            $h .= '<li><a class="more" href="' . e($url) . '" rel="noopener me" target="_blank">' . e($label) . '</a></li>';
+        }
+        $h .= '</ul>';
+    }
+    return $h . '</div>' . contact_form_html($F, $lang, $base, $sent, true) . '</div></section>';
 }
 
