@@ -231,7 +231,7 @@ $n = 0; // numérotation des sections
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=20">
+<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=21">
 <script type="application/ld+json"><?= json_encode($jsonLd, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) ?></script>
 </head>
 <body>
@@ -271,7 +271,15 @@ $n = 0; // numérotation des sections
 </section>
 
 <div class="wrap intro">
-  <p class="lead"><?= club_link(e(tr($hero, 'lead'))) ?></p>
+  <div class="intro-grid">
+    <p class="lead"><?= club_link(e(tr($hero, 'lead'))) ?></p>
+    <?php if (!empty($hero['quote'])): ?>
+    <figure class="intro-quote">
+      <blockquote>« <?= e($hero['quote']) ?> »</blockquote>
+      <?php if (!empty($hero['quote_name'])): ?><figcaption><?= e($hero['quote_name']) ?></figcaption><?php endif; ?>
+    </figure>
+    <?php endif; ?>
+  </div>
   <?php if (!empty($c['stats'])): ?>
   <dl class="stats">
     <?php foreach ($c['stats'] as $st): ?>

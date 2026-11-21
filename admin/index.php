@@ -103,6 +103,8 @@ $SCHEMA = [
         'kicker_en' => ['Sur-titre (EN)', 'text'],
         'lead_fr'   => ['Texte d\'accroche (FR)', 'textarea'],
         'lead_en'   => ['Texte d\'accroche (EN)', 'textarea'],
+        'quote'      => ['Citation (encart à droite du texte)', 'textarea'],
+        'quote_name' => ['Auteur de la citation', 'text'],
     ]],
     'settings' => ['label' => 'Réglages', 'type' => 'single', 'fields' => [
         'draft'         => ['Site masqué des moteurs de recherche (noindex) : à désactiver au lancement', 'bool'],

@@ -102,8 +102,12 @@ h1 { font-weight: 700; font-size: clamp(2rem, 4.2vw, 2.875rem); line-height: 1.0
 .place { margin-top: 10px; font-size: 10px; letter-spacing: .14em; color: rgba(255, 255, 255, .72); }
 
 .intro { --gap: clamp(28px, 3.4vw, 40px); padding-block: var(--gap) clamp(56px, 7vw, 88px); }
+.intro-grid { display: grid; grid-template-columns: 2fr 1fr; gap: clamp(16px, 2vw, 24px); align-items: stretch; }
+.intro-quote { display: flex; flex-direction: column; justify-content: center; gap: 14px; padding: clamp(20px, 2.4vw, 28px); background: var(--accent-soft); border-radius: var(--r-card); }
+.intro-quote blockquote { font-weight: 600; font-size: clamp(1.0625rem, 1.5vw, 1.25rem); line-height: 1.35; letter-spacing: -.015em; color: var(--ink); text-wrap: balance; }
+.intro-quote figcaption { font-size: 10px; letter-spacing: .14em; text-transform: uppercase; font-weight: 600; color: var(--accent); }
 .lead a { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
-.lead { max-width: 40em; font-weight: 400; font-size: clamp(1rem, 1.4vw, 1.125rem); line-height: 1.6; text-wrap: pretty; }
+.lead { max-width: none; font-weight: 400; font-size: clamp(1rem, 1.4vw, 1.125rem); line-height: 1.6; text-wrap: pretty; }
 /* Chiffres clés : bandeau ouvert sur les côtés, filets fins entre les tuiles, picto à gauche. */
 .stats { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: var(--gap); border-bottom: 1px solid var(--line); }
 .stats > div { display: grid; grid-template-columns: auto 1fr; align-content: center; column-gap: 12px; padding: 22px 16px; border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
@@ -221,7 +225,7 @@ form .btn { align-self: flex-start; }
   .brand { flex: 1; }
   .nav { order: 3; flex: 0 0 100%; justify-content: flex-start; gap: 20px; }
   html { scroll-padding-top: 104px; }
-  .pitch, .contact, .coach, .duo, .shots { grid-template-columns: 1fr; }
+  .pitch, .contact, .coach, .duo, .shots, .intro-grid { grid-template-columns: 1fr; }
   .stats { grid-template-columns: repeat(2, 1fr); }
   .stats > div:nth-child(3n+1) { border-left: 1px solid var(--line); padding-left: 16px; }
   .stats > div:nth-child(2n+1) { border-left: 0; padding-left: 0; }
