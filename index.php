@@ -218,7 +218,7 @@ $n = 0; // numérotation des sections
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=13">
+<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=16">
 <script type="application/ld+json"><?= json_encode($jsonLd, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) ?></script>
 </head>
 <body>
@@ -263,6 +263,7 @@ $n = 0; // numérotation des sections
   <dl class="stats">
     <?php foreach ($c['stats'] as $st): ?>
     <div>
+      <?php if (($ico = stat_icon_svg((string) ($st['icon'] ?? ''))) !== ''): ?><span class="stat-ico" aria-hidden="true"><?= $ico ?></span><?php endif; ?>
       <dd><?= e($st['value'] ?? '') ?></dd>
       <dt><?= e(tr($st, 'label')) ?></dt>
     </div>

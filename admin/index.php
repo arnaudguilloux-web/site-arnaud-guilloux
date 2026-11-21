@@ -96,6 +96,7 @@ $SCHEMA = [
         'value'    => ['Chiffre', 'text'],
         'label_fr' => ['Légende (FR)', 'text'],
         'label_en' => ['Légende (EN)', 'text'],
+        'icon'     => ['Picto', 'select'],
     ]],
     'hero' => ['label' => 'Accroche', 'type' => 'single', 'fields' => [
         'kicker_fr' => ['Sur-titre (FR)', 'text'],
@@ -144,6 +145,12 @@ function field(string $name, array $def, string $value): string
     $h = '<label><span>' . e($label) . '</span>';
     if ($type === 'textarea') {
         $h .= '<textarea name="' . e($name) . '" rows="4">' . e($value) . '</textarea>';
+    } elseif ($type === 'select') {
+        $h .= '<select name="' . e($name) . '"><option value="">Aucun</option>';
+        foreach (stat_icons() as $k => $ic) {
+            $h .= '<option value="' . e($k) . '"' . ($value === $k ? ' selected' : '') . '>' . e($ic[0]) . '</option>';
+        }
+        $h .= '</select>';
     } elseif ($type === 'bool') {
         $h .= '<select name="' . e($name) . '">'
             . '<option value="1"' . ($value === '1' ? ' selected' : '') . '>Affiché</option>'

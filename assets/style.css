@@ -103,10 +103,14 @@ h1 { font-weight: 700; font-size: clamp(2rem, 4.2vw, 2.875rem); line-height: 1.0
 
 .intro { padding-block: clamp(40px, 5vw, 64px) clamp(56px, 7vw, 88px); }
 .lead { max-width: 40em; font-weight: 400; font-size: clamp(1rem, 1.4vw, 1.125rem); line-height: 1.6; text-wrap: pretty; }
-.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; margin-top: clamp(32px, 4vw, 48px); background: var(--line); border: 1px solid var(--line); border-radius: var(--r-card); overflow: hidden; }
-.stats > div { background: var(--canvas); padding: clamp(18px, 2.4vw, 28px); }
-.stats dd { font-weight: 700; font-size: clamp(1.5rem, 2.4vw, 1.875rem); line-height: 1; letter-spacing: -.035em; font-variant-numeric: tabular-nums; }
-.stats dt { color: var(--text-2); font-size: 14px; line-height: 1.4; margin-top: 10px; text-wrap: balance; }
+/* Chiffres clés : bandeau ouvert sur les côtés, filets fins entre les tuiles, picto à gauche. */
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: clamp(32px, 4vw, 48px); border-bottom: 1px solid var(--line); }
+.stats > div { display: grid; grid-template-columns: auto 1fr; align-content: center; column-gap: 16px; padding: clamp(18px, 2.4vw, 28px); border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
+.stats > div:nth-child(3n+1) { border-left: 0; padding-left: 0; }
+.stat-ico { grid-row: 1 / span 2; align-self: center; color: var(--accent); line-height: 0; }
+.stat-ico svg { width: 30px; height: 30px; }
+.stats dd { font-weight: 700; font-size: clamp(1.5rem, 2.4vw, 1.875rem); line-height: 1.05; letter-spacing: -.035em; font-variant-numeric: tabular-nums; }
+.stats dt { grid-column: 2; color: var(--text-2); font-size: 14px; line-height: 1.4; margin-top: 6px; text-wrap: balance; }
 
 /* ---------- Temps forts ---------- */
 .head-row { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px 32px; }
@@ -218,6 +222,8 @@ form .btn { align-self: flex-start; }
   html { scroll-padding-top: 104px; }
   .pitch, .contact, .coach, .duo, .shots { grid-template-columns: 1fr; }
   .stats { grid-template-columns: repeat(2, 1fr); }
+  .stats > div:nth-child(3n+1) { border-left: 1px solid var(--line); padding-left: clamp(18px, 2.4vw, 28px); }
+  .stats > div:nth-child(2n+1) { border-left: 0; padding-left: 0; }
   .offer-price { text-align: left; max-width: none; }
   .duo figure { height: 52vh; }
   .results li { grid-template-columns: 5ch 1fr; }

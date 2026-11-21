@@ -72,3 +72,24 @@ function is_https(): bool
     return (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
         || (($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https');
 }
+
+/* Pictos des tuiles « Chiffres » : clé => [libellé pour le back office, tracés SVG (24 x 24, trait)]. */
+function stat_icons(): array
+{
+    return [
+        'chrono'     => ['Chrono', '<circle cx="12" cy="13.5" r="7.5"/><path d="M12 9.5v4l2.6 2M9.5 2.5h5M12 2.5V6M18.6 6.9l1.4-1.4"/>'],
+        'worldchamp' => ['Championnat du monde (globe)', '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.4 3.8 5.4 3.8 9s-1.3 6.6-3.8 9c-2.5-2.4-3.8-5.4-3.8-9S9.5 5.4 12 3z"/>'],
+        'trophy'     => ['Coupe', '<path d="M8 3.5h8V10a4 4 0 0 1-8 0V3.5zM8 5.5H5.5a1 1 0 0 0-1 1V7a3 3 0 0 0 3.2 3M16 5.5h2.5a1 1 0 0 1 1 1V7a3 3 0 0 1-3.2 3M12 14v4M8.5 20.5h7M9.5 18h5"/>'],
+        'podium'     => ['Podium', '<path d="M3 20.5h18M3.5 20.5v-7h5.5v7M9 20.5V9.5h6v11M15 20.5v-5h5.5v5M12 3.2l.9 1.8 2 .3-1.45 1.4.35 2-1.8-.95-1.8.95.35-2L9.1 5.3l2-.3z"/>'],
+        'top100'     => ['Top 100', '<circle cx="12" cy="12" r="9.5"/><text x="12" y="15.2" text-anchor="middle" font-size="9" font-weight="700" fill="currentColor" stroke="none" font-family="Inter, Arial, sans-serif">100</text>'],
+    ];
+}
+
+function stat_icon_svg(string $key): string
+{
+    $icons = stat_icons();
+    if (!isset($icons[$key])) {
+        return '';
+    }
+    return '<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" focusable="false">' . $icons[$key][1] . '</svg>';
+}
