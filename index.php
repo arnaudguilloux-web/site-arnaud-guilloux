@@ -290,7 +290,7 @@ $n = 0; // numérotation des sections
     <p class="lead"><?= club_link(e(tr($hero, 'lead'))) ?></p>
     <?php if (tr($coaching, 'intro') !== '' || $coachItems): ?>
     <aside class="intro-coach">
-      <p class="intro-coach-title"><?= e($T['coaching_box']) ?></p>
+      <p class="mono eyebrow"><?= e($T['coaching_box']) ?></p>
       <?php if (tr($coaching, 'intro') !== ''): ?><p class="intro-coach-text"><?= e(tr($coaching, 'intro')) ?></p><?php endif; ?>
       <a class="more" href="#coaching"><?= e($T['coaching_more']) ?></a>
     </aside>
