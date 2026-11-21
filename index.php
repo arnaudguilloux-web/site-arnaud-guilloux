@@ -98,7 +98,7 @@ $T = [
         'coaching_big' => ['Le coaching.', 'Orienté performance.'],
         'coaching_cta' => 'Parler de votre objectif',
         'coaching_more' => 'Découvrir le coaching',
-        'worlds_badge' => 'Mondial',
+        'worlds_badge' => 'WC',
         'h_quotes'     => 'Témoignages',
         'quotes_big'   => ['Ce que disent', 'mes athlètes.'],
         'quotes_note'  => '',
@@ -149,7 +149,7 @@ $T = [
         'coaching_big' => ['Coaching.', 'Performance-driven.'],
         'coaching_cta' => 'Talk about your goal',
         'coaching_more' => 'Discover coaching',
-        'worlds_badge' => 'Worlds',
+        'worlds_badge' => 'WC',
         'h_quotes'     => 'Testimonials',
         'quotes_big'   => ['What my', 'athletes say.'],
         'quotes_note'  => 'Testimonials are shown in their original French.',
@@ -235,7 +235,7 @@ $n = 0; // numérotation des sections
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=22">
+<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=23">
 <script type="application/ld+json"><?= json_encode($jsonLd, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) ?></script>
 </head>
 <body>
@@ -370,7 +370,7 @@ $firstRows = 8; ?>
         <span class="rank"><?= rank_label(trim((string) ($r['rank'] ?? ''))) ?></span>
         <span class="what">
           <strong><?= e(loc($r, 'race')) ?></strong>
-          <?php if (!empty($r['worlds'])): ?><span class="badge"><?= e($T['worlds_badge']) ?></span><?php endif; ?>
+          <?php if (!empty($r['worlds'])): ?><span class="badge" title="<?= e(rtrim($T['worlds_big'][0], '.')) ?>"><?= e($T['worlds_badge']) ?></span><?php endif; ?>
           <?php if (loc($r, 'location') !== ''): ?><span class="where"><?= e(loc($r, 'location')) ?></span><?php endif; ?>
         </span>
         <span class="note"><?= e(tr($r, 'note')) ?></span>
