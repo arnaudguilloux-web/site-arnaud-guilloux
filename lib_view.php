@@ -159,8 +159,14 @@ function has_upcoming(array $c): bool
 function site_header(string $lang, array $home, array $self, array $c, string $current = '', bool $onHome = false): string
 {
     $labels = $lang === 'en'
-        ? ['palmares' => 'Results', 'coaching' => 'Coaching', 'partenaires' => 'Partners', 'calendrier' => 'Calendar', 'contact' => 'Contact']
-        : ['palmares' => 'Palmarès', 'coaching' => 'Coaching', 'partenaires' => 'Partenaires', 'calendrier' => 'Calendrier', 'contact' => 'Contact'];
+        ? ['palmares' => 'Results', 'coaching' => 'Coaching', 'partenaires' => 'Partners', 'calendrier' => 'Calendar', 'annonces' => 'My listings', 'contact' => 'Contact']
+        : ['palmares' => 'Palmarès', 'coaching' => 'Coaching', 'partenaires' => 'Partenaires', 'calendrier' => 'Calendrier', 'annonces' => 'Mes annonces', 'contact' => 'Contact'];
+    /* Lien externe « Mes annonces » : réglable dans l'admin (Réglages), sinon page d'accueil Troc-Vélo. */
+    $set     = $c['settings'] ?? [];
+    $adsUrl  = trim((string) ($set['ads_url_' . $lang] ?? ''));
+    if (!preg_match('#^https?://#i', $adsUrl)) {
+        $adsUrl = $lang === 'en' ? 'https://www.troc-velo.com/en' : 'https://www.troc-velo.com/fr-fr';
+    }
     if (!has_upcoming($c)) {
         unset($labels['calendrier']);
     }
@@ -172,6 +178,11 @@ function site_header(string $lang, array $home, array $self, array $c, string $c
     $h .= '<a class="brand" href="' . e($home[$lang]) . '">Arnaud <strong>Guilloux</strong></a>';
     $h .= '<nav class="nav" aria-label="Sections">';
     foreach ($labels as $id => $label) {
+        if ($id === 'annonces') {
+            $tip = $label . ($lang === 'en' ? ' — opens in a new tab' : ' — nouvel onglet');
+            $h  .= '<a href="' . e($adsUrl) . '" target="_blank" rel="noopener noreferrer" aria-label="' . e($tip) . '">' . e($label) . ext_icon_svg() . '</a>';
+            continue;
+        }
         if ($id === 'coaching' || ($id === 'palmares' && $current === 'palmares')) {
             $href = $base . $pages[$id] . $suffix;
         } else {

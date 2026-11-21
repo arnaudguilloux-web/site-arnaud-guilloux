@@ -113,6 +113,8 @@ $SCHEMA = [
         'facebook'      => ['Facebook (https://…)', 'url'],
         'x'             => ['X / Twitter (https://…)', 'url'],
         'linkedin'      => ['LinkedIn (https://…)', 'url'],
+        'ads_url_fr'    => ['Menu « Mes annonces » : lien en français (https://…)', 'url'],
+        'ads_url_en'    => ['Menu « My listings » : lien en anglais (https://…)', 'url'],
         'siret'         => ['SIRET (mentions légales)', 'text'],
     ]],
 ];
