@@ -70,7 +70,7 @@ section { padding-block: clamp(56px, 7vw, 96px); }
 .more:hover { text-decoration: underline; text-underline-offset: 4px; }
 
 /* ---------- Titres ---------- */
-h2 { font-weight: 700; font-size: clamp(1.6rem, 3.2vw, 2.25rem); line-height: 1.1; letter-spacing: -.035em; text-wrap: balance; }
+h2 { font-weight: 700; font-size: 24px; line-height: 1.1; letter-spacing: -.035em; text-wrap: balance; }
 h2.big { margin-bottom: clamp(28px, 4vw, 48px); max-width: 20em; }
 h2.big span { color: var(--text-3); }
 .feature-text { color: var(--text-2); font-size: clamp(1rem, 1.5vw, 1.125rem); line-height: 1.6; max-width: 36em; }
@@ -99,8 +99,6 @@ h1 { font-weight: 700; font-size: clamp(2rem, 4.2vw, 2.875rem); line-height: 1.0
 .hero .btn { min-height: 36px; padding: 0 14px; font-size: 13px; }
 .hero .btn { background: #fff; color: var(--ink); border-color: #fff; }
 .hero .btn:hover { background: var(--soft); border-color: var(--soft); }
-.hero .btn.glass { background: transparent; color: #fff; border-color: rgba(255, 255, 255, .55); }
-.hero .btn.glass:hover { background: rgba(255, 255, 255, .14); border-color: #fff; }
 .place { margin-top: 10px; font-size: 10px; letter-spacing: .14em; color: rgba(255, 255, 255, .72); }
 
 .intro { padding-block: clamp(40px, 5vw, 64px) clamp(56px, 7vw, 88px); }
