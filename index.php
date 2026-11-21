@@ -209,8 +209,8 @@ $n = 0; // numérotation des sections
           <p class="mono place">Nissa Triathlon · <?= e($T['place']) ?></p>
         </div>
         <div class="cta">
-          <a class="btn" href="#contact" data-contact="coaching"><?= e($T['cta_coaching']) ?></a>
           <a class="btn" href="#contact" data-contact="sponsoring"><?= e($T['cta_sponsor']) ?></a>
+          <a class="btn" href="#contact" data-contact="coaching"><?= e($T['cta_coaching']) ?></a>
         </div>
       </div>
     </div>
