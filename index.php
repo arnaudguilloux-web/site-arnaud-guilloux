@@ -2,6 +2,7 @@
 declare(strict_types=1);
 require __DIR__ . '/lib.php';
 require_once __DIR__ . '/lib_view.php';
+require_once __DIR__ . '/lib_social.php';
 require_once __DIR__ . '/lib_gallery.php';
 
 /* ---------- Langue et URLs ---------- */
@@ -189,7 +190,7 @@ $n = 0; // numérotation des sections
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=57">
+<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=58">
 <script type="application/ld+json"><?= json_encode($jsonLd, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) ?></script>
 </head>
 <body>
@@ -384,7 +385,7 @@ $renderForm = function (bool $withFlash) use ($T, $lang, $base, $sent): void { ?
       <p class="feature-text"><?= e($T['contact_lead']) ?></p>
       <?php if ($socials): ?>
       <ul class="socials">
-        <?php foreach ($socials as $label => $url): ?><li><a class="more" href="<?= e($url) ?>" rel="noopener me" target="_blank"><?= e($label) ?></a></li><?php endforeach; ?>
+        <?php foreach ($socials as $label => $url): ?><li><a class="more" href="<?= e($url) ?>" rel="noopener me" target="_blank"><?= social_icon_svg($label) ?><span><?= e($label) ?></span></a></li><?php endforeach; ?>
       </ul>
       <?php endif; ?>
     </div>
