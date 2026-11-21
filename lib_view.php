@@ -175,7 +175,8 @@ function highlights_section_html(array $slides, string $lang, string $base, stri
     $h .= '<p class="links"><a class="more" href="' . e($moreHref) . '">' . e($moreLabel) . '</a></p></div></div>';
     $h .= '<div class="carousel scar" id="' . $p . 'car" tabindex="0" aria-label="' . e($title) . '">';
     foreach ($slides as $sl) {
-        $h .= '<figure class="slide"><img src="' . e($base) . 'assets/img/' . e($sl[0]) . '.jpg" alt="" loading="lazy">'
+        $focus = isset($sl[6]) && preg_match('/^\d{1,3}% \d{1,3}%$/', (string) $sl[6]) ? ' style="object-position: ' . $sl[6] . '"' : '';
+        $h .= '<figure class="slide"><img src="' . e($base) . 'assets/img/' . e($sl[0]) . '.jpg" alt=""' . $focus . ' loading="lazy">'
             . '<figcaption><strong>' . e($sl[$en ? 3 : 1]) . '</strong><span>' . e($sl[$en ? 4 : 2]) . '</span></figcaption></figure>';
     }
     $h .= '</div><div class="wrap"><div class="qctrl">'
