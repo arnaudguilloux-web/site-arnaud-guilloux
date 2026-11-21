@@ -87,7 +87,6 @@ $T = [
         'pitch_title'  => 'Associez votre marque à la longue distance.',
         'pitch_text'   => 'Un athlète professionnel ancré en Bretagne et présent sur le circuit international. Visibilité en course, contenus, tests de matériel, interventions en entreprise : construisons un partenariat à votre mesure.',
         'pitch_points' => ['Visibilité en course et sur les réseaux', 'Retours terrain et tests de matériel', 'Interventions et sorties avec vos équipes'],
-        'pitch_cta'    => 'Parler d\'un partenariat',
         'h_calendar'   => 'Calendrier',
         'h_contact'    => 'Contact',
         'contact_lead' => 'Un projet sportif, une prestation à réserver ou un partenariat à imaginer : écrivez-moi.',
@@ -133,7 +132,6 @@ $T = [
         'pitch_title'  => 'Put your brand on the long-distance stage.',
         'pitch_text'   => 'A professional athlete rooted in Brittany and racing the international circuit. Race-day visibility, content, product testing, talks for your teams: let\'s build a partnership that fits you.',
         'pitch_points' => ['Visibility on race day and on social media', 'Field feedback and product testing', 'Talks and rides with your teams'],
-        'pitch_cta'    => 'Talk about a partnership',
         'h_calendar'   => 'Calendar',
         'h_contact'    => 'Contact',
         'contact_lead' => 'A sporting goal, a service to book or a partnership to shape: get in touch.',
@@ -308,7 +306,7 @@ $resultsUrl = $base . 'palmares.php' . ($lang === 'en' ? '?lang=en' : ''); ?>
         <ul>
           <?php foreach ($T['pitch_points'] as $pt): ?><li><?= e($pt) ?></li><?php endforeach; ?>
         </ul>
-        <a class="btn" href="#contact"><?= e($T['pitch_cta']) ?></a>
+        <a class="btn" href="#contact"><?= e($T['cta_sponsor']) ?></a>
       </div>
       <?php if (!empty($c['partners'])): ?>
       <ul class="partners">
