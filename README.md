@@ -1,37 +1,74 @@
 # Site Arnaud Guilloux
 
-Site vitrine bilingue (FR `/`, EN `/en/`) en PHP sans dépendance, pour hébergement mutualisé OVH.
+Site bilingue (FR `/`, EN `/en/`) en PHP sans dépendance, pour hébergement mutualisé OVH. Deux univers : **L'Athlète** (accueil) et **Le Coach** (`coaching.php`).
+
+## Pages
+
+| Page | Contenu |
+| --- | --- |
+| `index.php` | Accueil athlète : accroche, chiffres, Highlights (carrousel de photos de course), palmarès, calendrier, partenaires, contact |
+| `coaching.php` | Page coach : offres, Highlights (photos des stages et courses), 5 témoignages au hasard, contact |
+| `temoignages.php` | Tous les témoignages |
+| `galerie.php` | Toutes les photos, filtre Tout / Athlète / Coach, agrandissement en pop-in |
+| `palmares.php` | Palmarès complet |
+| `contact.php` | Envoi du formulaire de contact par e-mail |
+| `admin/` | Back office mobile (styles propres, en ligne dans `admin/index.php`) |
 
 ## Structure
 
 | Fichier | Rôle |
 | --- | --- |
-| `index.php` | Page publique (FR/EN), rendue côté serveur à partir du contenu |
+| `lib.php` | Chargement/sauvegarde du contenu, helpers (`e()`, pictos des chiffres et des offres) |
+| `lib_view.php` | Blocs partagés : en-tête et menu, pied de page, formulaire de contact, témoignages, carrousel Highlights |
+| `lib_gallery.php` | Liste des photos de la galerie (voir « Ajouter une photo ») |
+| `lib_pto.php` | Import du palmarès depuis Pro Triathlete Organisation (bouton dans le back office) |
+| `lib_social.php` | Liens et pictos des réseaux sociaux |
 | `assets/style.css` | Styles (thème clair, encre bleu nuit + accent marine, Inter). Couleurs, rayons et espacements se règlent dans `:root` |
-| `contact.php` | Envoi du formulaire de contact par e-mail |
-| `admin/` | Back office mobile (styles propres, en ligne dans `admin/index.php`) |
+| `assets/nav.js` | Menu : sous-menus au survol (bureau) ou au toucher (mobile), lien actif au défilement |
+| `assets/carousel.js` | Carrousels (Highlights, témoignages) |
+| `assets/lightbox.js` | Pop-in d'agrandissement de la galerie |
+| `assets/contact.js` | Envoi du formulaire sans rechargement |
+| `assets/img/` | Photos ; logos partenaires dans `assets/img/partners/` |
 | `data/content.default.json` | Contenu de départ, versionné |
 | `data/content.json` | Contenu en ligne, écrit par le back office (non versionné) |
 | `.github/workflows/deploy.yml` | Déploiement automatique vers OVH à chaque push sur `main` |
 
 ## Mise en ligne
 
-1. Créer un dépôt GitHub et y pousser ce dossier (branche `main`).
+1. Créer un dépôt GitHub et y pousser ce dossier. Le déploiement part de la branche `main` ; le travail courant se fait sur `develop` et n'est mis en ligne qu'une fois fusionné dans `main`.
 2. Dans le dépôt : *Settings → Secrets and variables → Actions*, créer `FTP_SERVER`, `FTP_USERNAME`, `FTP_PASSWORD` (identifiants FTP du manager OVH).
-3. Le push déclenche le déploiement dans `www/`. PHP 7.4 minimum (8.x recommandé, réglable dans le manager OVH).
+3. Le push sur `main` déclenche le déploiement dans `www/`. PHP 7.4 minimum (8.x recommandé, réglable dans le manager OVH).
 4. **Tout de suite après le premier déploiement**, ouvrir `https://votre-domaine/admin/` et créer le mot de passe du back office : tant que ce n'est pas fait, le premier visiteur de cette page peut le choisir.
 5. Dans *Réglages* : saisir l'e-mail de contact et les réseaux, puis, au lancement, désactiver « Site masqué des moteurs de recherche » une fois palmarès, tarifs et calendrier vérifiés (le site est en `noindex` tant que cette case est cochée).
 6. Une fois le certificat SSL actif, décommenter la redirection HTTPS dans `.htaccess`.
 
 ## Back office
 
-`/admin/` — rubriques : Calendrier, Palmarès, Mondiaux, Prestations, Partenaires, Chiffres, Accroche, Réglages.
+`/admin/` — onglets, dans l'ordre du site :
+
+- **L'Athlète** : Accroche, Chiffres, Palmarès, Partenaires, Calendrier
+- **Le Coach** : Coaching, Offres coaching, Témoignages
+- **Site** : Réglages
+
+Points utiles :
 
 - Le contenu saisi vit dans `data/content.json` sur le serveur ; les déploiements ne l'écrasent pas. La version précédente est gardée dans `data/content.bak.json`.
-- Mot de passe oublié : supprimer `data/admin.php` par FTP, puis rouvrir `/admin/`.
+- Le contenu en ligne **prime** sur `content.default.json` : une rubrique déjà enregistrée dans le back office n'est pas mise à jour par un changement du fichier de départ.
+- Offres coaching : un picto au choix par offre. Dans un prix, « · » provoque un retour à la ligne (ex. un prix par type de vélo).
+- Témoignages : le prénom peut être un lien facultatif vers la fiche Triathlon Lab de l'athlète. Le carrousel de la page coach tire 5 témoignages au hasard parmi ceux qui ont à la fois un chiffre clé et un titre (complété par les autres s'il en manque) ; « Tous les Témoignages » mène à la liste complète.
+- Mot de passe : stocké sous forme de hash dans `data/admin.php` (jamais versionné). Oublié : supprimer ce fichier par FTP, puis rouvrir `/admin/`.
 - Après 5 échecs de connexion, l'accès est bloqué 15 minutes.
+- Les photos ne se gèrent pas dans le back office (voir ci-dessous).
 
-Les textes fixes de l'interface (titres de sections, argumentaire sponsors, libellés du formulaire) sont dans le tableau `$T` de `index.php`.
+Les textes fixes de l'interface (titres de sections, libellés du formulaire) sont dans le tableau `$T` en tête de chaque page (`index.php`, `coaching.php`, …).
+
+## Ajouter une photo
+
+1. Préparer le .jpg : 1800 px maximum sur le grand côté, qualité ~82, sans métadonnées GPS/EXIF. Le déposer dans `assets/img/`.
+2. Ajouter une ligne dans `lib_gallery.php` : `[fichier sans .jpg, titre FR, légende FR, titre EN, légende EN, type, cadrage]`.
+   - `type` : `'athlete'` (carrousel de l'accueil) ou `'coach'` (carrousel de la page Coach). La galerie montre tout.
+   - `cadrage` (facultatif) : point de focus du carrousel, ex. `'50% 30%'`.
+3. Les carrousels affichent les 5 premières photos de leur type, dans l'ordre de la liste. Le lien « Highlights » du menu Le Coach n'apparaît que s'il y a au moins une photo `coach`.
 
 ## Aperçu local
 
@@ -40,3 +77,5 @@ Avec PHP installé :
 ```bash
 php -S localhost:8080
 ```
+
+Le back office local écrit dans `data/content.json` (ignoré par git).

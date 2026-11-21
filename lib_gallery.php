@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-/* Galerie : photos affichées dans « Temps forts » (10 premières) et sur la page galerie (toutes).
+/* Galerie : photos affichées dans les carrousels Highlights (5 premières de chaque type) et sur la page galerie (toutes).
    Ajouter une photo = déposer le .jpg dans assets/img/ et ajouter une ligne ci-dessous.
    Format : [fichier sans .jpg, titre FR, légende FR, titre EN, légende EN, type, cadrage facultatif]
    cadrage : object-position du carrousel (cadre 3:2) pour les photos verticales, ex. '50% 30%' (défaut : '50% 30%').
