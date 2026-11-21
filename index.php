@@ -67,6 +67,7 @@ $T = [
         'see_results'  => 'Voir le palmarès',
         'see_worlds'   => 'Les Mondiaux',
         'show_all'     => 'Afficher tout le palmarès',
+        'see_more'     => 'Voir plus…',
         'worlds_big'   => ['Championnat du monde IRONMAN.', '%d fois au départ.'],
         'h_coaching'   => 'Coaching',
         'coaching_big' => ['Le coaching.', 'Orienté performance.'],
@@ -111,6 +112,7 @@ $T = [
         'see_results'  => 'See the results',
         'see_worlds'   => 'World Championships',
         'show_all'     => 'Show all results',
+        'see_more'     => 'See more…',
         'worlds_big'   => ['IRONMAN World Championship.', '%d times on the start line.'],
         'h_coaching'   => 'Coaching',
         'coaching_big' => ['Coaching.', 'Performance-driven.'],
@@ -195,7 +197,7 @@ $n = 0; // numérotation des sections
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=40">
+<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=41">
 <script type="application/ld+json"><?= json_encode($jsonLd, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) ?></script>
 </head>
 <body>
@@ -288,18 +290,24 @@ $n = 0; // numérotation des sections
 
 <?php
 $rows      = results_rows($c);
-$firstRows = 8; ?>
+$firstRows = 10;
+$resultsUrl = $base . 'palmares.php' . ($lang === 'en' ? '?lang=en' : ''); ?>
 <?php if ($rows): ?>
 <section id="palmares">
   <div class="wrap">
-    <h2><?= e($T['h_results']) ?></h2>
+    <div class="head-row">
+      <h2><?= e($T['h_results']) ?></h2>
+      <?php if (count($rows) > $firstRows): ?>
+      <p class="links"><a class="more" href="<?= e($resultsUrl) ?>"><?= e($T['show_all']) ?> (<?= count($rows) ?>)</a></p>
+      <?php endif; ?>
+    </div>
     <ol class="rows results">
       <?php foreach (array_slice($rows, 0, $firstRows) as $r): ?>
       <?= result_li($r, rtrim($T['worlds_big'][0], '.'), $T['worlds_badge']) . "\n" ?>
       <?php endforeach; ?>
     </ol>
     <?php if (count($rows) > $firstRows): ?>
-    <a class="more show-all" href="<?= e($base) ?>palmares.php<?= $lang === 'en' ? '?lang=en' : '' ?>"><?= e($T['show_all']) ?> (<?= count($rows) ?>)</a>
+    <a class="see-more" href="<?= e($resultsUrl) ?>"><?= e($T['see_more']) ?></a>
     <?php endif; ?>
   </div>
 </section>
