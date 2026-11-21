@@ -168,7 +168,7 @@ $n = 0; // numérotation des sections
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=61">
+<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=62">
 <script type="application/ld+json"><?= json_encode($jsonLd, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) ?></script>
 </head>
 <body>
@@ -339,7 +339,7 @@ $resultsUrl = $base . 'palmares.php' . ($lang === 'en' ? '?lang=en' : ''); ?>
       <p class="feature-text"><?= e($T['contact_lead']) ?></p>
       <?php if ($socials): ?>
       <ul class="socials">
-        <?php foreach ($socials as $label => $url): ?><li><a class="more" href="<?= e($url) ?>" rel="noopener me" target="_blank"><?= social_icon_svg($label) ?><span><?= e($label) ?></span></a></li><?php endforeach; ?>
+        <?php foreach ($socials as $label => $url): ?><li><a class="more" href="<?= e($url) ?>" rel="noopener me" target="_blank"><?= e($label) ?></a></li><?php endforeach; ?>
       </ul>
       <?php endif; ?>
     </div>
