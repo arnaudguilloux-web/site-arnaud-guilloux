@@ -20,9 +20,9 @@ $hasCoach = count(gallery_items('coach')) > 0;
 $hasAthlete = count(gallery_items('athlete')) > 0;
 
 $T = [
-    'fr' => ['title' => 'Galerie — Arnaud Guilloux', 'h1' => 'Galerie', 'back' => 'Retour à l\'accueil', 'f_all' => 'Tout', 'f_athlete' => 'Athlète', 'f_coach' => 'Coach', 'f_label' => 'Filtrer par type',
+    'fr' => ['title' => 'Galerie — Arnaud Guilloux', 'h1' => 'Galerie', 'back' => 'Retour à l\'accueil', 'f_all' => 'Tout', 'f_athlete' => 'Athlète', 'f_coach' => 'Coach', 'f_label' => 'Filtrer par type', 'lb_zoom' => 'Agrandir', 'lb_close' => 'Fermer', 'lb_prev' => 'Photo précédente', 'lb_next' => 'Photo suivante',
              'legal' => 'Éditeur : Arnaud Guilloux, Saint-Renan (29). Hébergement : OVH SAS, 2 rue Kellermann, 59100 Roubaix.'],
-    'en' => ['title' => 'Gallery — Arnaud Guilloux', 'h1' => 'Gallery', 'back' => 'Back to home', 'f_all' => 'All', 'f_athlete' => 'Athlete', 'f_coach' => 'Coach', 'f_label' => 'Filter by type',
+    'en' => ['title' => 'Gallery — Arnaud Guilloux', 'h1' => 'Gallery', 'back' => 'Back to home', 'f_all' => 'All', 'f_athlete' => 'Athlete', 'f_coach' => 'Coach', 'f_label' => 'Filter by type', 'lb_zoom' => 'Enlarge', 'lb_close' => 'Close', 'lb_prev' => 'Previous photo', 'lb_next' => 'Next photo',
              'legal' => 'Publisher: Arnaud Guilloux, Saint-Renan, France. Hosting: OVH SAS, 2 rue Kellermann, 59100 Roubaix, France.'],
 ][$lang];
 ?>
@@ -40,7 +40,7 @@ $T = [
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=73">
+<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=74">
 </head>
 <body>
 <?= site_header($lang, $home, $self, $c, 'highlights') ?>
@@ -61,7 +61,9 @@ $T = [
     <div class="gallery">
       <?php foreach ($items as $g): ?>
       <figure>
-        <img src="<?= e($base) ?>assets/img/<?= e($g[0]) ?>.jpg" alt="<?= e($g[$lang === 'en' ? 3 : 1] . ' ' . $g[$lang === 'en' ? 4 : 2]) ?>" loading="lazy">
+        <button type="button" class="g-zoom" aria-label="<?= e($T['lb_zoom'] . ' : ' . $g[$lang === 'en' ? 3 : 1] . ' ' . $g[$lang === 'en' ? 4 : 2]) ?>">
+          <img src="<?= e($base) ?>assets/img/<?= e($g[0]) ?>.jpg" alt="<?= e($g[$lang === 'en' ? 3 : 1] . ' ' . $g[$lang === 'en' ? 4 : 2]) ?>" loading="lazy">
+        </button>
         <figcaption><strong><?= e($g[$lang === 'en' ? 3 : 1]) ?></strong><span><?= e($g[$lang === 'en' ? 4 : 2]) ?></span></figcaption>
       </figure>
       <?php endforeach; ?>
@@ -70,6 +72,17 @@ $T = [
 </section>
 </main>
 
+<dialog class="lightbox" id="lightbox" aria-label="<?= e($T['h1']) ?>">
+  <button type="button" class="lb-close" aria-label="<?= e($T['lb_close']) ?>">✕</button>
+  <button type="button" class="lb-nav lb-prev" aria-label="<?= e($T['lb_prev']) ?>">‹</button>
+  <figure class="lb-stage">
+    <img alt="">
+    <figcaption></figcaption>
+  </figure>
+  <button type="button" class="lb-nav lb-next" aria-label="<?= e($T['lb_next']) ?>">›</button>
+</dialog>
+
 <?= site_footer($T['legal'], $settings, $lang) ?>
+<script src="<?= e($base) ?>assets/lightbox.js?v=1"></script>
 </body>
 </html>
