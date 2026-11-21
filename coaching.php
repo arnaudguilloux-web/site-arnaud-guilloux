@@ -13,12 +13,13 @@ $c = load_content();
 $settings = $c['settings'] ?? [];
 $coaching = $c['coaching'] ?? [];
 $coachItems = coaching_items($c);
+$quotes = testimonials($c);
 $draft = ($settings['draft'] ?? '1') === '1';
 
 $T = [
-    'fr' => ['title' => 'Coaching — Arnaud Guilloux', 'back' => 'Retour à l\'accueil', 'h_coaching' => 'Coaching', 'big' => ['Le coaching.', 'Orienté performance.'], 'cta' => 'Parler de votre objectif',
+    'fr' => ['title' => 'Coaching — Arnaud Guilloux', 'back' => 'Retour à l\'accueil', 'h_coaching' => 'Coaching', 'big' => ['Le coaching.', 'Orienté performance.'], 'cta' => 'Parler de votre objectif', 'prev' => 'Précédent', 'next' => 'Suivant', 'h_quotes' => 'Témoignages', 'quotes_big' => ['Ce que disent', 'mes athlètes.'], 'quotes_note' => '',
              'legal' => 'Éditeur : Arnaud Guilloux, Saint-Renan (29). Hébergement : OVH SAS, 2 rue Kellermann, 59100 Roubaix.'],
-    'en' => ['title' => 'Coaching — Arnaud Guilloux', 'back' => 'Back to home', 'h_coaching' => 'Coaching', 'big' => ['Coaching.', 'Performance-driven.'], 'cta' => 'Talk about your goal',
+    'en' => ['title' => 'Coaching — Arnaud Guilloux', 'back' => 'Back to home', 'h_coaching' => 'Coaching', 'big' => ['Coaching.', 'Performance-driven.'], 'cta' => 'Talk about your goal', 'prev' => 'Previous', 'next' => 'Next', 'h_quotes' => 'Testimonials', 'quotes_big' => ['What my', 'athletes say.'], 'quotes_note' => 'Testimonials are shown in their original French.',
              'legal' => 'Publisher: Arnaud Guilloux, Saint-Renan, France. Hosting: OVH SAS, 2 rue Kellermann, 59100 Roubaix, France.'],
 ][$lang];
 ?>
@@ -73,6 +74,39 @@ $T = [
     </div>
   </div>
 </section>
+<?php if ($quotes): ?>
+<section id="temoignages" class="soft">
+  <div class="wrap">
+    <p class="eyebrow"><?= e($T['h_quotes']) ?></p>
+    <h2 class="big"><?= e($T['quotes_big'][0]) ?> <span><?= e($T['quotes_big'][1]) ?></span></h2>
+  </div>
+  <div class="carousel qcar" id="qcar" tabindex="0" aria-label="<?= e($T['h_quotes']) ?>">
+    <?php foreach ($quotes as $q):
+        $qname = trim((string) ($q['name'] ?? ''));
+        $qcity = trim((string) ($q['city'] ?? ''));
+        $qhl   = tr($q, 'highlight');
+        $qctx  = tr($q, 'context'); ?>
+    <figure class="qcard">
+      <?php if ($qhl !== ''): ?>
+      <div class="q-hl"><strong><?= e($qhl) ?></strong><?php if ($qctx !== ''): ?><span class="mono"><?= e($qctx) ?></span><?php endif; ?></div>
+      <?php endif; ?>
+      <blockquote lang="fr"><p>«&nbsp;<?= e(trim((string) $q['quote'])) ?>&nbsp;»</p></blockquote>
+      <?php if ($qname !== ''): ?><figcaption class="mono"><?= e($qname) ?><?= $qcity !== '' ? ' – ' . e($qcity) : '' ?></figcaption><?php endif; ?>
+    </figure>
+    <?php endforeach; ?>
+  </div>
+  <div class="wrap">
+    <div class="qctrl">
+      <button type="button" class="arrow" id="qprev" aria-label="<?= e($T['prev']) ?>">‹</button>
+      <div class="dots" id="qdots" aria-hidden="true">
+        <?php foreach ($quotes as $i => $q): ?><span<?= $i === 0 ? ' class="on"' : '' ?>></span><?php endforeach; ?>
+      </div>
+      <button type="button" class="arrow" id="qnext" aria-label="<?= e($T['next']) ?>">›</button>
+    </div>
+    <?php if ($T['quotes_note'] !== ''): ?><p class="mono quotes-note"><?= e($T['quotes_note']) ?></p><?php endif; ?>
+  </div>
+</section>
+<?php endif; ?>
 </main>
 
 <footer class="foot">
@@ -81,5 +115,9 @@ $T = [
     <p>© <?= date('Y') ?> Arnaud Guilloux</p>
   </div>
 </footer>
+<script src="<?= e($base) ?>assets/carousel.js?v=1"></script>
+<script>
+carousel('qcar', 'qdots', 'qprev', 'qnext', '.qcard');
+</script>
 </body>
 </html>

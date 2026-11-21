@@ -38,9 +38,7 @@ function club_link(string $html): string
 
 /* Coaching : lignes d'offres. Témoignages : seulement ceux qui ont une citation. */
 $coachItems = coaching_items($c);
-$quotes = array_values(array_filter($c['testimonials'] ?? [], static function ($q) {
-    return is_array($q) && trim((string) ($q['quote'] ?? '')) !== '';
-}));
+$quotes = testimonials($c);
 
 $months = [
     'fr' => ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.'],
@@ -315,39 +313,6 @@ $resultsUrl = $base . 'palmares.php' . ($lang === 'en' ? '?lang=en' : ''); ?>
 <?php if (tr($coaching, 'intro') !== '' || $coachItems): ?>
 <?php endif; ?>
 
-<?php if ($quotes): ?>
-<section id="temoignages" class="soft">
-  <div class="wrap">
-    <p class="eyebrow"><?= e($T['h_quotes']) ?></p>
-    <h2 class="big"><?= e($T['quotes_big'][0]) ?> <span><?= e($T['quotes_big'][1]) ?></span></h2>
-  </div>
-  <div class="carousel qcar" id="qcar" tabindex="0" aria-label="<?= e($T['h_quotes']) ?>">
-    <?php foreach ($quotes as $q):
-        $qname = trim((string) ($q['name'] ?? ''));
-        $qcity = trim((string) ($q['city'] ?? ''));
-        $qhl   = tr($q, 'highlight');
-        $qctx  = tr($q, 'context'); ?>
-    <figure class="qcard">
-      <?php if ($qhl !== ''): ?>
-      <div class="q-hl"><strong><?= e($qhl) ?></strong><?php if ($qctx !== ''): ?><span class="mono"><?= e($qctx) ?></span><?php endif; ?></div>
-      <?php endif; ?>
-      <blockquote lang="fr"><p>«&nbsp;<?= e(trim((string) $q['quote'])) ?>&nbsp;»</p></blockquote>
-      <?php if ($qname !== ''): ?><figcaption class="mono"><?= e($qname) ?><?= $qcity !== '' ? ' – ' . e($qcity) : '' ?></figcaption><?php endif; ?>
-    </figure>
-    <?php endforeach; ?>
-  </div>
-  <div class="wrap">
-    <div class="qctrl">
-      <button type="button" class="arrow" id="qprev" aria-label="<?= e($T['prev']) ?>">‹</button>
-      <div class="dots" id="qdots" aria-hidden="true">
-        <?php foreach ($quotes as $i => $q): ?><span<?= $i === 0 ? ' class="on"' : '' ?>></span><?php endforeach; ?>
-      </div>
-      <button type="button" class="arrow" id="qnext" aria-label="<?= e($T['next']) ?>">›</button>
-    </div>
-    <?php if ($T['quotes_note'] !== ''): ?><p class="mono quotes-note"><?= e($T['quotes_note']) ?></p><?php endif; ?>
-  </div>
-</section>
-<?php endif; ?>
 
 <section id="partenaires">
   <div class="wrap">
@@ -439,6 +404,7 @@ $resultsUrl = $base . 'palmares.php' . ($lang === 'en' ? '?lang=en' : ''); ?>
   </div>
 </footer>
 
+<script src="<?= e($base) ?>assets/carousel.js?v=1"></script>
 <script>
 (function () {
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -455,34 +421,8 @@ $resultsUrl = $base . 'palmares.php' . ($lang === 'en' ? '?lang=en' : ''); ?>
   addEventListener('resize', spy);
   spy();
 
-  /* Carrousels (Highlights, témoignages) */
-  function carousel(carId, dotsId, prevId, nextId, sel) {
-    var car = document.getElementById(carId), dots = document.getElementById(dotsId);
-    if (!car || !dots || !('IntersectionObserver' in window)) return;
-    var slides = car.querySelectorAll(sel), marks = dots.children;
-    Array.prototype.forEach.call(marks, function (m, i) {
-      m.addEventListener('click', function () { slides[i].scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', inline: 'center', block: 'nearest' }); });
-    });
-    var so = new IntersectionObserver(function (entries) {
-      entries.forEach(function (en) {
-        if (en.isIntersecting) {
-          var k = Array.prototype.indexOf.call(slides, en.target);
-          Array.prototype.forEach.call(marks, function (m, i) { m.classList.toggle('on', i === k); });
-        }
-      });
-    }, { root: car, threshold: 0.6 });
-    slides.forEach(function (s) { so.observe(s); });
-    [[prevId, -1], [nextId, 1]].forEach(function (a) {
-      var b = document.getElementById(a[0]);
-      if (!b) return;
-      b.addEventListener('click', function () {
-        var step = slides[0].getBoundingClientRect().width + 20;
-        car.scrollBy({ left: a[1] * step, behavior: reduce ? 'auto' : 'smooth' });
-      });
-    });
-  }
+  /* Carrousels (Highlights) : fonction carousel() dans assets/carousel.js */
   carousel('scar', 'sdots', 'sprev', 'snext', '.slide');
-  carousel('qcar', 'qdots', 'qprev', 'qnext', '.qcard');
 })();
 </script>
 </body>

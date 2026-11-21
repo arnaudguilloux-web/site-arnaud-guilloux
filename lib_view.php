@@ -124,3 +124,11 @@ function coaching_items(array $c): array
         return is_array($i) && trim((string) ($i['title_fr'] ?? '')) !== '';
     }));
 }
+
+/* Témoignages : seulement ceux qui ont une citation. */
+function testimonials(array $c): array
+{
+    return array_values(array_filter($c['testimonials'] ?? [], static function ($q) {
+        return is_array($q) && trim((string) ($q['quote'] ?? '')) !== '';
+    }));
+}
