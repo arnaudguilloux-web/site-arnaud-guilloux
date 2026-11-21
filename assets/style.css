@@ -356,3 +356,8 @@ html:has(dialog[open]) { overflow: hidden; }
 .head-row:has(.big) { margin-bottom: clamp(28px, 4vw, 48px); }
 /* Picto en haut des cartes d'offres */
 .offer-ico { display: grid; place-items: center; width: 40px; height: 40px; margin-bottom: 10px; border-radius: 10px; background: var(--soft); border: 1px solid var(--line); color: var(--accent); }
+/* Galerie : filtre par type (Tout / Athlète / Coach) */
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+.filters a { padding: 9px 16px; border: 1px solid var(--line); border-radius: 999px; background: var(--canvas); color: var(--text-2); font: 600 14px/1 var(--sans); text-decoration: none; transition: border-color .18s, color .18s; }
+.filters a:hover, .filters a:focus-visible { border-color: var(--accent); color: var(--ink); }
+.filters a[aria-current] { background: var(--ink); border-color: var(--ink); color: #fff; }

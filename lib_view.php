@@ -161,6 +161,33 @@ function testimonial_card_html(array $q, string $lang): string
     return $h . '</figure>';
 }
 
+/**
+ * Section « Highlights » : carrousel de photos + lien « Voir la Galerie » (accueil et page Coach).
+ * $slides : lignes de gallery_items() ; $p : préfixe des ids du carrousel (ex. « s » → scar, sdots, sprev, snext).
+ */
+function highlights_section_html(array $slides, string $lang, string $base, string $title, string $moreHref, string $moreLabel, string $prev, string $next, string $p = 's'): string
+{
+    if (!$slides) {
+        return '';
+    }
+    $en = $lang === 'en';
+    $h  = '<section class="highlights" id="highlights"><div class="wrap"><div class="head-row"><h2>' . e($title) . '</h2>';
+    $h .= '<p class="links"><a class="more" href="' . e($moreHref) . '">' . e($moreLabel) . '</a></p></div></div>';
+    $h .= '<div class="carousel scar" id="' . $p . 'car" tabindex="0" aria-label="' . e($title) . '">';
+    foreach ($slides as $sl) {
+        $h .= '<figure class="slide"><img src="' . e($base) . 'assets/img/' . e($sl[0]) . '.jpg" alt="" loading="lazy">'
+            . '<figcaption><strong>' . e($sl[$en ? 3 : 1]) . '</strong><span>' . e($sl[$en ? 4 : 2]) . '</span></figcaption></figure>';
+    }
+    $h .= '</div><div class="wrap"><div class="qctrl">'
+        . '<button type="button" class="arrow" id="' . $p . 'prev" aria-label="' . e($prev) . '">‹</button>'
+        . '<div class="dots" id="' . $p . 'dots" aria-hidden="true">';
+    foreach ($slides as $i => $_) {
+        $h .= '<span' . ($i === 0 ? ' class="on"' : '') . '></span>';
+    }
+    $h .= '</div><button type="button" class="arrow" id="' . $p . 'next" aria-label="' . e($next) . '">›</button></div></div></section>';
+    return $h;
+}
+
 /** Picto « s'ouvre dans un nouvel onglet » (partagé : palmarès, partenaires). */
 function ext_icon_svg(): string
 {

@@ -142,7 +142,7 @@ $jsonLd = [
     'sameAs'       => array_values($socials),
 ];
 
-$slides = array_slice(gallery_items(), 0, 5); // carrousel Highlights : 5 premières photos (la galerie montre tout)
+$slides = array_slice(gallery_items('athlete'), 0, 5); // carrousel Highlights : 5 premières photos « athlète » (la galerie montre tout)
 $n = 0; // numérotation des sections
 ?>
 <!doctype html>
@@ -164,7 +164,7 @@ $n = 0; // numérotation des sections
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=72">
+<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=73">
 <script type="application/ld+json"><?= json_encode($jsonLd, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) ?></script>
 </head>
 <body>
@@ -214,33 +214,7 @@ $n = 0; // numérotation des sections
   <?php endif; ?>
 </div>
 
-<section class="highlights" id="highlights">
-  <div class="wrap">
-    <div class="head-row">
-      <h2><?= e($T['h_highlights']) ?></h2>
-      <p class="links">
-        <a class="more" href="<?= e($base) ?>galerie.php<?= $lang === 'en' ? '?lang=en' : '' ?>"><?= e($T['see_gallery']) ?></a>
-      </p>
-    </div>
-  </div>
-  <div class="carousel scar" id="scar" tabindex="0" aria-label="<?= e($T['h_highlights']) ?>">
-    <?php foreach ($slides as $sl): ?>
-    <figure class="slide">
-      <img src="<?= e($base) ?>assets/img/<?= e($sl[0]) ?>.jpg" alt="" loading="lazy">
-      <figcaption><strong><?= e($sl[$lang === 'en' ? 3 : 1]) ?></strong><span><?= e($sl[$lang === 'en' ? 4 : 2]) ?></span></figcaption>
-    </figure>
-    <?php endforeach; ?>
-  </div>
-  <div class="wrap">
-    <div class="qctrl">
-      <button type="button" class="arrow" id="sprev" aria-label="<?= e($T['prev']) ?>">‹</button>
-      <div class="dots" id="sdots" aria-hidden="true">
-        <?php foreach ($slides as $i => $sl): ?><span<?= $i === 0 ? ' class="on"' : '' ?>></span><?php endforeach; ?>
-      </div>
-      <button type="button" class="arrow" id="snext" aria-label="<?= e($T['next']) ?>">›</button>
-    </div>
-  </div>
-</section>
+<?= highlights_section_html($slides, $lang, $base, $T['h_highlights'], $base . 'galerie.php?type=athlete' . ($lang === 'en' ? '&lang=en' : ''), $T['see_gallery'], $T['prev'], $T['next'], 's') ?>
 
 <?php
 $rows      = results_rows($c);

@@ -2,6 +2,7 @@
 declare(strict_types=1);
 require __DIR__ . '/lib.php';
 require_once __DIR__ . '/lib_view.php';
+require_once __DIR__ . '/lib_gallery.php';
 
 $lang = (($_GET['lang'] ?? '') === 'en') ? 'en' : 'fr';
 $base = base_path(dirname((string) ($_SERVER['SCRIPT_NAME'] ?? '/coaching.php')));
@@ -22,18 +23,19 @@ $others   = array_values(array_filter($allQuotes, static function ($q) { return 
 shuffle($featured);
 shuffle($others);
 $quotes = array_slice(array_merge($featured, $others), 0, 5);
+$coachSlides = array_slice(gallery_items('coach'), 0, 5);   /* Highlights du Coach : 5 premières photos « coach » */
 $draft = ($settings['draft'] ?? '1') === '1';
 
 $T = [
     'fr' => ['title' => 'Coaching — Arnaud Guilloux', 'kicker' => 'Arnaud Guilloux · Triathlète professionnel', 'h1' => 'Le Coaching', 'place' => 'Orienté performance',
              'alt' => 'Arnaud Guilloux en course à pied sur le Challenge Roth', 'cta' => 'Parler de votre objectif',
              'h_offers' => 'Offres', 'offers_big' => ['Ce que', 'je propose.'], 'card_cta' => 'Me contacter',
-             'h_quotes' => 'Témoignages', 'quotes_big' => ['Ce que disent', 'mes athlètes.'], 'quotes_note' => '', 'all_quotes' => 'Tous les Témoignages', 'prev' => 'Précédent', 'next' => 'Suivant',
+             'h_highlights' => 'Highlights', 'see_gallery' => 'Voir la Galerie', 'h_quotes' => 'Témoignages', 'quotes_big' => ['Ce que disent', 'mes athlètes.'], 'quotes_note' => '', 'all_quotes' => 'Tous les Témoignages', 'prev' => 'Précédent', 'next' => 'Suivant',
              'legal' => 'Éditeur : Arnaud Guilloux, Saint-Renan (29). Hébergement : OVH SAS, 2 rue Kellermann, 59100 Roubaix.'],
     'en' => ['title' => 'Coaching — Arnaud Guilloux', 'kicker' => 'Arnaud Guilloux · Professional triathlete', 'h1' => 'Coaching', 'place' => 'Performance-driven',
              'alt' => 'Arnaud Guilloux running at Challenge Roth', 'cta' => 'Talk about your goal',
              'h_offers' => 'Offers', 'offers_big' => ['What', 'I offer.'], 'card_cta' => 'Get in touch',
-             'h_quotes' => 'Testimonials', 'quotes_big' => ['What my', 'athletes say.'], 'quotes_note' => 'Testimonials are shown in their original French.', 'all_quotes' => 'All Testimonials', 'prev' => 'Previous', 'next' => 'Next',
+             'h_highlights' => 'Highlights', 'see_gallery' => 'See the Gallery', 'h_quotes' => 'Testimonials', 'quotes_big' => ['What my', 'athletes say.'], 'quotes_note' => 'Testimonials are shown in their original French.', 'all_quotes' => 'All Testimonials', 'prev' => 'Previous', 'next' => 'Next',
              'legal' => 'Publisher: Arnaud Guilloux, Saint-Renan, France. Hosting: OVH SAS, 2 rue Kellermann, 59100 Roubaix, France.'],
 ][$lang];
 $F = contact_strings($lang);
@@ -52,7 +54,7 @@ $F = contact_strings($lang);
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=72">
+<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=73">
 </head>
 <body>
 <?= site_header($lang, $home, $self, $c, 'coaching') ?>
@@ -102,6 +104,8 @@ $F = contact_strings($lang);
 </section>
 <?php endif; ?>
 
+<?= highlights_section_html($coachSlides, $lang, $base, $T['h_highlights'], $base . 'galerie.php?type=coach' . ($lang === 'en' ? '&lang=en' : ''), $T['see_gallery'], $T['prev'], $T['next'], 'c') ?>
+
 <?php if ($quotes): ?>
 <section id="temoignages">
   <div class="wrap">
@@ -140,6 +144,7 @@ $F = contact_strings($lang);
 <script src="<?= e($base) ?>assets/carousel.js?v=2"></script>
 <script>
 carousel('qcar', 'qdots', 'qprev', 'qnext', '.qcard');
+carousel('ccar', 'cdots', 'cprev', 'cnext', '.slide');
 </script>
 </body>
 </html>
