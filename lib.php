@@ -85,6 +85,27 @@ function stat_icons(): array
     ];
 }
 
+/* Pictos des cartes « Offres » du coaching : clé => [libellé pour le back office, tracés SVG (24 x 24, trait)]. */
+function offer_icons(): array
+{
+    return [
+        'plan'   => ['Plan d\'entraînement', '<rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1M9 11.5l2 2 4-4M9 17.5h6"/>'],
+        'camp'   => ['Stage', '<path d="M2.5 20.5L12 4l9.5 16.5M12 4v16.5M8.5 20.5l3.5-6.5 3.5 6.5"/>'],
+        'test'   => ['Test (effort, mesure)', '<path d="M3 12h4l2.5-6 4 12 2.5-6H21"/>'],
+        'bike'   => ['Vélo', '<circle cx="6" cy="16.5" r="3.5"/><circle cx="18" cy="16.5" r="3.5"/><path d="M6 16.5l4-8h5l3 8M10 8.5l3 8M9 8.5H7M15 8.5L14 6h2"/>'],
+        'target' => ['Objectif', '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2"/>'],
+    ];
+}
+
+function offer_icon_svg(string $key): string
+{
+    $icons = offer_icons();
+    if (!isset($icons[$key])) {
+        return '';
+    }
+    return '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" focusable="false" aria-hidden="true">' . $icons[$key][1] . '</svg>';
+}
+
 function stat_icon_svg(string $key): string
 {
     $icons = stat_icons();

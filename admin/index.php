@@ -93,6 +93,7 @@ $SCHEMA = [
         'detail_en' => ['Précision (EN) — facultatif', 'text'],
         'price_fr'  => ['Tarif (FR)', 'text'],
         'price_en'  => ['Tarif (EN)', 'text'],
+        'icon'      => ['Picto', 'select_offer'],
     ]],
     'testimonials' => ['label' => 'Témoignages', 'type' => 'list', 'title' => 'name', 'sub' => 'city',
         'help' => 'Chaque carte : un fait marquant en gros (ex. « 9h06 »), son contexte, puis la citation telle que l\'athlète l\'a écrite (un extrait, on ne réécrit pas ses mots). Signature affichée : « Prénom – Ville » (ville facultative). Ne publier qu\'avec l\'accord de l\'athlète.',
@@ -152,9 +153,9 @@ function field(string $name, array $def, string $value): string
     $h = '<label><span>' . e($label) . '</span>';
     if ($type === 'textarea') {
         $h .= '<textarea name="' . e($name) . '" rows="4">' . e($value) . '</textarea>';
-    } elseif ($type === 'select') {
+    } elseif ($type === 'select' || $type === 'select_offer') {
         $h .= '<select name="' . e($name) . '"><option value="">Aucun</option>';
-        foreach (stat_icons() as $k => $ic) {
+        foreach ($type === 'select' ? stat_icons() : offer_icons() as $k => $ic) {
             $h .= '<option value="' . e($k) . '"' . ($value === $k ? ' selected' : '') . '>' . e($ic[0]) . '</option>';
         }
         $h .= '</select>';

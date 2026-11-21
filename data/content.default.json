@@ -1099,7 +1099,8 @@
       "detail_fr": "Suivi et échanges réguliers inclus",
       "detail_en": "Regular follow-up and exchanges included",
       "price_fr": "Sur demande",
-      "price_en": "On request"
+      "price_en": "On request",
+      "icon": "plan"
     },
     {
       "title_fr": "Stages",
@@ -1107,7 +1108,8 @@
       "detail_fr": "",
       "detail_en": "",
       "price_fr": "Sur demande",
-      "price_en": "On request"
+      "price_en": "On request",
+      "icon": "camp"
     },
     {
       "title_fr": "Tests physiologiques",
@@ -1115,7 +1117,8 @@
       "detail_fr": "VO2 et lactate",
       "detail_en": "VO2 and lactate",
       "price_fr": "À partir de 190 €",
-      "price_en": "From €190"
+      "price_en": "From €190",
+      "icon": "test"
     },
     {
       "title_fr": "Bike fitting",
@@ -1123,7 +1126,8 @@
       "detail_fr": "Étude posturale",
       "detail_en": "Postural study",
       "price_fr": "À partir de 150 € vélo de route · 200 € vélo de chrono",
-      "price_en": "From €150 road bike · €200 TT bike"
+      "price_en": "From €150 road bike · €200 TT bike",
+      "icon": "bike"
     }
   ]
 }

@@ -47,7 +47,7 @@ $F = contact_strings($lang);
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=71">
+<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=72">
 </head>
 <body>
 <?= site_header($lang, $home, $self, $c, 'coaching') ?>
@@ -85,6 +85,7 @@ $F = contact_strings($lang);
     <ul class="offer-cards">
       <?php foreach ($coachItems as $it): ?>
       <li class="offer-card">
+        <?php if (($oico = offer_icon_svg((string) ($it['icon'] ?? ''))) !== ''): ?><span class="offer-ico"><?= $oico ?></span><?php endif; ?>
         <h3><?= e(tr($it, 'title')) ?></h3>
         <?php if (tr($it, 'detail') !== ''): ?><p class="offer-detail"><?= e(tr($it, 'detail')) ?></p><?php endif; ?>
         <?php if (tr($it, 'price') !== ''): ?><p class="offer-price"><?= e(tr($it, 'price')) ?></p><?php endif; ?>
