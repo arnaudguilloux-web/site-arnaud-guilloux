@@ -196,18 +196,6 @@ function ext_icon_svg(): string
     return '<svg class="ext" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14 4h6v6"/><path d="M20 4l-9 9"/><path d="M18 14v4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4"/></svg>';
 }
 
-/** Y a-t-il au moins une course à venir ? (le lien « Calendrier » n'existe alors que dans ce cas) */
-function has_upcoming(array $c): bool
-{
-    $today = date('Y-m-d');
-    foreach ($c['calendar'] ?? [] as $ev) {
-        if (is_array($ev) && preg_match('/^\d{4}-\d{2}-\d{2}$/', (string) ($ev['date'] ?? '')) && $ev['date'] >= $today) {
-            return true;
-        }
-    }
-    return false;
-}
-
 /**
  * En-tête commun à toutes les pages : marque, menu, bascule FR/EN.
  * Menu : « L'Athlète » et « Le Coach » (sous-menus d'ancres vers les sections), « Mes Annonces » (lien externe).

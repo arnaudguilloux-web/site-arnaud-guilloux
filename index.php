@@ -20,7 +20,6 @@ $settings = $c['settings'] ?? [];
 $hero     = $c['hero'] ?? [];
 $coaching = $c['coaching'] ?? [];
 $draft    = ($settings['draft'] ?? '1') === '1';
-$email    = trim((string) ($settings['contact_email'] ?? ''));
 $sent     = $_GET['sent'] ?? null;
 
 /* Transforme la première mention du club (dans un texte déjà échappé) en lien vers le site du club. */
@@ -37,9 +36,8 @@ function club_link(string $html): string
 }
 
 
-/* Coaching : lignes d'offres. Témoignages : seulement ceux qui ont une citation. */
+/* Coaching : lignes d'offres */
 $coachItems = coaching_items($c);
-$quotes = testimonials($c);
 
 $months = [
     'fr' => ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.'],
@@ -62,21 +60,13 @@ $T = [
         'description'  => 'Arnaud Guilloux, triathlète professionnel longue distance (Nissa Triathlon), basé à Saint-Renan. Coaching, tests physiologiques, bike fitting et partenariats.',
         'h_highlights' => 'Highlights',
         'see_gallery'  => 'Voir la Galerie',
-        'see_results'  => 'Voir le palmarès',
-        'see_worlds'   => 'Les Mondiaux',
         'show_all'     => 'Afficher le Palmarès',
         'see_more'     => 'Voir plus…',
         'new_tab'      => 'nouvel onglet',
         'worlds_big'   => ['Championnat du monde IRONMAN.', '%d fois au départ.'],
-        'h_coaching'   => 'Coaching',
-        'coaching_big' => ['Le coaching.', 'Orienté performance.'],
         'coaching_box' => 'Coaching – Orienté performance',
-        'coaching_cta' => 'Parler de votre objectif',
         'coaching_more' => 'Découvrir le Coaching',
         'worlds_badge' => 'WC',
-        'h_quotes'     => 'Témoignages',
-        'quotes_big'   => ['Ce que disent', 'mes athlètes.'],
-        'quotes_note'  => '',
         'prev'         => 'Précédent',
         'next'         => 'Suivant',
         'alt_hero'     => 'Arnaud Guilloux à vélo entre deux haies de spectateurs au Challenge Roth',
@@ -96,21 +86,13 @@ $T = [
         'description'  => 'Arnaud Guilloux, professional long-distance triathlete (Nissa Triathlon), based in Saint-Renan, Brittany. Coaching, physiological testing, bike fitting and partnerships.',
         'h_highlights' => 'Highlights',
         'see_gallery'  => 'See the Gallery',
-        'see_results'  => 'See the results',
-        'see_worlds'   => 'World Championships',
         'show_all'     => 'Show Results',
         'see_more'     => 'See more…',
         'new_tab'      => 'opens in a new tab',
         'worlds_big'   => ['IRONMAN World Championship.', '%d times on the start line.'],
-        'h_coaching'   => 'Coaching',
-        'coaching_big' => ['Coaching.', 'Performance-driven.'],
         'coaching_box' => 'Coaching – Performance-driven',
-        'coaching_cta' => 'Talk about your goal',
         'coaching_more' => 'Discover Coaching',
         'worlds_badge' => 'WC',
-        'h_quotes'     => 'Testimonials',
-        'quotes_big'   => ['What my', 'athletes say.'],
-        'quotes_note'  => 'Testimonials are shown in their original French.',
         'prev'         => 'Previous',
         'next'         => 'Next',
         'alt_hero'     => 'Arnaud Guilloux riding between two walls of spectators at Challenge Roth',
@@ -143,7 +125,6 @@ $jsonLd = [
 ];
 
 $slides = array_slice(gallery_items('athlete'), 0, 5); // carrousel Highlights : 5 premières photos « athlète » (la galerie montre tout)
-$n = 0; // numérotation des sections
 ?>
 <!doctype html>
 <html lang="<?= $lang ?>">
@@ -164,7 +145,7 @@ $n = 0; // numérotation des sections
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=75">
+<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=76">
 <script type="application/ld+json"><?= json_encode($jsonLd, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) ?></script>
 </head>
 <body>

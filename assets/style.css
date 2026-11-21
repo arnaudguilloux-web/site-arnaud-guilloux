@@ -37,7 +37,6 @@ img { display: block; max-width: 100%; }
 
 .wrap { max-width: 1200px; margin: 0 auto; padding-inline: var(--gutter); }
 section { padding-block: clamp(36px, 4.5vw, 56px); }
-.soft { background: var(--soft); border-block: 1px solid var(--line); }
 /* Alternance de fond automatique entre les sections de la home (robuste aux sections masquées) */
 .hero ~ section:nth-of-type(even) { background: var(--soft); border-block: 1px solid var(--line); }
 
@@ -126,7 +125,6 @@ h1 { font-weight: 700; font-size: clamp(2rem, 4.2vw, 2.875rem); line-height: 1.0
 .intro-grid { display: grid; grid-template-columns: 2fr 1fr; gap: clamp(16px, 2vw, 24px); align-items: stretch; }
 .intro-coach { display: flex; flex-direction: column; align-items: flex-start; gap: 10px; padding: clamp(20px, 2.4vw, 28px); background: var(--accent-soft); border-radius: var(--r-card); }
 .intro-coach .eyebrow { margin-bottom: 0; color: var(--ink); }
-.intro-coach-title { font-weight: 700; font-size: clamp(1.0625rem, 1.5vw, 1.25rem); line-height: 1.25; letter-spacing: -.015em; color: var(--ink); }
 .intro-coach-text { font-size: 14px; line-height: 1.55; color: var(--text-2); }
 .intro-coach .more { margin-top: 4px; }
 .lead a { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
@@ -174,21 +172,8 @@ h1 { font-weight: 700; font-size: clamp(2rem, 4.2vw, 2.875rem); line-height: 1.0
 .calendar time b { font-weight: 700; font-size: 1.75rem; line-height: 1; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
 .tag { border: 1px solid var(--line-strong); border-radius: 4px; padding: 4px 8px; white-space: nowrap; color: var(--text-2); }
 
-/* ---------- Mondiaux ---------- */
-.duo { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(12px, 2vw, 20px); }
-.duo figure { height: clamp(300px, 56vh, 560px); overflow: hidden; border-radius: var(--r-card); border: 1px solid var(--line); background: var(--canvas); }
-.duo img { width: 100%; height: 100%; object-fit: cover; }
-.duo figure:first-child img { object-position: 50% 62%; }
-.duo figure:last-child img { object-position: 50% 30%; }
+/* ---------- Palmarès ---------- */
 #palmares .rows { margin-top: clamp(24px, 3.5vw, 40px); }
-.qualifs { margin-top: 20px; border-top: 1px solid var(--line); }
-.qualifs li { display: grid; grid-template-columns: 6ch 1fr auto; align-items: baseline; gap: 4px clamp(14px, 3vw, 32px); padding-block: 15px; border-bottom: 1px solid var(--line); }
-.q-year { font-weight: 700; font-size: 1.375rem; line-height: 1; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
-.q-what { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 12px; }
-.q-what strong { font-weight: 600; font-size: 1.0625rem; line-height: 1.3; }
-.q-what span { color: var(--text-2); font-size: 14px; }
-
-/* ---------- Coaching ---------- */
 
 /* ---------- Témoignages (carrousel) ---------- */
 .carousel {
@@ -263,18 +248,15 @@ form .btn { align-self: flex-start; }
   .has-sub { position: static; }
   .sub { left: 0; right: 0; min-width: 0; }
   html { scroll-padding-top: 104px; }
-  .pitch, .contact, .duo, .intro-grid { grid-template-columns: 1fr; }
+  .pitch, .contact, .intro-grid { grid-template-columns: 1fr; }
   .stats { grid-template-columns: repeat(2, 1fr); }
   .stats > div:nth-child(3n+1) { border-left: 1px solid var(--line); padding-left: 16px; }
   .stats > div:nth-child(2n+1) { border-left: 0; padding-left: 0; }
-  .duo figure { height: 52vh; }
   .results li { grid-template-columns: 5ch 1fr; }
   .results .year { grid-column: 1 / -1; }
   .results .note, .calendar .note, .calendar .tag { grid-column: 2; justify-self: start; }
   .note:empty { display: none; }
   .calendar li { grid-template-columns: 9ch 1fr; }
-  .qualifs li { grid-template-columns: 5ch 1fr; }
-  .qualifs .note { grid-column: 2; }
   .cta .btn { flex: 1 1 auto; }
   .hero-panel { min-height: 56svh; }
   .hero-bg { object-position: 47% 40%; }
