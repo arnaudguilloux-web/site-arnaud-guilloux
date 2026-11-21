@@ -127,7 +127,7 @@ $F = contact_strings($lang);
 </section>
 <?php endif; ?>
 
-<?= contact_section_html($F, $lang, $base, null, social_links($settings)) ?>
+<?= contact_section_html($F, $lang, $base, null, social_links($settings), 'coaching') ?>
 </main>
 
 <?= contact_dialog_html($F, $lang, $base) ?>

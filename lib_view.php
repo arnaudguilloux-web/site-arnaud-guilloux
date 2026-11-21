@@ -281,7 +281,7 @@ function contact_strings(string $lang): array
 }
 
 /** Formulaire de contact (section Contact de l'accueil et popin). $withFlash : affiche le résultat d'un envoi sans JavaScript (?sent=). */
-function contact_form_html(array $F, string $lang, string $base, ?string $sent, bool $withFlash): string
+function contact_form_html(array $F, string $lang, string $base, ?string $sent, bool $withFlash, string $topic = ''): string
 {
     $h = '<form class="card" method="post" action="' . e($base) . 'contact.php">';
     if ($withFlash && $sent === '1') {
@@ -296,7 +296,7 @@ function contact_form_html(array $F, string $lang, string $base, ?string $sent, 
     $h .= '<label><span>' . e($F['f_email']) . '</span><input type="email" name="email" required maxlength="160" autocomplete="email"></label>';
     $h .= '<label><span>' . e($F['f_topic']) . '</span><select name="topic">';
     foreach ($F['topics'] as $val => $label) {
-        $h .= '<option value="' . e((string) $val) . '">' . e($label) . '</option>';
+        $h .= '<option value="' . e((string) $val) . '"' . ((string) $val === $topic ? ' selected' : '') . '>' . e($label) . '</option>';
     }
     $h .= '</select></label>';
     $h .= '<label><span>' . e($F['f_message']) . '</span><textarea name="message" rows="5" required maxlength="5000"></textarea></label>';
@@ -317,8 +317,8 @@ function contact_dialog_html(array $F, string $lang, string $base): string
         . '<script src="' . e($base) . 'assets/contact.js?v=1" defer></script>';
 }
 
-/** Section Contact (identique sur l'accueil et la page Coaching) : texte, réseaux sociaux, formulaire. */
-function contact_section_html(array $F, string $lang, string $base, ?string $sent, array $socials): string
+/** Section Contact (identique sur l'accueil et la page Coaching) : texte, réseaux sociaux, formulaire. $topic : sujet présélectionné. */
+function contact_section_html(array $F, string $lang, string $base, ?string $sent, array $socials, string $topic = ''): string
 {
     $h = '<section id="contact"><div class="wrap contact"><div>'
        . '<h2>' . e($F['h_contact']) . '</h2>'
@@ -330,6 +330,6 @@ function contact_section_html(array $F, string $lang, string $base, ?string $sen
         }
         $h .= '</ul>';
     }
-    return $h . '</div>' . contact_form_html($F, $lang, $base, $sent, true) . '</div></section>';
+    return $h . '</div>' . contact_form_html($F, $lang, $base, $sent, true, $topic) . '</div></section>';
 }
 

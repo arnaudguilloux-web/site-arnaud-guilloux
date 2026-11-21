@@ -328,7 +328,7 @@ $resultsUrl = $base . 'palmares.php' . ($lang === 'en' ? '?lang=en' : ''); ?>
 </section>
 <?php endif; ?>
 
-<?= contact_section_html($F, $lang, $base, $sent === null ? null : (string) $sent, $socials) ?>
+<?= contact_section_html($F, $lang, $base, $sent === null ? null : (string) $sent, $socials, 'sponsoring') ?>
 </main>
 
 <?= site_footer($T['legal'], $settings, $lang) ?>
