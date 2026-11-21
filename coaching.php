@@ -17,11 +17,20 @@ $quotes = testimonials($c);
 $draft = ($settings['draft'] ?? '1') === '1';
 
 $T = [
-    'fr' => ['title' => 'Coaching — Arnaud Guilloux', 'back' => 'Retour à l\'accueil', 'h_coaching' => 'Coaching', 'big' => ['Le coaching.', 'Orienté performance.'], 'cta' => 'Parler de votre objectif', 'prev' => 'Précédent', 'next' => 'Suivant', 'h_quotes' => 'Témoignages', 'quotes_big' => ['Ce que disent', 'mes athlètes.'], 'quotes_note' => '',
+    'fr' => ['title' => 'Coaching — Arnaud Guilloux', 'kicker' => 'Arnaud Guilloux · Triathlète professionnel', 'h1' => 'Le Coaching', 'place' => 'Orienté performance',
+             'alt' => 'Arnaud Guilloux en course à pied sur le Challenge Roth', 'cta' => 'Parler de votre objectif',
+             'h_offers' => 'Offres', 'offers_big' => ['Ce que', 'je propose.'], 'card_cta' => 'Me contacter',
+             'h_quotes' => 'Témoignages', 'quotes_big' => ['Ce que disent', 'mes athlètes.'], 'quotes_note' => '', 'prev' => 'Précédent', 'next' => 'Suivant',
+             'h_final' => 'Contact', 'final_big' => ['Un objectif en tête ?', 'Parlons-en.'],
              'legal' => 'Éditeur : Arnaud Guilloux, Saint-Renan (29). Hébergement : OVH SAS, 2 rue Kellermann, 59100 Roubaix.'],
-    'en' => ['title' => 'Coaching — Arnaud Guilloux', 'back' => 'Back to home', 'h_coaching' => 'Coaching', 'big' => ['Coaching.', 'Performance-driven.'], 'cta' => 'Talk about your goal', 'prev' => 'Previous', 'next' => 'Next', 'h_quotes' => 'Testimonials', 'quotes_big' => ['What my', 'athletes say.'], 'quotes_note' => 'Testimonials are shown in their original French.',
+    'en' => ['title' => 'Coaching — Arnaud Guilloux', 'kicker' => 'Arnaud Guilloux · Professional triathlete', 'h1' => 'Coaching', 'place' => 'Performance-driven',
+             'alt' => 'Arnaud Guilloux running at Challenge Roth', 'cta' => 'Talk about your goal',
+             'h_offers' => 'Offers', 'offers_big' => ['What', 'I offer.'], 'card_cta' => 'Get in touch',
+             'h_quotes' => 'Testimonials', 'quotes_big' => ['What my', 'athletes say.'], 'quotes_note' => 'Testimonials are shown in their original French.', 'prev' => 'Previous', 'next' => 'Next',
+             'h_final' => 'Contact', 'final_big' => ['A goal in mind?', 'Let\'s talk.'],
              'legal' => 'Publisher: Arnaud Guilloux, Saint-Renan, France. Hosting: OVH SAS, 2 rue Kellermann, 59100 Roubaix, France.'],
 ][$lang];
+$F = contact_strings($lang);
 ?>
 <!doctype html>
 <html lang="<?= $lang ?>">
@@ -37,37 +46,57 @@ $T = [
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=60">
+<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=61">
 </head>
 <body>
 <?= site_header($lang, $home, $self, $c, 'coaching') ?>
 
 <main>
-<section id="coaching">
+<section class="hero">
   <div class="wrap">
-    <a class="back" href="<?= e($home[$lang]) ?>"><?= e($T['back']) ?></a>
-    <p class="eyebrow"><?= e($T['h_coaching']) ?></p>
-    <h2 class="big"><?= e($T['big'][0]) ?> <span><?= e($T['big'][1]) ?></span></h2>
-    <div class="coach">
-      <div>
-        <?php if (tr($coaching, 'intro') !== ''): ?><p class="feature-text"><?= e(tr($coaching, 'intro')) ?></p><?php endif; ?>
-        <a class="btn" href="<?= e($home[$lang]) ?>#contact"><?= e($T['cta']) ?></a>
+    <div class="hero-panel">
+      <img class="hero-bg" src="<?= e($base) ?>assets/img/roth-course.jpg" width="1620" height="1080" alt="<?= e($T['alt']) ?>" fetchpriority="high">
+      <div class="hero-inner">
+        <div class="hero-copy">
+          <p class="mono kicker"><?= e($T['kicker']) ?></p>
+          <h1><?= e($T['h1']) ?></h1>
+          <p class="mono place"><?= e($T['place']) ?></p>
+        </div>
+        <div class="cta">
+          <a class="btn" href="<?= e($home[$lang]) ?>#contact" data-contact="coaching"><?= e($T['cta']) ?></a>
+        </div>
       </div>
-      <?php if ($coachItems): ?>
-      <ul class="offers">
-        <?php foreach ($coachItems as $it): ?>
-        <li>
-          <span class="offer-what"><strong><?= e(tr($it, 'title')) ?></strong><?php if (tr($it, 'detail') !== ''): ?><span><?= e(tr($it, 'detail')) ?></span><?php endif; ?></span>
-          <?php if (tr($it, 'price') !== ''): ?><span class="offer-price"><?= e(tr($it, 'price')) ?></span><?php endif; ?>
-        </li>
-        <?php endforeach; ?>
-      </ul>
-      <?php endif; ?>
     </div>
   </div>
 </section>
+
+<?php if (tr($coaching, 'intro') !== ''): ?>
+<div class="coach-intro">
+  <div class="wrap"><p class="coach-lead"><?= e(tr($coaching, 'intro')) ?></p></div>
+</div>
+<?php endif; ?>
+
+<?php if ($coachItems): ?>
+<section id="offres">
+  <div class="wrap">
+    <p class="eyebrow"><?= e($T['h_offers']) ?></p>
+    <h2 class="big"><?= e($T['offers_big'][0]) ?> <span><?= e($T['offers_big'][1]) ?></span></h2>
+    <ul class="offer-cards">
+      <?php foreach ($coachItems as $it): ?>
+      <li class="offer-card">
+        <h3><?= e(tr($it, 'title')) ?></h3>
+        <?php if (tr($it, 'detail') !== ''): ?><p class="offer-detail"><?= e(tr($it, 'detail')) ?></p><?php endif; ?>
+        <?php if (tr($it, 'price') !== ''): ?><p class="offer-price"><?= e(tr($it, 'price')) ?></p><?php endif; ?>
+        <a class="card-cta" href="<?= e($home[$lang]) ?>#contact" data-contact="coaching"><?= e($T['card_cta']) ?></a>
+      </li>
+      <?php endforeach; ?>
+    </ul>
+  </div>
+</section>
+<?php endif; ?>
+
 <?php if ($quotes): ?>
-<section id="temoignages" class="soft">
+<section id="temoignages">
   <div class="wrap">
     <p class="eyebrow"><?= e($T['h_quotes']) ?></p>
     <h2 class="big"><?= e($T['quotes_big'][0]) ?> <span><?= e($T['quotes_big'][1]) ?></span></h2>
@@ -99,8 +128,19 @@ $T = [
   </div>
 </section>
 <?php endif; ?>
+
+<section id="parlons">
+  <div class="wrap final">
+    <div>
+      <p class="eyebrow"><?= e($T['h_final']) ?></p>
+      <h2 class="big"><?= e($T['final_big'][0]) ?> <span><?= e($T['final_big'][1]) ?></span></h2>
+    </div>
+    <a class="btn" href="<?= e($home[$lang]) ?>#contact" data-contact="coaching"><?= e($T['cta']) ?></a>
+  </div>
+</section>
 </main>
 
+<?= contact_dialog_html($F, $lang, $base) ?>
 <?= site_footer($T['legal'], $settings, $lang) ?>
 <script src="<?= e($base) ?>assets/carousel.js?v=1"></script>
 <script>

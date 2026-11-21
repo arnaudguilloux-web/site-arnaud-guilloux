@@ -91,15 +91,6 @@ $T = [
         'h_calendar'   => 'Calendrier',
         'h_contact'    => 'Contact',
         'contact_lead' => 'Un projet sportif, une prestation à réserver ou un partenariat à imaginer : écrivez-moi.',
-        'f_name'       => 'Nom',
-        'f_email'      => 'E-mail',
-        'f_topic'      => 'Sujet',
-        'topics'       => ['coaching' => 'Coaching, tests, bike fitting', 'sponsoring' => 'Partenariat / sponsoring', 'other' => 'Autre'],
-        'f_message'    => 'Message',
-        'f_send'       => 'Envoyer',
-        'f_close'      => 'Fermer',
-        'sent_ok'      => 'Merci, votre message est bien parti. Je vous réponds rapidement.',
-        'sent_ko'      => 'Le message n\'a pas pu être envoyé. Vérifiez les champs ou écrivez-moi directement.',
         'legal'        => 'Éditeur : Arnaud Guilloux, Saint-Renan (29). Hébergement : OVH SAS, 2 rue Kellermann, 59100 Roubaix.',
     ],
     'en' => [
@@ -136,18 +127,11 @@ $T = [
         'h_calendar'   => 'Calendar',
         'h_contact'    => 'Contact',
         'contact_lead' => 'A sporting goal, a service to book or a partnership to shape: get in touch.',
-        'f_name'       => 'Name',
-        'f_email'      => 'Email',
-        'f_topic'      => 'Topic',
-        'topics'       => ['coaching' => 'Coaching, testing, bike fitting', 'sponsoring' => 'Partnership / sponsoring', 'other' => 'Other'],
-        'f_message'    => 'Message',
-        'f_send'       => 'Send',
-        'f_close'      => 'Close',
-        'sent_ok'      => 'Thank you, your message is on its way. I\'ll get back to you shortly.',
-        'sent_ko'      => 'The message could not be sent. Check the fields or email me directly.',
         'legal'        => 'Publisher: Arnaud Guilloux, Saint-Renan, France. Hosting: OVH SAS, 2 rue Kellermann, 59100 Roubaix, France.',
     ],
 ][$lang];
+
+$F = contact_strings($lang);
 
 $socials = social_links($settings);
 
@@ -184,7 +168,7 @@ $n = 0; // numérotation des sections
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=60">
+<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=61">
 <script type="application/ld+json"><?= json_encode($jsonLd, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) ?></script>
 </head>
 <body>
@@ -348,30 +332,6 @@ $resultsUrl = $base . 'palmares.php' . ($lang === 'en' ? '?lang=en' : ''); ?>
 </section>
 <?php endif; ?>
 
-<?php
-/* Formulaire de contact : utilisé dans la section Contact et dans la popin du hero. */
-$renderForm = function (bool $withFlash) use ($T, $lang, $base, $sent): void { ?>
-<form class="card" method="post" action="<?= e($base) ?>contact.php">
-      <?php if ($withFlash): ?>
-        <?php if ($sent === '1'): ?><p class="flash" role="status"><?= e($T['sent_ok']) ?></p>
-      <?php elseif ($sent === '0'): ?><p class="flash" role="alert"><?= e($T['sent_ko']) ?></p><?php endif; ?>
-      <?php endif; ?>
-      <input type="hidden" name="lang" value="<?= $lang ?>">
-      <input type="hidden" name="ts" value="<?= time() ?>">
-      <p class="hp" aria-hidden="true"><label>Website <input type="text" name="website" tabindex="-1" autocomplete="off"></label></p>
-      <label><span><?= e($T['f_name']) ?></span><input type="text" name="name" required maxlength="120" autocomplete="name"></label>
-      <label><span><?= e($T['f_email']) ?></span><input type="email" name="email" required maxlength="160" autocomplete="email"></label>
-      <label><span><?= e($T['f_topic']) ?></span>
-        <select name="topic">
-          <?php foreach ($T['topics'] as $val => $label): ?><option value="<?= $val ?>"><?= e($label) ?></option><?php endforeach; ?>
-        </select>
-      </label>
-      <label><span><?= e($T['f_message']) ?></span><textarea name="message" rows="5" required maxlength="5000"></textarea></label>
-      <button class="btn" type="submit"><?= e($T['f_send']) ?></button>
-    </form>
-<?php };
-?>
-
 <section id="contact">
   <div class="wrap contact">
     <div>
@@ -383,23 +343,14 @@ $renderForm = function (bool $withFlash) use ($T, $lang, $base, $sent): void { ?
       </ul>
       <?php endif; ?>
     </div>
-    <?php $renderForm(true); ?>
+    <?= contact_form_html($F, $lang, $base, $sent === null ? null : (string) $sent, true) ?>
   </div>
 </section>
 </main>
 
 <?= site_footer($T['legal'], $settings, $lang) ?>
 
-<dialog class="modal" id="contact-dialog" aria-labelledby="cd-title">
-  <div class="modal-box">
-    <button class="modal-close" type="button" data-cd-close aria-label="<?= e($T['f_close']) ?>">
-      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M5 5l14 14M19 5L5 19"/></svg>
-    </button>
-    <h2 id="cd-title"><?= e($T['h_contact']) ?></h2>
-    <p class="flash" data-cd-status hidden data-ok="<?= e($T['sent_ok']) ?>" data-ko="<?= e($T['sent_ko']) ?>"></p>
-    <?php $renderForm(false); ?>
-  </div>
-</dialog>
+<?= contact_dialog_html($F, $lang, $base) ?>
 
 <script src="<?= e($base) ?>assets/carousel.js?v=1"></script>
 <script>
@@ -420,43 +371,6 @@ $renderForm = function (bool $withFlash) use ($T, $lang, $base, $sent): void { ?
   addEventListener('scroll', spy, { passive: true });
   addEventListener('resize', spy);
   spy();
-
-  /* Popin de contact : les boutons du hero l'ouvrent avec le sujet préselectionné */
-  var dlg = document.getElementById('contact-dialog');
-  if (dlg && typeof dlg.showModal === 'function') {
-    var dform = dlg.querySelector('form');
-    var dstatus = dlg.querySelector('[data-cd-status]');
-    var closeDlg = function () { dlg.close(); };
-    var resetDlg = function () { dstatus.hidden = true; dstatus.removeAttribute('role'); dform.hidden = false; };
-    Array.prototype.forEach.call(document.querySelectorAll('[data-contact]'), function (btn) {
-      btn.addEventListener('click', function (ev) {
-        ev.preventDefault();
-        resetDlg();
-        var sel = dform.querySelector('select[name="topic"]');
-        if (sel) sel.value = btn.getAttribute('data-contact');
-        dlg.showModal();
-        var first = dform.querySelector('input[name="name"]');
-        if (first) first.focus();
-      });
-    });
-    dlg.querySelector('[data-cd-close]').addEventListener('click', closeDlg);
-    dlg.addEventListener('click', function (ev) { if (ev.target === dlg) closeDlg(); });
-    dform.addEventListener('submit', function (ev) {
-      ev.preventDefault();
-      var send = dform.querySelector('button[type="submit"]');
-      send.disabled = true;
-      fetch(dform.action, { method: 'POST', body: new FormData(dform), credentials: 'same-origin' })
-        .then(function (r) { return r.url.indexOf('sent=1') > -1; })
-        .catch(function () { return false; })
-        .then(function (ok) {
-          send.disabled = false;
-          dstatus.textContent = dstatus.getAttribute(ok ? 'data-ok' : 'data-ko');
-          dstatus.setAttribute('role', ok ? 'status' : 'alert');
-          dstatus.hidden = false;
-          if (ok) { dform.reset(); dform.hidden = true; }
-        });
-    });
-  }
 
   /* Carrousels (Highlights) : fonction carousel() dans assets/carousel.js */
   carousel('scar', 'sdots', 'sprev', 'snext', '.slide');

@@ -251,3 +251,55 @@ function site_footer(string $legal, array $settings, string $lang = 'fr'): strin
         . ($soc !== '' ? '<ul class="foot-social">' . $soc . '</ul>' : '')
         . '<p>© ' . date('Y') . ' Arnaud Guilloux</p></div></div></footer>';
 }
+
+/** Textes du formulaire de contact et de la popin (partagés par l'accueil et la page Coaching). */
+function contact_strings(string $lang): array
+{
+    return $lang === 'en'
+        ? ['h_contact' => 'Contact', 'f_name' => 'Name', 'f_email' => 'Email', 'f_topic' => 'Topic', 'f_message' => 'Message', 'f_send' => 'Send', 'f_close' => 'Close',
+           'topics' => ['coaching' => 'Coaching, testing, bike fitting', 'sponsoring' => 'Partnership / sponsoring', 'other' => 'Other'],
+           'sent_ok' => 'Thank you, your message is on its way. I\'ll get back to you shortly.',
+           'sent_ko' => 'The message could not be sent. Check the fields or email me directly.']
+        : ['h_contact' => 'Contact', 'f_name' => 'Nom', 'f_email' => 'E-mail', 'f_topic' => 'Sujet', 'f_message' => 'Message', 'f_send' => 'Envoyer', 'f_close' => 'Fermer',
+           'topics' => ['coaching' => 'Coaching, tests, bike fitting', 'sponsoring' => 'Partenariat / sponsoring', 'other' => 'Autre'],
+           'sent_ok' => 'Merci, votre message est bien parti. Je vous réponds rapidement.',
+           'sent_ko' => 'Le message n\'a pas pu être envoyé. Vérifiez les champs ou écrivez-moi directement.'];
+}
+
+/** Formulaire de contact (section Contact de l'accueil et popin). $withFlash : affiche le résultat d'un envoi sans JavaScript (?sent=). */
+function contact_form_html(array $F, string $lang, string $base, ?string $sent, bool $withFlash): string
+{
+    $h = '<form class="card" method="post" action="' . e($base) . 'contact.php">';
+    if ($withFlash && $sent === '1') {
+        $h .= '<p class="flash" role="status">' . e($F['sent_ok']) . '</p>';
+    } elseif ($withFlash && $sent === '0') {
+        $h .= '<p class="flash" role="alert">' . e($F['sent_ko']) . '</p>';
+    }
+    $h .= '<input type="hidden" name="lang" value="' . e($lang) . '">';
+    $h .= '<input type="hidden" name="ts" value="' . time() . '">';
+    $h .= '<p class="hp" aria-hidden="true"><label>Website <input type="text" name="website" tabindex="-1" autocomplete="off"></label></p>';
+    $h .= '<label><span>' . e($F['f_name']) . '</span><input type="text" name="name" required maxlength="120" autocomplete="name"></label>';
+    $h .= '<label><span>' . e($F['f_email']) . '</span><input type="email" name="email" required maxlength="160" autocomplete="email"></label>';
+    $h .= '<label><span>' . e($F['f_topic']) . '</span><select name="topic">';
+    foreach ($F['topics'] as $val => $label) {
+        $h .= '<option value="' . e((string) $val) . '">' . e($label) . '</option>';
+    }
+    $h .= '</select></label>';
+    $h .= '<label><span>' . e($F['f_message']) . '</span><textarea name="message" rows="5" required maxlength="5000"></textarea></label>';
+    $h .= '<button class="btn" type="submit">' . e($F['f_send']) . '</button>';
+    return $h . '</form>';
+}
+
+/** Popin de contact : s'ouvre depuis tout élément [data-contact="coaching|sponsoring|other"] (voir assets/contact.js). */
+function contact_dialog_html(array $F, string $lang, string $base): string
+{
+    return '<dialog class="modal" id="contact-dialog" aria-labelledby="cd-title"><div class="modal-box">'
+        . '<button class="modal-close" type="button" data-cd-close aria-label="' . e($F['f_close']) . '">'
+        . '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="M5 5l14 14M19 5L5 19"/></svg></button>'
+        . '<h2 id="cd-title">' . e($F['h_contact']) . '</h2>'
+        . '<p class="flash" data-cd-status hidden data-ok="' . e($F['sent_ok']) . '" data-ko="' . e($F['sent_ko']) . '"></p>'
+        . contact_form_html($F, $lang, $base, null, false)
+        . '</div></dialog>'
+        . '<script src="' . e($base) . 'assets/contact.js?v=1" defer></script>';
+}
+
