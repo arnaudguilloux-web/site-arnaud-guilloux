@@ -291,3 +291,16 @@ form .btn { align-self: flex-start; }
 .pto-link:hover .ext, .pto-link:focus-visible .ext { color: var(--accent); }
 .pto-link:focus-visible { outline-offset: 2px; }
 .back + .eyebrow { margin-top: 20px; }
+
+/* Popin de contact */
+.modal { border: 0; padding: 0; background: transparent; max-width: none; max-height: none; width: 100%; height: 100%; overflow: auto; }
+.modal:not([open]) { display: none; }
+.modal::backdrop { background: rgba(18, 24, 33, .6); }
+.modal[open] { display: grid; place-items: center; padding: clamp(12px, 3vw, 32px); }
+.modal-box { position: relative; width: min(520px, 100%); background: var(--canvas); border-radius: var(--r-card); padding: clamp(24px, 3.5vw, 36px); box-shadow: 0 24px 64px rgba(0, 0, 0, .3); }
+.modal-box h2 { margin: 0 40px 18px 0; }
+.modal-box form.card { border: 0; padding: 0; background: transparent; }
+.modal-box .flash { margin-bottom: 16px; }
+.modal-close { position: absolute; top: 14px; right: 14px; width: 36px; height: 36px; display: grid; place-items: center; border: 0; border-radius: 50%; background: transparent; color: var(--text-2); cursor: pointer; transition: background .18s, color .18s; }
+.modal-close:hover, .modal-close:focus-visible { background: var(--soft); color: var(--ink); }
+html:has(dialog[open]) { overflow: hidden; }
