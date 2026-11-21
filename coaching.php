@@ -44,7 +44,7 @@ $F = contact_strings($lang);
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=66">
+<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=67">
 </head>
 <body>
 <?= site_header($lang, $home, $self, $c, 'coaching') ?>
@@ -110,7 +110,11 @@ $F = contact_strings($lang);
       <div class="q-hl"><strong><?= e($qhl) ?></strong><?php if ($qctx !== ''): ?><span class="mono"><?= e($qctx) ?></span><?php endif; ?></div>
       <?php endif; ?>
       <blockquote lang="fr"><p>«&nbsp;<?= e(trim((string) $q['quote'])) ?>&nbsp;»</p></blockquote>
-      <?php if ($qname !== ''): ?><figcaption class="mono"><?= e($qname) ?><?= $qcity !== '' ? ' – ' . e($qcity) : '' ?></figcaption><?php endif; ?>
+      <?php if ($qname !== ''):
+          $qurl = trim((string) ($q['url'] ?? '')); /* fiche Triathlon Lab (facultatif) */
+          $qok  = (bool) preg_match('#^https?://#i', $qurl); ?>
+      <figcaption class="mono"><?php if ($qok): ?><a href="<?= e($qurl) ?>" rel="noopener noreferrer" target="_blank" aria-label="<?= e($qname . ' — ' . ($lang === 'en' ? 'Triathlon Lab profile, opens in a new tab' : 'fiche Triathlon Lab, nouvel onglet')) ?>"><?= e($qname) ?><?= ext_icon_svg() ?></a><?php else: ?><?= e($qname) ?><?php endif; ?><?= $qcity !== '' ? ' – ' . e($qcity) : '' ?></figcaption>
+      <?php endif; ?>
     </figure>
     <?php endforeach; ?>
   </div>

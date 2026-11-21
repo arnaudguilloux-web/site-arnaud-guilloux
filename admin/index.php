@@ -104,6 +104,7 @@ $SCHEMA = [
         'quote'        => ['Citation (extrait, sans guillemets)', 'textarea'],
         'name'         => ['Prénom', 'text'],
         'city'         => ['Ville (facultatif)', 'text'],
+        'url'          => ['Lien du prénom : fiche Triathlon Lab (https://…) — facultatif', 'url'],
     ]],
     'settings' => ['label' => 'Réglages', 'type' => 'single', 'fields' => [
         'draft'         => ['Site masqué des moteurs de recherche (noindex) : à désactiver au lancement', 'bool'],
