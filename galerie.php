@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 require __DIR__ . '/lib.php';
+require_once __DIR__ . '/lib_view.php';
 require_once __DIR__ . '/lib_gallery.php';
 
 $lang = (($_GET['lang'] ?? '') === 'en') ? 'en' : 'fr';
@@ -9,7 +10,8 @@ $home = ['fr' => $base, 'en' => $base . 'en/'];
 $self = ['fr' => $base . 'galerie.php', 'en' => $base . 'galerie.php?lang=en'];
 $host = preg_replace('/[^a-z0-9.\-:]/i', '', (string) ($_SERVER['HTTP_HOST'] ?? 'localhost'));
 $origin = (is_https() ? 'https://' : 'http://') . $host;
-$settings = (load_content()['settings'] ?? []);
+$c = load_content();
+$settings = ($c['settings'] ?? []);
 $draft = ($settings['draft'] ?? '1') === '1';
 
 $T = [
@@ -33,18 +35,10 @@ $T = [
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=49">
+<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=50">
 </head>
 <body>
-<header class="top">
-  <div class="wrap">
-    <a class="brand" href="<?= e($home[$lang]) ?>">Arnaud <strong>Guilloux</strong></a>
-    <div class="lang" aria-label="Langue / Language">
-      <a href="<?= e($self['fr']) ?>" hreflang="fr" lang="fr"<?= $lang === 'fr' ? ' aria-current="true"' : '' ?>>FR</a>
-      <a href="<?= e($self['en']) ?>" hreflang="en" lang="en"<?= $lang === 'en' ? ' aria-current="true"' : '' ?>>EN</a>
-    </div>
-  </div>
-</header>
+<?= site_header($lang, $home, $self, $c, '') ?>
 
 <main>
 <section class="gal-page">

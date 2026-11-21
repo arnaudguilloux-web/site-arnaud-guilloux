@@ -34,18 +34,10 @@ $T = [
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=49">
+<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=50">
 </head>
 <body>
-<header class="top">
-  <div class="wrap">
-    <a class="brand" href="<?= e($home[$lang]) ?>">Arnaud <strong>Guilloux</strong></a>
-    <div class="lang" aria-label="Langue / Language">
-      <a href="<?= e($self['fr']) ?>" hreflang="fr" lang="fr"<?= $lang === 'fr' ? ' aria-current="true"' : '' ?>>FR</a>
-      <a href="<?= e($self['en']) ?>" hreflang="en" lang="en"<?= $lang === 'en' ? ' aria-current="true"' : '' ?>>EN</a>
-    </div>
-  </div>
-</header>
+<?= site_header($lang, $home, $self, $c, 'palmares') ?>
 
 <main>
 <section class="gal-page">

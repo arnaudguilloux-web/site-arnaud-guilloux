@@ -79,7 +79,6 @@ $T = [
         'prev'         => 'Précédent',
         'next'         => 'Suivant',
         'alt_hero'     => 'Arnaud Guilloux à vélo entre deux haies de spectateurs au Challenge Roth',
-        'nav'          => ['palmares' => 'Palmarès', 'coaching' => 'Coaching', 'partenaires' => 'Partenaires', 'calendrier' => 'Calendrier', 'contact' => 'Contact'],
         'cta_coaching' => 'Coaching',
         'cta_sponsor'  => 'Devenir partenaire',
         'place'        => 'Saint-Renan, Bretagne',
@@ -125,7 +124,6 @@ $T = [
         'prev'         => 'Previous',
         'next'         => 'Next',
         'alt_hero'     => 'Arnaud Guilloux riding between two walls of spectators at Challenge Roth',
-        'nav'          => ['palmares' => 'Results', 'coaching' => 'Coaching', 'partenaires' => 'Partners', 'calendrier' => 'Calendar', 'contact' => 'Contact'],
         'cta_coaching' => 'Coaching',
         'cta_sponsor'  => 'Become a partner',
         'place'        => 'Saint-Renan, Brittany',
@@ -149,11 +147,6 @@ $T = [
         'legal'        => 'Publisher: Arnaud Guilloux, Saint-Renan, France. Hosting: OVH SAS, 2 rue Kellermann, 59100 Roubaix, France.',
     ],
 ][$lang];
-
-/* Pas de course à venir : on masque le lien du menu et la section Calendrier. */
-if (!$upcoming) {
-    unset($T['nav']['calendrier']);
-}
 
 $socials = [];
 foreach (['instagram' => 'Instagram', 'strava' => 'Strava', 'facebook' => 'Facebook', 'x' => 'X', 'linkedin' => 'LinkedIn'] as $key => $label) {
@@ -196,24 +189,11 @@ $n = 0; // numérotation des sections
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=49">
+<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=50">
 <script type="application/ld+json"><?= json_encode($jsonLd, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) ?></script>
 </head>
 <body>
-<header class="top">
-  <div class="wrap">
-    <a class="brand" href="<?= e($home[$lang]) ?>">Arnaud <strong>Guilloux</strong></a>
-    <nav class="nav" aria-label="Sections">
-      <?php foreach ($T['nav'] as $id => $label): ?>
-      <a href="<?= $id === 'coaching' ? e($coachingUrl) : '#' . $id ?>"><?= e($label) ?></a>
-      <?php endforeach; ?>
-    </nav>
-    <div class="lang" aria-label="Langue / Language">
-      <a href="<?= e($home['fr']) ?>" hreflang="fr" lang="fr"<?= $lang === 'fr' ? ' aria-current="true"' : '' ?>>FR</a>
-      <a href="<?= e($home['en']) ?>" hreflang="en" lang="en"<?= $lang === 'en' ? ' aria-current="true"' : '' ?>>EN</a>
-    </div>
-  </div>
-</header>
+<?= site_header($lang, $home, $home, $c, '', true) ?>
 
 <main>
 <section class="hero">

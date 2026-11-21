@@ -138,3 +138,55 @@ function ext_icon_svg(): string
 {
     return '<svg class="ext" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14 4h6v6"/><path d="M20 4l-9 9"/><path d="M18 14v4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4"/></svg>';
 }
+
+/** Y a-t-il au moins une course à venir ? (le lien « Calendrier » n'existe alors que dans ce cas) */
+function has_upcoming(array $c): bool
+{
+    $today = date('Y-m-d');
+    foreach ($c['calendar'] ?? [] as $ev) {
+        if (is_array($ev) && preg_match('/^\d{4}-\d{2}-\d{2}$/', (string) ($ev['date'] ?? '')) && $ev['date'] >= $today) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
+ * En-tête commun à toutes les pages : marque, menu, bascule FR/EN.
+ * $current : 'palmares' | 'coaching' | '' (page courante, mise en avant dans le menu).
+ * $onHome  : sur l'accueil, les liens du menu sont des ancres (#id, suivies par le scroll-spy).
+ */
+function site_header(string $lang, array $home, array $self, array $c, string $current = '', bool $onHome = false): string
+{
+    $labels = $lang === 'en'
+        ? ['palmares' => 'Results', 'coaching' => 'Coaching', 'partenaires' => 'Partners', 'calendrier' => 'Calendar', 'contact' => 'Contact']
+        : ['palmares' => 'Palmarès', 'coaching' => 'Coaching', 'partenaires' => 'Partenaires', 'calendrier' => 'Calendrier', 'contact' => 'Contact'];
+    if (!has_upcoming($c)) {
+        unset($labels['calendrier']);
+    }
+    $suffix = $lang === 'en' ? '?lang=en' : '';
+    $pages  = ['coaching' => 'coaching.php', 'palmares' => 'palmares.php'];
+    $base   = $home['fr'];
+
+    $h  = '<header class="top"><div class="wrap">';
+    $h .= '<a class="brand" href="' . e($home[$lang]) . '">Arnaud <strong>Guilloux</strong></a>';
+    $h .= '<nav class="nav" aria-label="Sections">';
+    foreach ($labels as $id => $label) {
+        if ($id === 'coaching' || ($id === 'palmares' && $current === 'palmares')) {
+            $href = $base . $pages[$id] . $suffix;
+        } else {
+            $href = ($onHome ? '' : $home[$lang]) . '#' . $id;
+        }
+        $on = $id === $current ? ' class="on" aria-current="page"' : '';
+        $h .= '<a href="' . e($href) . '"' . $on . '>' . e($label) . '</a>';
+    }
+    $h .= '</nav>';
+    $h .= '<div class="lang" aria-label="Langue / Language">';
+    foreach (['fr' => 'FR', 'en' => 'EN'] as $code => $txt) {
+        $dest = $onHome ? $home[$code] : $self[$code];
+        $h .= '<a href="' . e($dest) . '" hreflang="' . $code . '" lang="' . $code . '"' . ($lang === $code ? ' aria-current="true"' : '') . '>' . $txt . '</a>';
+    }
+    $h .= '</div></div></header>';
+    return $h;
+}
+
