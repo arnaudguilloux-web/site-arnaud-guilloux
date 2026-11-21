@@ -116,3 +116,11 @@ function result_li(array $r, string $badgeTitle, string $badgeText): string
     $h .= '</span><span class="note' . ($isPos ? '' : ' dnf') . '">' . e($note) . '</span></li>';
     return $h;
 }
+
+/* Coaching : lignes d'offres (seules celles qui ont un titre). */
+function coaching_items(array $c): array
+{
+    return array_values(array_filter($c['coaching_items'] ?? [], static function ($i) {
+        return is_array($i) && trim((string) ($i['title_fr'] ?? '')) !== '';
+    }));
+}

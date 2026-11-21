@@ -9,6 +9,7 @@ $uri  = (string) ($_SERVER['REQUEST_URI'] ?? '/');
 $lang = (($_GET['lang'] ?? '') === 'en' || preg_match('#/en/?(\?|$)#', $uri)) ? 'en' : 'fr';
 $base = base_path(dirname((string) ($_SERVER['SCRIPT_NAME'] ?? '/index.php')));
 $home = ['fr' => $base, 'en' => $base . 'en/'];
+$coachingUrl = $base . 'coaching.php' . ($lang === 'en' ? '?lang=en' : '');
 $host = preg_replace('/[^a-z0-9.\-:]/i', '', (string) ($_SERVER['HTTP_HOST'] ?? 'localhost'));
 $origin = (is_https() ? 'https://' : 'http://') . $host;
 
@@ -36,9 +37,7 @@ function club_link(string $html): string
 
 
 /* Coaching : lignes d'offres. Témoignages : seulement ceux qui ont une citation. */
-$coachItems = array_values(array_filter($c['coaching_items'] ?? [], static function ($i) {
-    return is_array($i) && trim((string) ($i['title_fr'] ?? '')) !== '';
-}));
+$coachItems = coaching_items($c);
 $quotes = array_values(array_filter($c['testimonials'] ?? [], static function ($q) {
     return is_array($q) && trim((string) ($q['quote'] ?? '')) !== '';
 }));
@@ -197,7 +196,7 @@ $n = 0; // numérotation des sections
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=43">
+<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=44">
 <script type="application/ld+json"><?= json_encode($jsonLd, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) ?></script>
 </head>
 <body>
@@ -206,7 +205,7 @@ $n = 0; // numérotation des sections
     <a class="brand" href="<?= e($home[$lang]) ?>">Arnaud <strong>Guilloux</strong></a>
     <nav class="nav" aria-label="Sections">
       <?php foreach ($T['nav'] as $id => $label): ?>
-      <a href="#<?= $id ?>"><?= e($label) ?></a>
+      <a href="<?= $id === 'coaching' ? e($coachingUrl) : '#' . $id ?>"><?= e($label) ?></a>
       <?php endforeach; ?>
     </nav>
     <div class="lang" aria-label="Langue / Language">
@@ -228,7 +227,7 @@ $n = 0; // numérotation des sections
           <p class="mono place">Nissa Triathlon · <?= e($T['place']) ?></p>
         </div>
         <div class="cta">
-          <a class="btn" href="#coaching"><?= e($T['cta_coaching']) ?></a>
+          <a class="btn" href="<?= e($coachingUrl) ?>"><?= e($T['cta_coaching']) ?></a>
           <a class="btn" href="#partenaires"><?= e($T['cta_sponsor']) ?></a>
         </div>
       </div>
@@ -243,7 +242,7 @@ $n = 0; // numérotation des sections
     <aside class="intro-coach">
       <p class="mono eyebrow"><?= e($T['coaching_box']) ?></p>
       <?php if (tr($coaching, 'intro') !== ''): ?><p class="intro-coach-text"><?= e(tr($coaching, 'intro')) ?></p><?php endif; ?>
-      <a class="more" href="#coaching"><?= e($T['coaching_more']) ?></a>
+      <a class="more" href="<?= e($coachingUrl) ?>"><?= e($T['coaching_more']) ?></a>
     </aside>
     <?php endif; ?>
   </div>
@@ -314,28 +313,6 @@ $resultsUrl = $base . 'palmares.php' . ($lang === 'en' ? '?lang=en' : ''); ?>
 <?php endif; ?>
 
 <?php if (tr($coaching, 'intro') !== '' || $coachItems): ?>
-<section id="coaching">
-  <div class="wrap">
-    <p class="eyebrow"><?= e($T['h_coaching']) ?></p>
-    <h2 class="big"><?= e($T['coaching_big'][0]) ?> <span><?= e($T['coaching_big'][1]) ?></span></h2>
-    <div class="coach">
-      <div>
-        <?php if (tr($coaching, 'intro') !== ''): ?><p class="feature-text"><?= e(tr($coaching, 'intro')) ?></p><?php endif; ?>
-        <a class="btn" href="#contact"><?= e($T['coaching_cta']) ?></a>
-      </div>
-      <?php if ($coachItems): ?>
-      <ul class="offers">
-        <?php foreach ($coachItems as $it): ?>
-        <li>
-          <span class="offer-what"><strong><?= e(tr($it, 'title')) ?></strong><?php if (tr($it, 'detail') !== ''): ?><span><?= e(tr($it, 'detail')) ?></span><?php endif; ?></span>
-          <?php if (tr($it, 'price') !== ''): ?><span class="offer-price"><?= e(tr($it, 'price')) ?></span><?php endif; ?>
-        </li>
-        <?php endforeach; ?>
-      </ul>
-      <?php endif; ?>
-    </div>
-  </div>
-</section>
 <?php endif; ?>
 
 <?php if ($quotes): ?>
