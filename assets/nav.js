@@ -29,3 +29,22 @@
     Array.prototype.forEach.call(wraps, function (w) { if (!w.contains(ev.target)) set(w, false); });
   });
 })();
+
+/* Scroll-spy : met en avant, dans les sous-menus, la section visible (liens en #ancre de la page courante). */
+(function () {
+  var links = Array.prototype.slice.call(document.querySelectorAll('.nav .sub a[href^="#"]'));
+  if (!links.length) return;
+  var targets = links.map(function (a) { return document.getElementById(a.getAttribute('href').slice(1)); });
+  function spy() {
+    var cur = -1;
+    targets.forEach(function (el, i) { if (el && el.getBoundingClientRect().top <= 120) cur = i; });
+    links.forEach(function (a, i) { a.classList.toggle('on', i === cur); });
+    Array.prototype.forEach.call(document.querySelectorAll('.nav .has-sub'), function (w) {
+      var t = w.querySelector('.nav-trigger');
+      t.classList.toggle('on', t.getAttribute('data-page-on') === '1' || !!w.querySelector('.sub a.on'));
+    });
+  }
+  addEventListener('scroll', spy, { passive: true });
+  addEventListener('resize', spy);
+  spy();
+})();

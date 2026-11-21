@@ -168,7 +168,7 @@ $n = 0; // numérotation des sections
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=62">
+<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=63">
 <script type="application/ld+json"><?= json_encode($jsonLd, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) ?></script>
 </head>
 <body>
@@ -356,21 +356,6 @@ $resultsUrl = $base . 'palmares.php' . ($lang === 'en' ? '?lang=en' : ''); ?>
 <script>
 (function () {
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  /* Menu : entrée active selon la section visible */
-  var navLinks = Array.prototype.slice.call(document.querySelectorAll('.nav a[href^="#"]'));
-  var navTargets = navLinks.map(function (a) { return document.getElementById(a.getAttribute('href').slice(1)); });
-  function spy() {
-    var cur = -1;
-    navTargets.forEach(function (el, i) { if (el && el.getBoundingClientRect().top <= 120) cur = i; });
-    navLinks.forEach(function (a, i) { a.classList.toggle('on', i === cur); });
-    Array.prototype.forEach.call(document.querySelectorAll('.nav .has-sub'), function (w) {
-      w.querySelector('.nav-trigger').classList.toggle('on', !!w.querySelector('.sub a.on'));
-    });
-  }
-  addEventListener('scroll', spy, { passive: true });
-  addEventListener('resize', spy);
-  spy();
 
   /* Carrousels (Highlights) : fonction carousel() dans assets/carousel.js */
   carousel('scar', 'sdots', 'sprev', 'snext', '.slide');

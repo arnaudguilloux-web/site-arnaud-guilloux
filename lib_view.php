@@ -156,69 +156,83 @@ function has_upcoming(array $c): bool
 
 /**
  * En-tête commun à toutes les pages : marque, menu, bascule FR/EN.
- * Menu : « L'athlète » (sous-menu d'ancres vers les sections), « Le coach » (page Coaching), « Mes annonces » (lien externe).
+ * Menu : « L'Athlète » et « Le Coach » (sous-menus d'ancres vers les sections), « Mes Annonces » (lien externe).
  * $current : 'highlights' | 'palmares' | 'coaching' | '' (page courante, mise en avant dans le menu).
- * $onHome  : sur l'accueil, les liens du sous-menu sont des ancres (#id, suivies par le scroll-spy).
+ * $onHome  : sur l'accueil, les liens vers la home sont des ancres (#id) ; sur la page Coaching, ceux du Coach aussi.
  */
 function site_header(string $lang, array $home, array $self, array $c, string $current = '', bool $onHome = false): string
 {
     $en = $lang === 'en';
     $T  = $en
         ? ['athlete' => 'The Athlete', 'coach' => 'The Coach', 'ads' => 'My Listings', 'new_tab' => 'opens in a new tab',
-           'sub' => [
-               'highlights' => ['Highlights', 'Photos from the big races'],
-               'palmares'   => ['Results', 'The full race record'],
+           'athlete_items' => [
+               'highlights'  => ['Highlights', 'Photos from the big races'],
+               'palmares'    => ['Results', 'The full race record'],
                'partenaires' => ['Partners', 'Those who back me'],
-               'contact'    => ['Contact', 'A question, a project'],
+               'contact'     => ['Contact', 'A question, a project'],
+           ],
+           'coach_items' => [
+               'top'         => ['Overview', 'Performance-driven'],
+               'offres'      => ['Offers', 'Plans, camps, testing, bike fitting'],
+               'temoignages' => ['Testimonials', 'What my athletes say'],
+               'parlons'     => ['Contact', 'A goal? Let\'s talk'],
            ]]
         : ['athlete' => "L'Athlète", 'coach' => 'Le Coach', 'ads' => 'Mes Annonces', 'new_tab' => 'nouvel onglet',
-           'sub' => [
-               'highlights' => ['Highlights', 'Photos des grandes courses'],
-               'palmares'   => ['Palmarès', 'Tous les résultats'],
+           'athlete_items' => [
+               'highlights'  => ['Highlights', 'Photos des grandes courses'],
+               'palmares'    => ['Palmarès', 'Tous les résultats'],
                'partenaires' => ['Partenaires', 'Ceux qui m\'accompagnent'],
-               'contact'    => ['Contact', 'Une question, un projet'],
+               'contact'     => ['Contact', 'Une question, un projet'],
+           ],
+           'coach_items' => [
+               'top'         => ['Présentation', 'Orienté performance'],
+               'offres'      => ['Offres', 'Plans, stages, tests, bike fitting'],
+               'temoignages' => ['Témoignages', 'Ce que disent mes athlètes'],
+               'parlons'     => ['Contact', 'Un objectif ? Parlons-en'],
            ]];
 
-    /* Lien externe « Mes annonces » : réglable dans l'admin (Réglages), sinon page d'accueil Troc-Vélo. */
+    /* Lien externe « Mes Annonces » : réglable dans l'admin (Réglages), sinon page d'accueil Troc-Vélo. */
     $set    = $c['settings'] ?? [];
     $adsUrl = trim((string) ($set['ads_url_' . $lang] ?? ''));
     if (!preg_match('#^https?://#i', $adsUrl)) {
         $adsUrl = $en ? 'https://www.troc-velo.com/en' : 'https://www.troc-velo.com/fr-fr';
     }
 
-    $suffix = $en ? '?lang=en' : '';
-    $base   = $home['fr'];
-    /* Pages qui prolongent une section : le lien du sous-menu y pointe quand on est dessus. */
-    $pages  = ['highlights' => 'galerie.php', 'palmares' => 'palmares.php'];
+    $suffix   = $en ? '?lang=en' : '';
+    $base     = $home['fr'];
+    $coachUrl = $base . 'coaching.php' . $suffix;
+    /* Pages qui prolongent une section de l'Athlète : le lien du sous-menu y pointe quand on est dessus. */
+    $pages    = ['highlights' => 'galerie.php', 'palmares' => 'palmares.php'];
+    $onCoach  = $current === 'coaching';
 
-    $inAthlete = isset($T['sub'][$current]);
-    $coachOn   = $current === 'coaching';
+    $group = static function (string $key, string $label, bool $isCurrent, string $items) use ($T): string {
+        return '<div class="has-sub">'
+            . '<button class="nav-trigger' . ($isCurrent ? ' on' : '') . '" type="button" data-page-on="' . ($isCurrent ? '1' : '0') . '" aria-haspopup="true" aria-expanded="false" aria-controls="sub-' . $key . '">'
+            . e($label)
+            . '<svg class="chev" viewBox="0 0 12 8" width="10" height="7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M1 1.5l5 5 5-5"/></svg></button>'
+            . '<div class="sub" id="sub-' . $key . '"><ul>' . $items . '</ul></div></div>';
+    };
+
+    /* L'Athlète */
+    $a = '';
+    foreach ($T['athlete_items'] as $id => [$label, $hint]) {
+        $href = ($id === $current && isset($pages[$id])) ? $base . $pages[$id] . $suffix : (($onHome ? '' : $home[$lang]) . '#' . $id);
+        $on   = $id === $current ? ' class="on" aria-current="page"' : '';
+        $a   .= '<li><a href="' . e($href) . '"' . $on . '><strong>' . e($label) . '</strong><span>' . e($hint) . '</span></a></li>';
+    }
+
+    /* Le Coach */
+    $k = '';
+    foreach ($T['coach_items'] as $id => [$label, $hint]) {
+        $href = $id === 'top' ? $coachUrl : (($onCoach ? '' : $coachUrl) . '#' . $id);
+        $k   .= '<li><a href="' . e($href) . '"><strong>' . e($label) . '</strong><span>' . e($hint) . '</span></a></li>';
+    }
 
     $h  = '<header class="top"><div class="wrap">';
     $h .= '<a class="brand" href="' . e($home[$lang]) . '">Arnaud <strong>Guilloux</strong></a>';
     $h .= '<nav class="nav" aria-label="Sections">';
-
-    /* L'athlète + sous-menu */
-    $h .= '<div class="has-sub">';
-    $h .= '<button class="nav-trigger' . ($inAthlete ? ' on' : '') . '" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="sub-athlete">'
-        . e($T['athlete'])
-        . '<svg class="chev" viewBox="0 0 12 8" width="10" height="7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M1 1.5l5 5 5-5"/></svg></button>';
-    $h .= '<div class="sub" id="sub-athlete"><ul>';
-    foreach ($T['sub'] as $id => [$label, $hint]) {
-        if ($id === $current && isset($pages[$id])) {
-            $href = $base . $pages[$id] . $suffix;
-        } else {
-            $href = ($onHome ? '' : $home[$lang]) . '#' . $id;
-        }
-        $on = $id === $current ? ' class="on" aria-current="page"' : '';
-        $h .= '<li><a href="' . e($href) . '"' . $on . '><strong>' . e($label) . '</strong><span>' . e($hint) . '</span></a></li>';
-    }
-    $h .= '</ul></div></div>';
-
-    /* Le coach */
-    $h .= '<a href="' . e($base . 'coaching.php' . $suffix) . '"' . ($coachOn ? ' class="on" aria-current="page"' : '') . '>' . e($T['coach']) . '</a>';
-
-    /* Mes annonces (externe) */
+    $h .= $group('athlete', $T['athlete'], isset($T['athlete_items'][$current]), $a);
+    $h .= $group('coach', $T['coach'], $onCoach, $k);
     $h .= '<a href="' . e($adsUrl) . '" target="_blank" rel="noopener noreferrer" aria-label="' . e($T['ads'] . ' — ' . $T['new_tab']) . '">' . e($T['ads']) . ext_icon_svg() . '</a>';
     $h .= '</nav>';
 
@@ -228,7 +242,7 @@ function site_header(string $lang, array $home, array $self, array $c, string $c
         $h .= '<a href="' . e($dest) . '" hreflang="' . $code . '" lang="' . $code . '"' . ($lang === $code ? ' aria-current="true"' : '') . '>' . $txt . '</a>';
     }
     $h .= '</div></div></header>';
-    $h .= '<script src="' . e($base) . 'assets/nav.js?v=1" defer></script>';
+    $h .= '<script src="' . e($base) . 'assets/nav.js?v=2" defer></script>';
     return $h;
 }
 
