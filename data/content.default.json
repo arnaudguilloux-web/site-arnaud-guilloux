@@ -950,30 +950,35 @@
     {
       "name": "Nissa Triathlon",
       "url": "https://nissa-triathlon-team.org",
+      "logo": "assets/img/partners/nissa.png",
       "role_fr": "Club",
       "role_en": "Club"
     },
     {
       "name": "HOKA",
       "url": "https://www.hoka.com/",
+      "logo": "assets/img/partners/hoka.png",
       "role_fr": "Partenaire",
       "role_en": "Partner"
     },
     {
       "name": "EnoWatt",
       "url": "https://enowatt.fr",
+      "logo": "assets/img/partners/enowatt.jpg",
       "role_fr": "Partenaire",
       "role_en": "Partner"
     },
     {
       "name": "Surpas",
       "url": "https://surpasofficial.com/",
+      "logo": "assets/img/partners/surpas.png",
       "role_fr": "Partenaire",
       "role_en": "Partner"
     },
     {
       "name": "AquaSelf",
       "url": "https://www.aquaself.fr",
+      "logo": "assets/img/partners/aquaself.png",
       "role_fr": "Partenaire",
       "role_en": "Partner"
     }

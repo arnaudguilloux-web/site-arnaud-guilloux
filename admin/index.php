@@ -88,6 +88,7 @@ $SCHEMA = [
     'partners' => ['label' => 'Partenaires', 'type' => 'list', 'title' => 'name', 'sub' => 'role_fr', 'fields' => [
         'name'    => ['Nom', 'text'],
         'url'     => ['Site web (https://…)', 'url'],
+        'logo'    => ['Logo (chemin, ex. assets/img/partners/hoka.png)', 'text'],
         'role_fr' => ['Rôle (FR)', 'text'],
         'role_en' => ['Rôle (EN)', 'text'],
     ]],
