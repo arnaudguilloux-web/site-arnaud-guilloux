@@ -17,39 +17,45 @@
   },
   "stats": [
     {
-      "value": "7h38",
-      "label_fr": "Sur IRONMAN — Brasil 2026",
-      "label_en": "IRONMAN time — Brasil 2026",
+      "value_fr": "7h38 sur IRONMAN",
+      "value_en": "7:38 over IRONMAN",
+      "label_fr": "Brasil 2026",
+      "label_en": "Brasil 2026",
       "icon": "chrono"
     },
     {
-      "value": "5",
-      "label_fr": "Championnats du monde IRONMAN",
-      "label_en": "IRONMAN World Championships",
+      "value_fr": "5 Championnats du monde",
+      "value_en": "5 World Championships",
+      "label_fr": "IRONMAN",
+      "label_en": "IRONMAN",
       "icon": "worldchamp"
     },
     {
-      "value": "4",
-      "label_fr": "Victoires, dont IRONMAN Wales 2019 (record de l'épreuve)",
-      "label_en": "Wins, including IRONMAN Wales 2019 (course record)",
+      "value_fr": "4 Victoires",
+      "value_en": "4 Wins",
+      "label_fr": "dont IRONMAN Wales 2019 (record de l'épreuve)",
+      "label_en": "including IRONMAN Wales 2019 (course record)",
       "icon": "trophy"
     },
     {
-      "value": "4",
-      "label_fr": "Podiums sur distance IRONMAN",
-      "label_en": "Podiums over the IRONMAN distance",
+      "value_fr": "4 Podiums",
+      "value_en": "4 Podiums",
+      "label_fr": "sur distance IRONMAN",
+      "label_en": "over the IRONMAN distance",
       "icon": "podium"
     },
     {
-      "value": "Top 100",
+      "value_fr": "Top 100",
+      "value_en": "Top 100",
       "label_fr": "5 saisons de suite au classement mondial PTO, 2020–2024",
       "label_en": "PTO world ranking, five seasons in a row, 2020–2024",
       "icon": "top100"
     },
     {
-      "value": "2h37",
-      "label_fr": "Marathon après 4h15 de vélo — Challenge Roth 2026",
-      "label_en": "Marathon after 4h15 on the bike — Challenge Roth 2026",
+      "value_fr": "2h37 au marathon",
+      "value_en": "2:37 marathon",
+      "label_fr": "après 4h15 de vélo — Challenge Roth 2026",
+      "label_en": "after 4h15 on the bike — Challenge Roth 2026",
       "icon": "chrono"
     }
   ],

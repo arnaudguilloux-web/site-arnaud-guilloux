@@ -91,8 +91,9 @@ $SCHEMA = [
         'role_fr' => ['Rôle (FR)', 'text'],
         'role_en' => ['Rôle (EN)', 'text'],
     ]],
-    'stats' => ['label' => 'Chiffres', 'type' => 'list', 'title' => 'value', 'sub' => 'label_fr', 'fields' => [
-        'value'    => ['Chiffre', 'text'],
+    'stats' => ['label' => 'Chiffres', 'type' => 'list', 'title' => 'value_fr', 'sub' => 'label_fr', 'fields' => [
+        'value_fr' => ['Chiffre et mot-clé (FR)', 'text'],
+        'value_en' => ['Chiffre et mot-clé (EN)', 'text'],
         'label_fr' => ['Légende (FR)', 'text'],
         'label_en' => ['Légende (EN)', 'text'],
         'icon'     => ['Picto', 'select'],

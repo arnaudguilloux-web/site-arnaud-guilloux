@@ -289,7 +289,7 @@ $n = 0; // numérotation des sections
     <?php foreach ($c['stats'] as $st): ?>
     <div>
       <?php if (($ico = stat_icon_svg((string) ($st['icon'] ?? ''))) !== ''): ?><span class="stat-ico" aria-hidden="true"><?= $ico ?></span><?php endif; ?>
-      <dd><?= e($st['value'] ?? '') ?></dd>
+      <dd><?= e(tr($st, 'value') ?: ($st['value'] ?? '')) ?></dd>
       <dt><?= e(tr($st, 'label')) ?></dt>
     </div>
     <?php endforeach; ?>
