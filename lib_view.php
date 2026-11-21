@@ -136,6 +136,31 @@ function testimonials(array $c): array
     }));
 }
 
+/** Carte de témoignage (page Coaching et page « Tous les témoignages »). Le prénom est un lien facultatif (fiche Triathlon Lab). */
+function testimonial_card_html(array $q, string $lang): string
+{
+    $name = trim((string) ($q['name'] ?? ''));
+    $city = trim((string) ($q['city'] ?? ''));
+    $hl   = tr($q, 'highlight');
+    $ctx  = tr($q, 'context');
+    $h    = '<figure class="qcard">';
+    if ($hl !== '') {
+        $h .= '<div class="q-hl"><strong>' . e($hl) . '</strong>' . ($ctx !== '' ? '<span class="mono">' . e($ctx) . '</span>' : '') . '</div>';
+    }
+    $h .= '<blockquote lang="fr"><p>«&nbsp;' . e(trim((string) ($q['quote'] ?? ''))) . '&nbsp;»</p></blockquote>';
+    if ($name !== '') {
+        $url = trim((string) ($q['url'] ?? ''));
+        if (preg_match('#^https?://#i', $url)) {
+            $label = $name . ' — ' . ($lang === 'en' ? 'Triathlon Lab profile, opens in a new tab' : 'fiche Triathlon Lab, nouvel onglet');
+            $who   = '<a href="' . e($url) . '" rel="noopener noreferrer" target="_blank" aria-label="' . e($label) . '">' . e($name) . ext_icon_svg() . '</a>';
+        } else {
+            $who = e($name);
+        }
+        $h .= '<figcaption class="mono">' . $who . ($city !== '' ? ' – ' . e($city) : '') . '</figcaption>';
+    }
+    return $h . '</figure>';
+}
+
 /** Picto « s'ouvre dans un nouvel onglet » (partagé : palmarès, partenaires). */
 function ext_icon_svg(): string
 {
@@ -157,7 +182,7 @@ function has_upcoming(array $c): bool
 /**
  * En-tête commun à toutes les pages : marque, menu, bascule FR/EN.
  * Menu : « L'Athlète » et « Le Coach » (sous-menus d'ancres vers les sections), « Mes Annonces » (lien externe).
- * $current : 'highlights' | 'palmares' | 'coaching' | '' (page courante, mise en avant dans le menu).
+ * $current : 'highlights' | 'palmares' | 'coaching' | 'temoignages' | '' (page courante, mise en avant dans le menu).
  * $onHome  : sur l'accueil, les liens vers la home sont des ancres (#id) ; sur la page Coaching, ceux du Coach aussi.
  */
 function site_header(string $lang, array $home, array $self, array $c, string $current = '', bool $onHome = false): string
@@ -205,7 +230,8 @@ function site_header(string $lang, array $home, array $self, array $c, string $c
     $coachUrl = $base . 'coaching.php' . $suffix;
     /* Pages qui prolongent une section de l'Athlète : le lien du sous-menu y pointe quand on est dessus. */
     $pages    = ['highlights' => 'galerie.php', 'palmares' => 'palmares.php'];
-    $onCoach  = $current === 'coaching';
+    $onCoach  = $current === 'coaching';                       /* sur la page Coaching : liens du Coach en ancres */
+    $inCoach  = $onCoach || $current === 'temoignages';        /* dans la partie Coach (déroule le titre « Le Coach ») */
 
     $group = static function (string $key, string $label, string $href, bool $isCurrent, string $items): string {
         return '<div class="has-sub">'
@@ -233,6 +259,10 @@ function site_header(string $lang, array $home, array $self, array $c, string $c
     foreach ($T['coach_items'] as $id => [$label, $hint]) {
         $href = $id === 'top' ? $coachUrl : (($onCoach ? '' : $coachUrl) . '#' . $id);
         $top  = ($id === 'top' && $onCoach) ? ' data-top="1"' : '';
+        if ($id === 'temoignages' && $current === 'temoignages') {   /* page « Tous les témoignages » : l'entrée pointe sur elle-même */
+            $href = $base . 'temoignages.php' . $suffix;
+            $top  = ' class="on" aria-current="page"';
+        }
         $k   .= '<li><a href="' . e($href) . '"' . $top . '><strong>' . e($label) . '</strong><span>' . e($hint) . '</span></a></li>';
     }
 
@@ -241,7 +271,7 @@ function site_header(string $lang, array $home, array $self, array $c, string $c
     $h .= '<nav class="nav" aria-label="Sections">';
     /* Sur ordinateur, cliquer le titre ouvre la page ; le sous-menu s'ouvre au survol. Sur mobile / tactile, le clic déplie le sous-menu. */
     $h .= $group('athlete', $T['athlete'], $onHome ? '#' : $home[$lang], isset($T['athlete_items'][$current]), $a);
-    $h .= $group('coach', $T['coach'], $coachUrl, $onCoach, $k);
+    $h .= $group('coach', $T['coach'], $coachUrl, $inCoach, $k);
     $h .= '<a href="' . e($adsUrl) . '" target="_blank" rel="noopener noreferrer" aria-label="' . e($T['ads'] . ' — ' . $T['new_tab']) . '">' . e($T['ads']) . ext_icon_svg() . '</a>';
     $h .= '</nav>';
 

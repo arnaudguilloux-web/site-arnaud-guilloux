@@ -13,19 +13,22 @@ $c = load_content();
 $settings = $c['settings'] ?? [];
 $coaching = $c['coaching'] ?? [];
 $coachItems = coaching_items($c);
-$quotes = testimonials($c);
+$allQuotes = testimonials($c);
+$moreQuotes = count($allQuotes) > 5;
+shuffle($allQuotes);                          /* 5 témoignages au hasard à chaque visite ; la page dédiée les montre tous */
+$quotes = array_slice($allQuotes, 0, 5);
 $draft = ($settings['draft'] ?? '1') === '1';
 
 $T = [
     'fr' => ['title' => 'Coaching — Arnaud Guilloux', 'kicker' => 'Arnaud Guilloux · Triathlète professionnel', 'h1' => 'Le Coaching', 'place' => 'Orienté performance',
              'alt' => 'Arnaud Guilloux en course à pied sur le Challenge Roth', 'cta' => 'Parler de votre objectif',
              'h_offers' => 'Offres', 'offers_big' => ['Ce que', 'je propose.'], 'card_cta' => 'Me contacter',
-             'h_quotes' => 'Témoignages', 'quotes_big' => ['Ce que disent', 'mes athlètes.'], 'quotes_note' => '', 'prev' => 'Précédent', 'next' => 'Suivant',
+             'h_quotes' => 'Témoignages', 'quotes_big' => ['Ce que disent', 'mes athlètes.'], 'quotes_note' => '', 'all_quotes' => 'Tous les Témoignages', 'prev' => 'Précédent', 'next' => 'Suivant',
              'legal' => 'Éditeur : Arnaud Guilloux, Saint-Renan (29). Hébergement : OVH SAS, 2 rue Kellermann, 59100 Roubaix.'],
     'en' => ['title' => 'Coaching — Arnaud Guilloux', 'kicker' => 'Arnaud Guilloux · Professional triathlete', 'h1' => 'Coaching', 'place' => 'Performance-driven',
              'alt' => 'Arnaud Guilloux running at Challenge Roth', 'cta' => 'Talk about your goal',
              'h_offers' => 'Offers', 'offers_big' => ['What', 'I offer.'], 'card_cta' => 'Get in touch',
-             'h_quotes' => 'Testimonials', 'quotes_big' => ['What my', 'athletes say.'], 'quotes_note' => 'Testimonials are shown in their original French.', 'prev' => 'Previous', 'next' => 'Next',
+             'h_quotes' => 'Testimonials', 'quotes_big' => ['What my', 'athletes say.'], 'quotes_note' => 'Testimonials are shown in their original French.', 'all_quotes' => 'All Testimonials', 'prev' => 'Previous', 'next' => 'Next',
              'legal' => 'Publisher: Arnaud Guilloux, Saint-Renan, France. Hosting: OVH SAS, 2 rue Kellermann, 59100 Roubaix, France.'],
 ][$lang];
 $F = contact_strings($lang);
@@ -44,7 +47,7 @@ $F = contact_strings($lang);
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=67">
+<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=68">
 </head>
 <body>
 <?= site_header($lang, $home, $self, $c, 'coaching') ?>
@@ -96,26 +99,19 @@ $F = contact_strings($lang);
 <?php if ($quotes): ?>
 <section id="temoignages">
   <div class="wrap">
-    <p class="eyebrow"><?= e($T['h_quotes']) ?></p>
-    <h2 class="big"><?= e($T['quotes_big'][0]) ?> <span><?= e($T['quotes_big'][1]) ?></span></h2>
+    <div class="head-row">
+      <div>
+        <p class="eyebrow"><?= e($T['h_quotes']) ?></p>
+        <h2 class="big"><?= e($T['quotes_big'][0]) ?> <span><?= e($T['quotes_big'][1]) ?></span></h2>
+      </div>
+      <?php if ($moreQuotes): ?>
+      <p class="links"><a class="more" href="<?= e($base) ?>temoignages.php<?= $lang === 'en' ? '?lang=en' : '' ?>"><?= e($T['all_quotes']) ?></a></p>
+      <?php endif; ?>
+    </div>
   </div>
   <div class="carousel qcar" id="qcar" tabindex="0" aria-label="<?= e($T['h_quotes']) ?>">
-    <?php foreach ($quotes as $q):
-        $qname = trim((string) ($q['name'] ?? ''));
-        $qcity = trim((string) ($q['city'] ?? ''));
-        $qhl   = tr($q, 'highlight');
-        $qctx  = tr($q, 'context'); ?>
-    <figure class="qcard">
-      <?php if ($qhl !== ''): ?>
-      <div class="q-hl"><strong><?= e($qhl) ?></strong><?php if ($qctx !== ''): ?><span class="mono"><?= e($qctx) ?></span><?php endif; ?></div>
-      <?php endif; ?>
-      <blockquote lang="fr"><p>«&nbsp;<?= e(trim((string) $q['quote'])) ?>&nbsp;»</p></blockquote>
-      <?php if ($qname !== ''):
-          $qurl = trim((string) ($q['url'] ?? '')); /* fiche Triathlon Lab (facultatif) */
-          $qok  = (bool) preg_match('#^https?://#i', $qurl); ?>
-      <figcaption class="mono"><?php if ($qok): ?><a href="<?= e($qurl) ?>" rel="noopener noreferrer" target="_blank" aria-label="<?= e($qname . ' — ' . ($lang === 'en' ? 'Triathlon Lab profile, opens in a new tab' : 'fiche Triathlon Lab, nouvel onglet')) ?>"><?= e($qname) ?><?= ext_icon_svg() ?></a><?php else: ?><?= e($qname) ?><?php endif; ?><?= $qcity !== '' ? ' – ' . e($qcity) : '' ?></figcaption>
-      <?php endif; ?>
-    </figure>
+    <?php foreach ($quotes as $q): ?>
+    <?= testimonial_card_html($q, $lang) ?>
     <?php endforeach; ?>
   </div>
   <div class="wrap">
