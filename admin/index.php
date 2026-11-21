@@ -33,15 +33,18 @@ if (empty($_SESSION['csrf'])) {
 
 /* ---------- Schéma des rubriques éditables ---------- */
 $SCHEMA = [
-    'calendar' => ['label' => 'Calendrier', 'type' => 'list', 'title' => 'race', 'sub' => 'date', 'fields' => [
-        'date'     => ['Date', 'date'],
-        'race'     => ['Course', 'text'],
-        'race_en'  => ['Course (EN, si le nom diffère)', 'text'],
-        'location' => ['Lieu', 'text'],
-        'location_en' => ['Lieu (EN, si différent)', 'text'],
-        'format'   => ['Format (IRONMAN, 70.3, Half…)', 'text'],
-        'note_fr'  => ['Note (FR)', 'text'],
-        'note_en'  => ['Note (EN)', 'text'],
+    'hero' => ['label' => 'Accroche', 'type' => 'single', 'fields' => [
+        'kicker_fr' => ['Sur-titre (FR)', 'text'],
+        'kicker_en' => ['Sur-titre (EN)', 'text'],
+        'lead_fr'   => ['Texte d\'accroche (FR)', 'textarea'],
+        'lead_en'   => ['Texte d\'accroche (EN)', 'textarea'],
+    ]],
+    'stats' => ['label' => 'Chiffres', 'type' => 'list', 'title' => 'value_fr', 'sub' => 'label_fr', 'fields' => [
+        'value_fr' => ['Chiffre et mot-clé (FR)', 'text'],
+        'value_en' => ['Chiffre et mot-clé (EN)', 'text'],
+        'label_fr' => ['Légende (FR)', 'text'],
+        'label_en' => ['Légende (EN)', 'text'],
+        'icon'     => ['Picto', 'select'],
     ]],
     'results' => ['label' => 'Palmarès', 'type' => 'list', 'title' => 'race', 'sub' => 'date', 'sub2' => 'year', 'eye' => true,
         'add' => '+ Ajouter une course',
@@ -59,6 +62,23 @@ $SCHEMA = [
         'note_en'  => ['Note (EN)', 'text'],
         'worlds'   => ['Championnat du monde (badge WC)', 'yesno'],
         'pto'      => ['Clé PTO (automatique, ne pas modifier)', 'ro'],
+    ]],
+    'partners' => ['label' => 'Partenaires', 'type' => 'list', 'title' => 'name', 'sub' => 'role_fr', 'fields' => [
+        'name'    => ['Nom', 'text'],
+        'url'     => ['Site web (https://…)', 'url'],
+        'logo'    => ['Logo (chemin, ex. assets/img/partners/hoka.png)', 'text'],
+        'role_fr' => ['Rôle (FR)', 'text'],
+        'role_en' => ['Rôle (EN)', 'text'],
+    ]],
+    'calendar' => ['label' => 'Calendrier', 'type' => 'list', 'title' => 'race', 'sub' => 'date', 'fields' => [
+        'date'     => ['Date', 'date'],
+        'race'     => ['Course', 'text'],
+        'race_en'  => ['Course (EN, si le nom diffère)', 'text'],
+        'location' => ['Lieu', 'text'],
+        'location_en' => ['Lieu (EN, si différent)', 'text'],
+        'format'   => ['Format (IRONMAN, 70.3, Half…)', 'text'],
+        'note_fr'  => ['Note (FR)', 'text'],
+        'note_en'  => ['Note (EN)', 'text'],
     ]],
     'coaching' => ['label' => 'Coaching', 'type' => 'single', 'fields' => [
         'intro_fr' => ['Texte de présentation (FR)', 'textarea'],
@@ -85,26 +105,6 @@ $SCHEMA = [
         'name'         => ['Prénom', 'text'],
         'city'         => ['Ville (facultatif)', 'text'],
     ]],
-    'partners' => ['label' => 'Partenaires', 'type' => 'list', 'title' => 'name', 'sub' => 'role_fr', 'fields' => [
-        'name'    => ['Nom', 'text'],
-        'url'     => ['Site web (https://…)', 'url'],
-        'logo'    => ['Logo (chemin, ex. assets/img/partners/hoka.png)', 'text'],
-        'role_fr' => ['Rôle (FR)', 'text'],
-        'role_en' => ['Rôle (EN)', 'text'],
-    ]],
-    'stats' => ['label' => 'Chiffres', 'type' => 'list', 'title' => 'value_fr', 'sub' => 'label_fr', 'fields' => [
-        'value_fr' => ['Chiffre et mot-clé (FR)', 'text'],
-        'value_en' => ['Chiffre et mot-clé (EN)', 'text'],
-        'label_fr' => ['Légende (FR)', 'text'],
-        'label_en' => ['Légende (EN)', 'text'],
-        'icon'     => ['Picto', 'select'],
-    ]],
-    'hero' => ['label' => 'Accroche', 'type' => 'single', 'fields' => [
-        'kicker_fr' => ['Sur-titre (FR)', 'text'],
-        'kicker_en' => ['Sur-titre (EN)', 'text'],
-        'lead_fr'   => ['Texte d\'accroche (FR)', 'textarea'],
-        'lead_en'   => ['Texte d\'accroche (EN)', 'textarea'],
-    ]],
     'settings' => ['label' => 'Réglages', 'type' => 'single', 'fields' => [
         'draft'         => ['Site masqué des moteurs de recherche (noindex) : à désactiver au lancement', 'bool'],
         'contact_email' => ['E-mail qui reçoit le formulaire (jamais affiché sur le site)', 'email'],
@@ -118,6 +118,9 @@ $SCHEMA = [
         'siret'         => ['SIRET (mentions légales)', 'text'],
     ]],
 ];
+
+/* Onglets du back office, dans l'ordre du site : L'Athlète (accueil), Le Coach (page coaching), puis les réglages. */
+$GROUPS = ['L\'Athlète' => ['hero', 'stats', 'results', 'partners', 'calendar'], 'Le Coach' => ['coaching', 'coaching_items', 'testimonials'], 'Site' => ['settings']];
 
 /* ---------- Outils ---------- */
 function flash(string $msg, string $kind = 'ok'): void
@@ -204,9 +207,9 @@ function card(string $index, array $def, array $item, bool $open): string
 $config  = is_file(CONFIG_FILE) ? (require CONFIG_FILE) : null;
 $hash    = is_array($config) ? (string) ($config['hash'] ?? '') : '';
 $logged  = $hash !== '' && !empty($_SESSION['auth']);
-$section = (string) ($_GET['s'] ?? 'calendar');
+$section = (string) ($_GET['s'] ?? 'hero');
 if (!isset($SCHEMA[$section])) {
-    $section = 'calendar';
+    $section = 'hero';
 }
 
 if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
@@ -370,6 +373,8 @@ body { margin:0; background:var(--tint); color:var(--ink); font:400 16px/1.45 "A
 .tabs { display:flex; gap:0; overflow-x:auto; background:var(--paper); border-bottom:1px solid var(--ink); scrollbar-width:none; }
 .tabs::-webkit-scrollbar { display:none; }
 .tabs a { flex:none; padding:15px 14px; font:500 12px/1 var(--mono); letter-spacing:.05em; text-transform:uppercase; text-decoration:none; color:var(--mute); border-bottom:3px solid transparent; }
+.tabs .grp { flex:none; align-self:center; padding:4px 8px; margin:0 4px 0 12px; font:500 10px/1 var(--mono); letter-spacing:.08em; text-transform:uppercase; color:var(--paper); background:var(--ink); }
+.tabs .grp:first-child { margin-left:8px; }
 .tabs a[aria-current] { color:var(--ink); border-bottom-color:var(--ink); }
 main { max-width:680px; margin:0 auto; padding:16px 16px 110px; }
 h1 { font-weight:800; font-stretch:112%; text-transform:uppercase; font-size:26px; line-height:1; margin:10px 0 16px; }
@@ -443,9 +448,11 @@ button { font-family:inherit; }
   <form method="post"><input type="hidden" name="csrf" value="<?= e($csrf) ?>"><input type="hidden" name="action" value="logout"><button type="submit">Quitter</button></form>
 </div>
 <nav class="tabs">
-  <?php foreach ($SCHEMA as $key => $s): ?>
-  <a href="?s=<?= e($key) ?>"<?= $key === $section ? ' aria-current="page"' : '' ?>><?= e($s['label']) ?></a>
-  <?php endforeach; ?>
+  <?php foreach ($GROUPS as $gLabel => $gKeys): ?>
+  <span class="grp"><?= e($gLabel) ?></span>
+  <?php foreach ($gKeys as $key): ?>
+  <a href="?s=<?= e($key) ?>"<?= $key === $section ? ' aria-current="page"' : '' ?>><?= e($SCHEMA[$key]['label']) ?></a>
+  <?php endforeach; endforeach; ?>
 </nav>
 <main>
   <h1><?= e($def['label']) ?></h1>
