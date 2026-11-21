@@ -43,11 +43,12 @@ $SCHEMA = [
         'note_fr'  => ['Note (FR)', 'text'],
         'note_en'  => ['Note (EN)', 'text'],
     ]],
-    'results' => ['label' => 'Palmarès', 'type' => 'list', 'title' => 'race', 'sub' => 'year', 'eye' => true,
-        'help' => 'Toutes les courses y sont, y compris les Mondiaux. L\'œil à droite de chaque course permet de l\'afficher sur le site ou de la masquer sans la supprimer. « Importer depuis PTO » ajoute les nouvelles courses et met à jour place et temps ; vos lieux, traductions et notes ne sont jamais écrasés.',
+    'results' => ['label' => 'Palmarès', 'type' => 'list', 'title' => 'race', 'sub' => 'date', 'sub2' => 'year', 'eye' => true,
+        'add' => '+ Ajouter une course',
+        'help' => 'Toutes les courses y sont, y compris les Mondiaux. « + Ajouter » permet de saisir à la main une course absente de PTO. L\'œil à droite de chaque course permet de l\'afficher sur le site ou de la masquer sans la supprimer. « Importer depuis PTO » ajoute les nouvelles courses et met à jour place et temps ; vos lieux, traductions et notes ne sont jamais écrasés.',
         'fields' => [
-        'year'     => ['Année', 'number'],
-        'date'     => ['Date exacte (facultatif, sert à l\'ordre dans l\'année)', 'date'],
+        'date'     => ['Date de la course (c\'est elle qui ordonne le palmarès)', 'date'],
+        'year'     => ['Année (seulement si la date exacte est inconnue)', 'number'],
         'race'     => ['Course', 'text'],
         'race_en'  => ['Course (EN, si le nom diffère)', 'text'],
         'location' => ['Lieu', 'text'],
@@ -171,6 +172,9 @@ function card(string $index, array $def, array $item, bool $open): string
 {
     $title = trim((string) ($item[$def['title']] ?? ''));
     $sub   = trim((string) ($item[$def['sub']] ?? ''));
+    if ($sub === '' && isset($def['sub2'])) {
+        $sub = trim((string) ($item[$def['sub2']] ?? ''));
+    }
     $eye   = !empty($def['eye']);
     $on    = (string) ($item['visible'] ?? '1') !== '0';
     $h = '<details class="card' . ($eye ? ' has-eye' : '') . ($eye && !$on ? ' is-off' : '') . '"' . ($open ? ' open' : '') . '><summary><b>'
@@ -300,6 +304,9 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
                     $row[$fk] = $v;
                 }
                 if (!$empty) {
+                    if ($key === 'results' && preg_match('/^(\d{4})-\d{2}-\d{2}$/', $row['date'], $dm)) {
+                        $row['year'] = $dm[1];   // l'année suit toujours la date exacte
+                    }
                     if (!empty($def['eye'])) {
                         $row['visible'] = (string) ($item['visible'] ?? '1') === '0' ? '0' : '1';
                     }
@@ -313,6 +320,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
             }
             if ($key === 'results') {
                 $rows = results_sort($rows);
+                $undated = count(array_filter($rows, static function ($r) { return results_year($r) === 0; }));
             }
             $content[$key] = $rows;
         } else {
@@ -324,7 +332,7 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
         }
 
         if (save_content($content)) {
-            flash('Enregistré. Le site est à jour.');
+            flash('Enregistré. Le site est à jour.' . (!empty($undated) ? ' Attention : ' . $undated . ' course(s) sans date ni année, placée(s) tout en bas.' : ''));
         } else {
             flash('Échec de l\'enregistrement (droits d\'écriture sur data/ ?).', 'err');
         }
@@ -458,7 +466,7 @@ button { font-family:inherit; }
         : ($section === 'results'
             ? 'Le palmarès est trié par année puis par date à l\'enregistrement.'
             : 'L\'ordre affiché ici est celui du site. Utilisez ↑ ↓ pour réordonner.') ?></p>
-    <button type="button" class="add" id="add">+ Ajouter</button>
+    <button type="button" class="add" id="add"><?= e($def['add'] ?? '+ Ajouter') ?></button>
     <div id="list">
       <?php foreach (array_values($data) as $i => $item): ?>
       <?= card((string) $i, $def, is_array($item) ? $item : [], false) ?>

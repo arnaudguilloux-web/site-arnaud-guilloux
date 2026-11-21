@@ -344,6 +344,7 @@ foreach (results_sort(array_values($c['results'] ?? [])) as $r) {
     if ((string) ($r['visible'] ?? '1') === '0') {
         continue;
     }
+    $r['year']   = (string) results_year($r) ?: '';
     $r['worlds'] = isset($r['worlds'])
         ? (string) $r['worlds'] === '1'
         : (bool) preg_match('/championnat du monde|world championship/i', ($r['race'] ?? '') . ' ' . ($r['race_en'] ?? ''));

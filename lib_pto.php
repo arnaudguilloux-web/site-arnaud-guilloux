@@ -166,6 +166,13 @@ function pto_new_row(array $p): array
     ];
 }
 
+/** Année d'une course : celle de la date exacte si elle existe, sinon le champ « année ». */
+function results_year(array $r): int
+{
+    $fromDate = (int) substr((string) ($r['date'] ?? ''), 0, 4);
+    return $fromDate > 0 ? $fromDate : (int) ($r['year'] ?? 0);
+}
+
 /** Tri du palmarès : année puis date, du plus récent au plus ancien (sans date = en fin d'année). */
 function results_sort(array $rows): array
 {
@@ -174,7 +181,7 @@ function results_sort(array $rows): array
     }
     unset($r);
     usort($rows, static function (array $a, array $b): int {
-        $d = (int) ($b['year'] ?? 0) - (int) ($a['year'] ?? 0);
+        $d = results_year($b) - results_year($a);
         if ($d !== 0) {
             return $d;
         }
