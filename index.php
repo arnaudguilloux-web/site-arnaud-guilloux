@@ -244,7 +244,7 @@ $n = 0; // numérotation des sections
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=26">
+<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=27">
 <script type="application/ld+json"><?= json_encode($jsonLd, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) ?></script>
 </head>
 <body>
@@ -350,13 +350,11 @@ foreach (results_sort(array_values($c['results'] ?? [])) as $r) {
         : (bool) preg_match('/championnat du monde|world championship/i', ($r['race'] ?? '') . ' ' . ($r['race_en'] ?? ''));
     $rows[] = $r;
 }
-$worldsCount = count(array_filter($rows, function ($r) { return $r['worlds']; }));
 $firstRows = 8; ?>
 <?php if ($rows): ?>
 <section id="palmares">
   <div class="wrap">
     <h2><?= e($T['h_results']) ?></h2>
-    <?php if ($worldsCount > 0): ?><p class="feature-text results-sub"><?= e($T['worlds_big'][0]) ?> <?= e(sprintf($T['worlds_big'][1], $worldsCount)) ?></p><?php endif; ?>
     <ol class="rows results" id="results">
       <?php foreach ($rows as $i => $r): ?>
       <li<?= $i >= $firstRows ? ' class="extra"' : '' ?>>
