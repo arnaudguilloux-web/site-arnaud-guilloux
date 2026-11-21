@@ -15,8 +15,13 @@ $coaching = $c['coaching'] ?? [];
 $coachItems = coaching_items($c);
 $allQuotes = testimonials($c);
 $moreQuotes = count($allQuotes) > 5;
-shuffle($allQuotes);                          /* 5 témoignages au hasard à chaque visite ; la page dédiée les montre tous */
-$quotes = array_slice($allQuotes, 0, 5);
+/* Carrousel : 5 témoignages au hasard à chaque visite, tirés d'abord parmi ceux qui ont un chiffre clé ET un titre (contexte) ;
+   s'il y en a moins de 5, on complète avec les autres. La page dédiée les montre tous. */
+$featured = array_values(array_filter($allQuotes, static function ($q) { return tr($q, 'highlight') !== '' && tr($q, 'context') !== ''; }));
+$others   = array_values(array_filter($allQuotes, static function ($q) { return tr($q, 'highlight') === '' || tr($q, 'context') === ''; }));
+shuffle($featured);
+shuffle($others);
+$quotes = array_slice(array_merge($featured, $others), 0, 5);
 $draft = ($settings['draft'] ?? '1') === '1';
 
 $T = [
