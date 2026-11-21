@@ -52,7 +52,7 @@ $SCHEMA = [
         'note_fr'  => ['Note (FR)', 'text'],
         'note_en'  => ['Note (EN)', 'text'],
     ]],
-    'qualifications' => ['label' => 'Mondiaux', 'type' => 'list', 'title' => 'event', 'sub' => 'year', 'fields' => [
+    'qualifications' => ['label' => 'Mondiaux (affichés dans le palmarès)', 'type' => 'list', 'title' => 'event', 'sub' => 'year', 'fields' => [
         'year'     => ['Année', 'number'],
         'event'    => ['Épreuve', 'text'],
         'event_en' => ['Épreuve (EN, si le nom diffère)', 'text'],
@@ -103,8 +103,6 @@ $SCHEMA = [
         'kicker_en' => ['Sur-titre (EN)', 'text'],
         'lead_fr'   => ['Texte d\'accroche (FR)', 'textarea'],
         'lead_en'   => ['Texte d\'accroche (EN)', 'textarea'],
-        'quote'      => ['Citation (encart à droite du texte)', 'textarea'],
-        'quote_name' => ['Auteur de la citation', 'text'],
     ]],
     'settings' => ['label' => 'Réglages', 'type' => 'single', 'fields' => [
         'draft'         => ['Site masqué des moteurs de recherche (noindex) : à désactiver au lancement', 'bool'],

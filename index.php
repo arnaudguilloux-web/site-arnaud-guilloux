@@ -97,6 +97,8 @@ $T = [
         'h_coaching'   => 'Coaching',
         'coaching_big' => ['Le coaching.', 'Orienté performance.'],
         'coaching_cta' => 'Parler de votre objectif',
+        'coaching_more' => 'Découvrir le coaching',
+        'worlds_badge' => 'Mondial',
         'h_quotes'     => 'Témoignages',
         'quotes_big'   => ['Ce que disent', 'mes athlètes.'],
         'quotes_note'  => '',
@@ -110,7 +112,7 @@ $T = [
         ],
         'alt_hero'     => 'Arnaud Guilloux à vélo entre deux haies de spectateurs au Challenge Roth',
         'alt_kona'     => ['Arnaud Guilloux et son vélo sur un champ de lave à Hawaï', 'Arnaud Guilloux au dépôt des vélos du Championnat du monde IRONMAN'],
-        'nav'          => ['palmares' => 'Palmarès', 'mondiaux' => 'Mondiaux', 'coaching' => 'Coaching', 'partenaires' => 'Partenaires', 'calendrier' => 'Calendrier', 'contact' => 'Contact'],
+        'nav'          => ['palmares' => 'Palmarès', 'coaching' => 'Coaching', 'partenaires' => 'Partenaires', 'calendrier' => 'Calendrier', 'contact' => 'Contact'],
         'cta_coaching' => 'Coaching',
         'cta_sponsor'  => 'Devenir partenaire',
         'place'        => 'Saint-Renan, Bretagne',
@@ -146,6 +148,8 @@ $T = [
         'h_coaching'   => 'Coaching',
         'coaching_big' => ['Coaching.', 'Performance-driven.'],
         'coaching_cta' => 'Talk about your goal',
+        'coaching_more' => 'Discover coaching',
+        'worlds_badge' => 'Worlds',
         'h_quotes'     => 'Testimonials',
         'quotes_big'   => ['What my', 'athletes say.'],
         'quotes_note'  => 'Testimonials are shown in their original French.',
@@ -159,7 +163,7 @@ $T = [
         ],
         'alt_hero'     => 'Arnaud Guilloux riding between two walls of spectators at Challenge Roth',
         'alt_kona'     => ['Arnaud Guilloux and his bike on a lava field in Hawaii', 'Arnaud Guilloux at bike check-in for the IRONMAN World Championship'],
-        'nav'          => ['palmares' => 'Results', 'mondiaux' => 'Worlds', 'coaching' => 'Coaching', 'partenaires' => 'Partners', 'calendrier' => 'Calendar', 'contact' => 'Contact'],
+        'nav'          => ['palmares' => 'Results', 'coaching' => 'Coaching', 'partenaires' => 'Partners', 'calendrier' => 'Calendar', 'contact' => 'Contact'],
         'cta_coaching' => 'Coaching',
         'cta_sponsor'  => 'Become a partner',
         'place'        => 'Saint-Renan, Brittany',
@@ -231,7 +235,7 @@ $n = 0; // numérotation des sections
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=21">
+<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=22">
 <script type="application/ld+json"><?= json_encode($jsonLd, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) ?></script>
 </head>
 <body>
@@ -273,11 +277,13 @@ $n = 0; // numérotation des sections
 <div class="wrap intro">
   <div class="intro-grid">
     <p class="lead"><?= club_link(e(tr($hero, 'lead'))) ?></p>
-    <?php if (!empty($hero['quote'])): ?>
-    <figure class="intro-quote">
-      <blockquote>« <?= e($hero['quote']) ?> »</blockquote>
-      <?php if (!empty($hero['quote_name'])): ?><figcaption><?= e($hero['quote_name']) ?></figcaption><?php endif; ?>
-    </figure>
+    <?php if (tr($coaching, 'intro') !== '' || $coachItems): ?>
+    <aside class="intro-coach">
+      <p class="mono eyebrow"><?= e($T['h_coaching']) ?></p>
+      <p class="intro-coach-title"><?= e($T['coaching_big'][0]) ?> <?= e($T['coaching_big'][1]) ?></p>
+      <?php if (tr($coaching, 'intro') !== ''): ?><p class="intro-coach-text"><?= e(tr($coaching, 'intro')) ?></p><?php endif; ?>
+      <a class="more" href="#coaching"><?= e($T['coaching_more']) ?></a>
+    </aside>
     <?php endif; ?>
   </div>
   <?php if (!empty($c['stats'])): ?>
@@ -299,7 +305,6 @@ $n = 0; // numérotation des sections
       <h2><?= e($T['h_highlights']) ?></h2>
       <p class="links">
         <a class="more" href="#palmares"><?= e($T['see_results']) ?></a>
-        <a class="more" href="#mondiaux"><?= e($T['see_worlds']) ?></a>
       </p>
     </div>
     <div class="shots">
@@ -313,53 +318,68 @@ $n = 0; // numérotation des sections
   </div>
 </section>
 
-<?php if (!empty($c['results'])):
-    $firstRows = 8; ?>
+<?php
+/* Palmarès unique : les résultats + les participations aux Mondiaux (sans doublon), triés par année. */
+$rows = [];
+foreach (array_values($c['results'] ?? []) as $r) {
+    $r['worlds'] = (bool) preg_match('/championnat du monde|world championship/i', ($r['race'] ?? '') . ' ' . ($r['race_en'] ?? ''));
+    $rows[] = $r;
+}
+$worldsInResults = [];   // années où le palmarès contient déjà un Mondial (évite le doublon)
+foreach ($rows as $r) {
+    if (!empty($r['worlds'])) { $worldsInResults[(string) ($r['year'] ?? '')] = true; }
+}
+foreach (($c['qualifications'] ?? []) as $q) {
+    if (isset($worldsInResults[(string) ($q['year'] ?? '')])) { continue; }
+    $note = trim(tr($q, 'note'));
+    $rank = 'DNF';
+    $rest = '';
+    if (preg_match('/^(\d+)\s*(?:er|e|st|nd|rd|th)\b\s*(?:·\s*)?(.*)$/u', $note, $m)) {
+        $rank = $m[1];
+        $rest = $m[2];
+    }
+    $rows[] = [
+        'year' => $q['year'] ?? '', 'race' => $q['event'] ?? '', 'race_en' => $q['event_en'] ?? '',
+        'location' => $q['location'] ?? '', 'location_en' => $q['location_en'] ?? '',
+        'rank' => $rank, 'note_fr' => $rest, 'note_en' => $rest, 'worlds' => true,
+    ];
+}
+foreach ($rows as $i => &$r) { $r['_i'] = $i; }
+unset($r);
+usort($rows, function ($x, $y) {
+    $d = (int) ($y['year'] ?? 0) - (int) ($x['year'] ?? 0);
+    if ($d !== 0) { return $d; }
+    $w = (int) !empty($y['worlds']) - (int) !empty($x['worlds']);   // Mondial en premier dans l'année
+    return $w !== 0 ? $w : $x['_i'] - $y['_i'];
+});
+$worldsCount = count(array_filter($rows, function ($r) { return !empty($r['worlds']); }));
+$firstRows = 8; ?>
+<?php if ($rows): ?>
 <section id="palmares">
   <div class="wrap">
     <h2><?= e($T['h_results']) ?></h2>
+    <?php if ($worldsCount > 0): ?><p class="feature-text results-sub"><?= e($T['worlds_big'][0]) ?> <?= e(sprintf($T['worlds_big'][1], $worldsCount)) ?></p><?php endif; ?>
+    <div class="duo">
+      <figure><img src="<?= e($base) ?>assets/img/kona-lave.jpg" alt="<?= e($T['alt_kona'][0]) ?>" loading="lazy"></figure>
+      <figure><img src="<?= e($base) ?>assets/img/kona-check-in.jpg" alt="<?= e($T['alt_kona'][1]) ?>" loading="lazy"></figure>
+    </div>
     <ol class="rows results" id="results">
-      <?php foreach (array_values($c['results']) as $i => $r): ?>
+      <?php foreach ($rows as $i => $r): ?>
       <li<?= $i >= $firstRows ? ' class="extra"' : '' ?>>
         <span class="mono year"><?= e($r['year'] ?? '') ?></span>
         <span class="rank"><?= rank_label(trim((string) ($r['rank'] ?? ''))) ?></span>
         <span class="what">
           <strong><?= e(loc($r, 'race')) ?></strong>
+          <?php if (!empty($r['worlds'])): ?><span class="badge"><?= e($T['worlds_badge']) ?></span><?php endif; ?>
           <?php if (loc($r, 'location') !== ''): ?><span class="where"><?= e(loc($r, 'location')) ?></span><?php endif; ?>
         </span>
         <span class="note"><?= e(tr($r, 'note')) ?></span>
       </li>
       <?php endforeach; ?>
     </ol>
-    <?php if (count($c['results']) > $firstRows): ?>
-    <button class="more" type="button" id="show-all" hidden><?= e($T['show_all']) ?> (<?= count($c['results']) ?>)</button>
+    <?php if (count($rows) > $firstRows): ?>
+    <button class="more" type="button" id="show-all" hidden><?= e($T['show_all']) ?> (<?= count($rows) ?>)</button>
     <?php endif; ?>
-  </div>
-</section>
-<?php endif; ?>
-
-<?php if (!empty($c['qualifications'])): ?>
-<section id="mondiaux" class="soft">
-  <div class="wrap">
-    <p class="eyebrow"><?= e($T['h_qualif']) ?></p>
-    <h2 class="big"><?= e($T['worlds_big'][0]) ?> <span><?= e(sprintf($T['worlds_big'][1], count($c['qualifications']))) ?></span></h2>
-    <div class="duo">
-      <figure><img src="<?= e($base) ?>assets/img/kona-lave.jpg" alt="<?= e($T['alt_kona'][0]) ?>" loading="lazy"></figure>
-      <figure><img src="<?= e($base) ?>assets/img/kona-check-in.jpg" alt="<?= e($T['alt_kona'][1]) ?>" loading="lazy"></figure>
-    </div>
-    <p class="feature-text"><?= e($T['qualif_lead']) ?></p>
-    <ul class="qualifs">
-      <?php foreach ($c['qualifications'] as $q): ?>
-      <li>
-        <span class="q-year"><?= e($q['year'] ?? '') ?></span>
-        <span class="q-what">
-          <strong><?= e(loc($q, 'event')) ?></strong>
-          <span><?= e(loc($q, 'location')) ?></span>
-        </span>
-        <span class="note"><?= e(tr($q, 'note')) ?></span>
-      </li>
-      <?php endforeach; ?>
-    </ul>
   </div>
 </section>
 <?php endif; ?>
