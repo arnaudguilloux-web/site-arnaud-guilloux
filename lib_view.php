@@ -166,6 +166,7 @@ function site_header(string $lang, array $home, array $self, array $c, string $c
     $T  = $en
         ? ['athlete' => 'The Athlete', 'coach' => 'The Coach', 'ads' => 'My Listings', 'new_tab' => 'opens in a new tab',
            'athlete_items' => [
+               'top'         => ['Overview', 'Professional long-distance triathlete'],
                'highlights'  => ['Highlights', 'Photos from the big races'],
                'palmares'    => ['Results', 'The full race record'],
                'partenaires' => ['Partners', 'Those who back me'],
@@ -179,6 +180,7 @@ function site_header(string $lang, array $home, array $self, array $c, string $c
            ]]
         : ['athlete' => "L'Athlète", 'coach' => 'Le Coach', 'ads' => 'Mes Annonces', 'new_tab' => 'nouvel onglet',
            'athlete_items' => [
+               'top'         => ['Présentation', 'Triathlète professionnel longue distance'],
                'highlights'  => ['Highlights', 'Photos des grandes courses'],
                'palmares'    => ['Palmarès', 'Tous les résultats'],
                'partenaires' => ['Partenaires', 'Ceux qui m\'accompagnent'],
@@ -216,7 +218,11 @@ function site_header(string $lang, array $home, array $self, array $c, string $c
     /* L'Athlète */
     $a = '';
     foreach ($T['athlete_items'] as $id => [$label, $hint]) {
-        $href = ($id === $current && isset($pages[$id])) ? $base . $pages[$id] . $suffix : (($onHome ? '' : $home[$lang]) . '#' . $id);
+        if ($id === 'top') {
+            $href = $onHome ? '#' : $home[$lang];   /* haut de la page d'accueil */
+        } else {
+            $href = ($id === $current && isset($pages[$id])) ? $base . $pages[$id] . $suffix : (($onHome ? '' : $home[$lang]) . '#' . $id);
+        }
         $on   = $id === $current ? ' class="on" aria-current="page"' : '';
         $a   .= '<li><a href="' . e($href) . '"' . $on . '><strong>' . e($label) . '</strong><span>' . e($hint) . '</span></a></li>';
     }
@@ -242,7 +248,7 @@ function site_header(string $lang, array $home, array $self, array $c, string $c
         $h .= '<a href="' . e($dest) . '" hreflang="' . $code . '" lang="' . $code . '"' . ($lang === $code ? ' aria-current="true"' : '') . '>' . $txt . '</a>';
     }
     $h .= '</div></div></header>';
-    $h .= '<script src="' . e($base) . 'assets/nav.js?v=2" defer></script>';
+    $h .= '<script src="' . e($base) . 'assets/nav.js?v=3" defer></script>';
     return $h;
 }
 
