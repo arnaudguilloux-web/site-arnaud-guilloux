@@ -141,6 +141,7 @@ h1 { font-weight: 700; font-size: clamp(2rem, 4.2vw, 2.875rem); line-height: 1.0
 .where { color: var(--text-2); font-size: 14px; }
 .note, .offer-price { text-transform: none; letter-spacing: 0; font: 500 14px/1.4 var(--sans); color: var(--text-2); font-variant-numeric: tabular-nums; }
 .rank { font-weight: 700; font-size: 1.375rem; line-height: 1; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+.rank.dnf { font-weight: 600; font-size: .8125rem; letter-spacing: .04em; color: var(--text-3); }
 .rank sup { font-size: .5em; vertical-align: top; position: relative; top: .1em; margin-left: 1px; color: var(--text-3); }
 #show-all { margin-top: 20px; }
 .calendar time { display: flex; flex-direction: column; gap: 4px; }

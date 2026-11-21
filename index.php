@@ -26,6 +26,17 @@ function tr(array $item, string $key): string
     return (string) ($v !== '' ? $v : ($item[$key . '_fr'] ?? ''));
 }
 
+/* Temps « H:MM:SS » : notation sportive en français (7h38'00), inchangé en anglais. */
+function fmt_time(string $t): string
+{
+    global $lang;
+    $t = trim($t);
+    if ($lang === 'fr' && preg_match('/^(\d+):(\d{2}):(\d{2})$/', $t, $m)) {
+        return $m[1] . 'h' . $m[2] . "'" . $m[3];
+    }
+    return $t;
+}
+
 /* Champ texte avec variante anglaise facultative (clé_en), repli sur la version française. */
 function loc(array $item, string $key): string
 {
@@ -118,8 +129,6 @@ $T = [
         'cta_sponsor'  => 'Devenir partenaire',
         'place'        => 'Saint-Renan, Bretagne',
         'h_results'    => 'Palmarès',
-        'h_qualif'     => 'Qualifications aux Mondiaux',
-        'qualif_lead'  => 'Se qualifier chez les professionnels, c\'est gagner sa place course après course.',
         'h_partners'   => 'Partenaires',
         'pitch_title'  => 'Associez votre marque à la longue distance.',
         'pitch_text'   => 'Un athlète professionnel ancré en Bretagne et présent sur le circuit international. Visibilité en course, contenus, tests de matériel, interventions en entreprise : construisons un partenariat à votre mesure.',
@@ -170,8 +179,6 @@ $T = [
         'cta_sponsor'  => 'Become a partner',
         'place'        => 'Saint-Renan, Brittany',
         'h_results'    => 'Results',
-        'h_qualif'     => 'World Championship qualifications',
-        'qualif_lead'  => 'In the pro field, a qualification is earned one race at a time.',
         'h_partners'   => 'Partners',
         'pitch_title'  => 'Put your brand on the long-distance stage.',
         'pitch_text'   => 'A professional athlete rooted in Brittany and racing the international circuit. Race-day visibility, content, product testing, talks for your teams: let\'s build a partnership that fits you.',
@@ -237,7 +244,7 @@ $n = 0; // numérotation des sections
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=25">
+<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=26">
 <script type="application/ld+json"><?= json_encode($jsonLd, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) ?></script>
 </head>
 <body>
@@ -330,40 +337,19 @@ $n = 0; // numérotation des sections
 </section>
 
 <?php
-/* Palmarès unique : les résultats + les participations aux Mondiaux (sans doublon), triés par année. */
+/* Palmarès : les courses cochées « affichée » dans le back office, de la plus récente à la plus ancienne. */
+require_once __DIR__ . '/lib_pto.php';
 $rows = [];
-foreach (array_values($c['results'] ?? []) as $r) {
-    $r['worlds'] = (bool) preg_match('/championnat du monde|world championship/i', ($r['race'] ?? '') . ' ' . ($r['race_en'] ?? ''));
+foreach (results_sort(array_values($c['results'] ?? [])) as $r) {
+    if ((string) ($r['visible'] ?? '1') === '0') {
+        continue;
+    }
+    $r['worlds'] = isset($r['worlds'])
+        ? (string) $r['worlds'] === '1'
+        : (bool) preg_match('/championnat du monde|world championship/i', ($r['race'] ?? '') . ' ' . ($r['race_en'] ?? ''));
     $rows[] = $r;
 }
-$worldsInResults = [];   // années où le palmarès contient déjà un Mondial (évite le doublon)
-foreach ($rows as $r) {
-    if (!empty($r['worlds'])) { $worldsInResults[(string) ($r['year'] ?? '')] = true; }
-}
-foreach (($c['qualifications'] ?? []) as $q) {
-    if (isset($worldsInResults[(string) ($q['year'] ?? '')])) { continue; }
-    $note = trim(tr($q, 'note'));
-    $rank = 'DNF';
-    $rest = '';
-    if (preg_match('/^(\d+)\s*(?:er|e|st|nd|rd|th)\b\s*(?:·\s*)?(.*)$/u', $note, $m)) {
-        $rank = $m[1];
-        $rest = $m[2];
-    }
-    $rows[] = [
-        'year' => $q['year'] ?? '', 'race' => $q['event'] ?? '', 'race_en' => $q['event_en'] ?? '',
-        'location' => $q['location'] ?? '', 'location_en' => $q['location_en'] ?? '',
-        'rank' => $rank, 'note_fr' => $rest, 'note_en' => $rest, 'worlds' => true,
-    ];
-}
-foreach ($rows as $i => &$r) { $r['_i'] = $i; }
-unset($r);
-usort($rows, function ($x, $y) {
-    $d = (int) ($y['year'] ?? 0) - (int) ($x['year'] ?? 0);
-    if ($d !== 0) { return $d; }
-    $w = (int) !empty($y['worlds']) - (int) !empty($x['worlds']);   // Mondial en premier dans l'année
-    return $w !== 0 ? $w : $x['_i'] - $y['_i'];
-});
-$worldsCount = count(array_filter($rows, function ($r) { return !empty($r['worlds']); }));
+$worldsCount = count(array_filter($rows, function ($r) { return $r['worlds']; }));
 $firstRows = 8; ?>
 <?php if ($rows): ?>
 <section id="palmares">
@@ -374,13 +360,13 @@ $firstRows = 8; ?>
       <?php foreach ($rows as $i => $r): ?>
       <li<?= $i >= $firstRows ? ' class="extra"' : '' ?>>
         <span class="mono year"><?= e($r['year'] ?? '') ?></span>
-        <span class="rank"><?= rank_label(trim((string) ($r['rank'] ?? ''))) ?></span>
+        <span class="rank<?= ctype_digit(trim((string) ($r['rank'] ?? ''))) ? '' : ' dnf' ?>"><?= rank_label(trim((string) ($r['rank'] ?? ''))) ?></span>
         <span class="what">
           <strong><?= e(loc($r, 'race')) ?></strong>
           <?php if (!empty($r['worlds'])): ?><span class="badge" title="<?= e(rtrim($T['worlds_big'][0], '.')) ?>"><?= e($T['worlds_badge']) ?></span><?php endif; ?>
           <?php if (loc($r, 'location') !== ''): ?><span class="where"><?= e(loc($r, 'location')) ?></span><?php endif; ?>
         </span>
-        <span class="note"><?= e(tr($r, 'note')) ?></span>
+        <span class="note"><?= e(implode(' · ', array_filter([fmt_time((string) ($r['time'] ?? '')), tr($r, 'note')], 'strlen'))) ?></span>
       </li>
       <?php endforeach; ?>
     </ol>
