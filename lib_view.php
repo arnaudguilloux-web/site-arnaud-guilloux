@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 
+require_once __DIR__ . '/lib_gallery.php';
 require_once __DIR__ . '/lib_social.php';
 
 /* Fonctions d'affichage partagées par les pages du site (accueil, palmarès, galerie).
@@ -245,6 +246,19 @@ function site_header(string $lang, array $home, array $self, array $c, string $c
                'temoignages' => ['Témoignages', 'Ce que disent mes athlètes'],
                'contact'     => ['Contact', 'Un objectif ? Parlons-en'],
            ]];
+
+    /* « Highlights » du Coach : l'entrée n'existe que s'il y a des photos coach (la section est masquée sinon). */
+    if (gallery_items('coach')) {
+        $hl = $en ? ['Highlights', 'Photos from camps and races'] : ['Highlights', 'Photos des stages et des courses'];
+        $items = [];
+        foreach ($T['coach_items'] as $id => $it) {
+            if ($id === 'temoignages') {
+                $items['highlights'] = $hl;
+            }
+            $items[$id] = $it;
+        }
+        $T['coach_items'] = $items;
+    }
 
     /* Lien externe « Mes Annonces » : réglable dans l'admin (Réglages), sinon page d'accueil Troc-Vélo. */
     $set    = $c['settings'] ?? [];
