@@ -76,9 +76,9 @@ $SCHEMA = [
         'price_en'  => ['Tarif (EN)', 'text'],
     ]],
     'testimonials' => ['label' => 'Témoignages', 'type' => 'list', 'title' => 'name', 'sub' => 'city',
-        'help' => 'Chaque carte : un fait marquant en gros (ex. « 9 h 06 »), son contexte, puis la citation telle que l\'athlète l\'a écrite (un extrait, on ne réécrit pas ses mots). Signature affichée : « Prénom – Ville » (ville facultative). Ne publier qu\'avec l\'accord de l\'athlète.',
+        'help' => 'Chaque carte : un fait marquant en gros (ex. « 9h06 »), son contexte, puis la citation telle que l\'athlète l\'a écrite (un extrait, on ne réécrit pas ses mots). Signature affichée : « Prénom – Ville » (ville facultative). Ne publier qu\'avec l\'accord de l\'athlète.',
         'fields' => [
-        'highlight_fr' => ['Fait marquant en gros (FR) — ex. 9 h 06', 'text'],
+        'highlight_fr' => ['Fait marquant en gros (FR) — ex. 9h06', 'text'],
         'highlight_en' => ['Fait marquant en gros (EN)', 'text'],
         'context_fr'   => ['Contexte (FR) — ex. IRONMAN Texas', 'text'],
         'context_en'   => ['Contexte (EN)', 'text'],

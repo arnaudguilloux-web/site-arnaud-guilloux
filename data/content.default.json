@@ -17,7 +17,7 @@
   },
   "stats": [
     {
-      "value": "7 h 38",
+      "value": "7h38",
       "label_fr": "Sur IRONMAN — Brasil 2026",
       "label_en": "IRONMAN time — Brasil 2026",
       "icon": "chrono"
@@ -47,7 +47,7 @@
       "icon": "top100"
     },
     {
-      "value": "2 h 37",
+      "value": "2h37",
       "label_fr": "Marathon après 4h15 de vélo — Challenge Roth 2026",
       "label_en": "Marathon after 4h15 on the bike — Challenge Roth 2026",
       "icon": "chrono"
@@ -59,7 +59,7 @@
       "race": "IRONMAN Brasil",
       "location": "Florianópolis",
       "rank": "3",
-      "note_fr": "7 h 38 min 00",
+      "note_fr": "7h38 min 00",
       "note_en": "7:38:00"
     },
     {
@@ -68,7 +68,7 @@
       "location": "Roth, Allemagne",
       "location_en": "Roth, Germany",
       "rank": "12",
-      "note_fr": "7 h 46 min 30",
+      "note_fr": "7h46 min 30",
       "note_en": "7:46:30"
     },
     {
@@ -77,7 +77,7 @@
       "location": "Tennessee, États-Unis",
       "location_en": "Tennessee, USA",
       "rank": "5",
-      "note_fr": "7 h 38 min 52",
+      "note_fr": "7h38 min 52",
       "note_en": "7:38:52"
     },
     {
@@ -85,7 +85,7 @@
       "race": "IRONMAN New Zealand",
       "location": "Taupō",
       "rank": "8",
-      "note_fr": "8 h 00 min 47",
+      "note_fr": "8h00 min 47",
       "note_en": "8:00:47"
     },
     {
@@ -94,7 +94,7 @@
       "location": "Australie",
       "location_en": "Australia",
       "rank": "4",
-      "note_fr": "7 h 50 min 59",
+      "note_fr": "7h50 min 59",
       "note_en": "7:50:59"
     },
     {
@@ -103,7 +103,7 @@
       "location": "New York, États-Unis",
       "location_en": "New York, USA",
       "rank": "4",
-      "note_fr": "8 h 07 min 46",
+      "note_fr": "8h07 min 46",
       "note_en": "8:07:46"
     },
     {
@@ -111,7 +111,7 @@
       "race": "IRONMAN 70.3 Pays d'Aix",
       "location": "Aix-en-Provence",
       "rank": "5",
-      "note_fr": "3 h 50 min 45",
+      "note_fr": "3h50 min 45",
       "note_en": "3:50:45"
     },
     {
@@ -120,7 +120,7 @@
       "race_en": "IRONMAN World Championship",
       "location": "Nice",
       "rank": "12",
-      "note_fr": "8 h 28 min 53",
+      "note_fr": "8h28 min 53",
       "note_en": "8:28:53"
     },
     {
@@ -129,7 +129,7 @@
       "race_en": "Alpe d'Huez Triathlon L",
       "location": "Alpe d'Huez",
       "rank": "2",
-      "note_fr": "5 h 50 min 52",
+      "note_fr": "5h50 min 52",
       "note_en": "5:50:52"
     },
     {
@@ -137,7 +137,7 @@
       "race": "IRONMAN 70.3 Les Sables-d'Olonne",
       "location": "Vendée",
       "rank": "2",
-      "note_fr": "3 h 47 min 27",
+      "note_fr": "3h47 min 27",
       "note_en": "3:47:27"
     },
     {
@@ -146,7 +146,7 @@
       "location": "The Woodlands, États-Unis",
       "location_en": "The Woodlands, USA",
       "rank": "4",
-      "note_fr": "7 h 54 min 20",
+      "note_fr": "7h54 min 20",
       "note_en": "7:54:20"
     },
     {
@@ -154,7 +154,7 @@
       "race": "IRONMAN 70.3 Vichy",
       "location": "Vichy",
       "rank": "1",
-      "note_fr": "3 h 23 min 42",
+      "note_fr": "3h23 min 42",
       "note_en": "3:23:42"
     },
     {
@@ -162,7 +162,7 @@
       "race": "IRONMAN Brasil",
       "location": "Florianópolis",
       "rank": "4",
-      "note_fr": "8 h 02 min 51",
+      "note_fr": "8h02 min 51",
       "note_en": "8:02:51"
     },
     {
@@ -171,7 +171,7 @@
       "location": "New York, États-Unis",
       "location_en": "New York, USA",
       "rank": "2",
-      "note_fr": "8 h 23 min 12",
+      "note_fr": "8h23 min 12",
       "note_en": "8:23:12"
     },
     {
@@ -179,7 +179,7 @@
       "race": "IRONMAN Austria",
       "location": "Klagenfurt",
       "rank": "3",
-      "note_fr": "7 h 58 min 46",
+      "note_fr": "7h58 min 46",
       "note_en": "7:58:46"
     },
     {
@@ -188,7 +188,7 @@
       "location": "Varsovie",
       "location_en": "Warsaw",
       "rank": "2",
-      "note_fr": "3 h 43 min 54",
+      "note_fr": "3h43 min 54",
       "note_en": "3:43:54"
     },
     {
@@ -197,7 +197,7 @@
       "location": "Tenby, pays de Galles",
       "location_en": "Tenby, Wales",
       "rank": "1",
-      "note_fr": "8 h 48 min 06 · record de l'épreuve",
+      "note_fr": "8h48 min 06 · record de l'épreuve",
       "note_en": "8:48:06 · course record"
     },
     {
@@ -206,7 +206,7 @@
       "location": "Hambourg",
       "location_en": "Hamburg",
       "rank": "4",
-      "note_fr": "8 h 29 min 14",
+      "note_fr": "8h29 min 14",
       "note_en": "8:29:14"
     },
     {
@@ -214,7 +214,7 @@
       "race": "Natureman",
       "location": "Verdon",
       "rank": "1",
-      "note_fr": "4 h 13 min 06",
+      "note_fr": "4h13 min 06",
       "note_en": "4:13:06"
     },
     {
@@ -252,7 +252,7 @@
       "event_en": "IRONMAN World Championship",
       "location": "Kailua-Kona, Hawaï",
       "location_en": "Kailua-Kona, Hawaii",
-      "note_fr": "34e · 8 h 38 min 50",
+      "note_fr": "34e · 8h38 min 50",
       "note_en": "34th · 8:38:50"
     },
     {
@@ -269,7 +269,7 @@
       "event": "Championnat du monde IRONMAN",
       "event_en": "IRONMAN World Championship",
       "location": "Nice, France",
-      "note_fr": "12e · 8 h 28 min 53",
+      "note_fr": "12e · 8h28 min 53",
       "note_en": "12th · 8:28:53"
     },
     {
@@ -278,7 +278,7 @@
       "event_en": "IRONMAN World Championship",
       "location": "Kailua-Kona, Hawaï",
       "location_en": "Kailua-Kona, Hawaii",
-      "note_fr": "38e · 8 h 40 min 38",
+      "note_fr": "38e · 8h40 min 38",
       "note_en": "38th · 8:40:38"
     },
     {
@@ -286,7 +286,7 @@
       "event": "Championnat du monde IRONMAN (édition 2021)",
       "event_en": "IRONMAN World Championship (2021 edition)",
       "location": "St. George, Utah",
-      "note_fr": "22e · 8 h 53 min 40",
+      "note_fr": "22e · 8h53 min 40",
       "note_en": "22nd · 8:53:40"
     }
   ],
@@ -338,7 +338,7 @@
       "city": "Plouarzel"
     },
     {
-      "highlight_fr": "9 h 06",
+      "highlight_fr": "9h06",
       "highlight_en": "9:06",
       "context_fr": "IRONMAN Texas · billet pour Kona",
       "context_en": "IRONMAN Texas · Kona slot",
@@ -347,7 +347,7 @@
       "city": "Paris"
     },
     {
-      "highlight_fr": "2 h 16 à vélo",
+      "highlight_fr": "2h16 à vélo",
       "highlight_en": "2:16 on the bike",
       "context_fr": "IRONMAN 70.3 Málaga",
       "context_en": "IRONMAN 70.3 Málaga",
