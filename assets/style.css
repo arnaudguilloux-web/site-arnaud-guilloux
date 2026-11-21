@@ -158,6 +158,9 @@ h1 { font-weight: 700; font-size: clamp(2rem, 4.2vw, 2.875rem); line-height: 1.0
 .what { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 12px; min-width: 0; }
 .what strong { font-weight: 600; font-size: 1.0625rem; line-height: 1.3; letter-spacing: -.01em; }
 .kind { font: 600 10px/1 var(--sans); letter-spacing: .1em; text-transform: uppercase; color: var(--text-2); border: 1px solid var(--line-strong); border-radius: 4px; padding: 3px 6px; white-space: nowrap; }
+.kind-im   { color: #9a3f2c; background: #f8ece8; border-color: #e3b9ad; }
+.kind-im70 { color: var(--accent); background: var(--accent-soft); border-color: #b5cfe0; }
+.kind-ch   { color: #5b6b3f; background: #eef1e6; border-color: #c5cfae; }
 .badge { font: 600 10px/1 var(--sans); letter-spacing: .1em; text-transform: uppercase; color: var(--ink); background: #f8d34a; border-radius: 4px; padding: 4px 6px; white-space: nowrap; }
 .where { color: var(--text-2); font-size: 14px; }
 .note, .offer-price { text-transform: none; letter-spacing: 0; font: 500 14px/1.4 var(--sans); color: var(--text-2); font-variant-numeric: tabular-nums; }

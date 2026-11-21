@@ -108,7 +108,8 @@ function result_li(array $r, string $badgeTitle, string $badgeText): string
     }
     $kind = race_label($r);
     if ($kind !== '') {
-        $h .= '<span class="kind">' . e($kind) . '</span>';
+        $mod = ['IRONMAN' => 'im', 'IRONMAN 70.3' => 'im70', 'Challenge' => 'ch'][$kind] ?? '';
+        $h .= '<span class="kind' . ($mod !== '' ? ' kind-' . $mod : '') . '">' . e($kind) . '</span>';
     }
     if (loc($r, 'location') !== '') {
         $h .= '<span class="where">' . e(loc($r, 'location')) . '</span>';
