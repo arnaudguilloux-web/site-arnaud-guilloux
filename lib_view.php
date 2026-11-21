@@ -63,6 +63,23 @@ function results_rows(array $c): array
     return $rows;
 }
 
+/* Famille de course affichée en label : IRONMAN 70.3, IRONMAN ou Challenge (vide pour les autres courses).
+   Déduite du nom ; les championnats du monde n'en ont pas (le nom et le badge WC suffisent). */
+function race_label(array $r): string
+{
+    $name = trim((string) ($r['race'] ?? ''));
+    if (preg_match('/^IRONMAN\b.*\b70\.3\b/i', $name)) {
+        return 'IRONMAN 70.3';
+    }
+    if (preg_match('/^IRONMAN\b/i', $name)) {
+        return 'IRONMAN';
+    }
+    if (preg_match('/^Challenge\b/i', $name)) {
+        return 'Challenge';
+    }
+    return '';
+}
+
 /* Une ligne du palmarès (balise <li>). Si la course vient de PTO, la ligne renvoie vers sa page PTO (nouvel onglet). */
 function result_li(array $r, string $badgeTitle, string $badgeText): string
 {
@@ -77,7 +94,7 @@ function result_li(array $r, string $badgeTitle, string $badgeText): string
     if ($linked) {
         $label = loc($r, 'race') . ($lang === 'en' ? ' — result on PTO (opens in a new tab)' : ' — résultat sur PTO (nouvel onglet)');
         $race  = '<a class="pto-link" href="https://stats.protriathletes.org/race/' . e($pto) . '/results" target="_blank" rel="noopener noreferrer" aria-label="' . e($label) . '">'
-               . $race . '<span class="ext" aria-hidden="true"> ↗</span></a>';
+               . $race . '<svg class="ext" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14 4h6v6"/><path d="M20 4l-9 9"/><path d="M18 14v4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4"/></svg></a>';
     }
     $h  = '<li' . ($linked ? ' class="has-link"' : '') . '>';
     $h .= '<span class="mono year">' . e($r['year'] ?? '') . '</span>';
@@ -85,6 +102,10 @@ function result_li(array $r, string $badgeTitle, string $badgeText): string
     $h .= '<span class="what"><strong>' . $race . '</strong>';
     if (!empty($r['worlds'])) {
         $h .= '<span class="badge" title="' . e($badgeTitle) . '">' . e($badgeText) . '</span>';
+    }
+    $kind = empty($r['worlds']) ? race_label($r) : '';
+    if ($kind !== '') {
+        $h .= '<span class="kind">' . e($kind) . '</span>';
     }
     if (loc($r, 'location') !== '') {
         $h .= '<span class="where">' . e(loc($r, 'location')) . '</span>';
