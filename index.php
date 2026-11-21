@@ -103,7 +103,7 @@ $T = [
         'prev'         => 'Précédent',
         'next'         => 'Suivant',
         'slides'       => [
-            ['roth-arrivee', 'Challenge Roth 2026.', '7h46 min 30 sur la distance IRONMAN.'],
+            ['roth-arrivee', 'Challenge Roth 2026.', '7h46\'30 sur la distance IRONMAN.'],
             ['brasil-podium', 'IRONMAN Brasil 2026.', 'Troisième en 7h38.'],
             ['roth-velo', '180 km à vélo.', 'Là où se construit la course.'],
             ['roth-course', 'Puis un marathon.', 'Jusqu\'à la ligne.'],
