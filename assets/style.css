@@ -349,3 +349,6 @@ html:has(dialog[open]) { overflow: hidden; }
 .q-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); gap: 20px; margin-top: clamp(24px, 3.5vw, 40px); }
 .q-grid .qcard { width: auto; }
 .gal-page .quotes-note { margin-top: 12px; }
+/* Titre « big » + lien dans une .head-row (Témoignages) : le lien s'aligne sur la dernière ligne du titre, la marge passe sur la rangée */
+.head-row .big { margin-bottom: 0; }
+.head-row:has(.big) { margin-bottom: clamp(28px, 4vw, 48px); }
