@@ -91,5 +91,5 @@ function stat_icon_svg(string $key): string
     if (!isset($icons[$key])) {
         return '';
     }
-    return '<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" focusable="false">' . $icons[$key][1] . '</svg>';
+    return '<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" focusable="false">' . $icons[$key][1] . '</svg>';
 }
