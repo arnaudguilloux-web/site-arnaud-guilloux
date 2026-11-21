@@ -50,10 +50,10 @@ section { padding-block: clamp(36px, 4.5vw, 56px); }
 .brand strong { font-weight: 800; }
 .nav { display: flex; justify-content: center; align-self: stretch; gap: 4px; flex: 1; overflow-x: auto; scrollbar-width: none; }
 .nav::-webkit-scrollbar { display: none; }
-.nav a { position: relative; display: flex; align-items: center; font-size: 13px; font-weight: 500; color: var(--text-2); text-decoration: none; white-space: nowrap; padding: 10px clamp(10px, 1.4vw, 16px); transition: color .18s, background-color .18s; }
+.nav a { position: relative; display: flex; align-items: center; font-size: 13px; font-weight: 700; color: var(--text-2); text-decoration: none; white-space: nowrap; padding: 10px clamp(10px, 1.4vw, 16px); transition: color .18s, background-color .18s; }
 .nav a::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--accent); transform: scaleX(0); transition: transform .18s; }
-.nav a:hover, .nav a:focus-visible { color: var(--ink); background: var(--soft); }
-.nav a:hover::after, .nav a:focus-visible::after { transform: scaleX(1); }
+.nav a:hover, .nav a:focus-visible, .nav a.on { color: var(--ink); background: var(--soft); }
+.nav a:hover::after, .nav a:focus-visible::after, .nav a.on::after { transform: scaleX(1); }
 .lang { display: flex; border: 1px solid var(--line-strong); border-radius: var(--r-sm); overflow: hidden; }
 .lang a { font: 700 11px/1 var(--sans); letter-spacing: .06em; text-decoration: none; color: var(--ink); padding: 9px 11px; }
 .lang a[aria-current] { background: var(--accent); color: #fff; }
