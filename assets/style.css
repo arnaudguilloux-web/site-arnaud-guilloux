@@ -258,6 +258,11 @@ form .btn { align-self: flex-start; }
 .foot::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 3px; background: linear-gradient(90deg, var(--swim) 0 33.33%, var(--bike) 33.33% 66.66%, var(--run) 66.66% 100%); }
 .foot .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 32px; }
 .foot p:first-child { max-width: 60ch; }
+.foot-right { display: flex; flex-direction: column; align-items: flex-end; gap: 14px; }
+.foot-social { display: flex; gap: 6px; }
+.foot-social a { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; color: rgba(255, 255, 255, .7); transition: color .18s, background-color .18s; }
+.foot-social a:hover, .foot-social a:focus-visible { color: #fff; background: rgba(255, 255, 255, .1); }
+.foot-social .soc-ico { color: inherit; }
 
 /* ---------- Mobile ---------- */
 @media (max-width: 760px) {
@@ -329,3 +334,4 @@ form .btn { align-self: flex-start; }
 .modal-close { position: absolute; top: 14px; right: 14px; width: 36px; height: 36px; display: grid; place-items: center; border: 0; border-radius: 50%; background: transparent; color: var(--text-2); cursor: pointer; transition: background .18s, color .18s; }
 .modal-close:hover, .modal-close:focus-visible { background: var(--soft); color: var(--ink); }
 html:has(dialog[open]) { overflow: hidden; }
+@media (max-width: 760px) { .foot-right { align-items: flex-start; } }

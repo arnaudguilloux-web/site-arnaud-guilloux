@@ -149,13 +149,7 @@ $T = [
     ],
 ][$lang];
 
-$socials = [];
-foreach (['instagram' => 'Instagram', 'strava' => 'Strava', 'facebook' => 'Facebook', 'x' => 'X', 'linkedin' => 'LinkedIn'] as $key => $label) {
-    $url = trim((string) ($settings[$key] ?? ''));
-    if (preg_match('#^https?://#i', $url)) {
-        $socials[$label] = $url;
-    }
-}
+$socials = social_links($settings);
 
 $jsonLd = [
     '@context'     => 'https://schema.org',
@@ -190,7 +184,7 @@ $n = 0; // numérotation des sections
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=58">
+<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=59">
 <script type="application/ld+json"><?= json_encode($jsonLd, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) ?></script>
 </head>
 <body>
@@ -394,7 +388,7 @@ $renderForm = function (bool $withFlash) use ($T, $lang, $base, $sent): void { ?
 </section>
 </main>
 
-<?= site_footer($T['legal'], $settings) ?>
+<?= site_footer($T['legal'], $settings, $lang) ?>
 
 <dialog class="modal" id="contact-dialog" aria-labelledby="cd-title">
   <div class="modal-box">

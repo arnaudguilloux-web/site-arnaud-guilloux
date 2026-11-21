@@ -16,3 +16,17 @@ function social_icon_svg(string $label): string
     ];
     return $icons[$label] ?? '';
 }
+
+/** Réseaux sociaux renseignés dans les Réglages : [libellé => URL] (uniquement les liens https valides). */
+function social_links(array $settings): array
+{
+    $out = [];
+    foreach (['instagram' => 'Instagram', 'strava' => 'Strava', 'facebook' => 'Facebook', 'x' => 'X', 'linkedin' => 'LinkedIn'] as $key => $label) {
+        $url = trim((string) ($settings[$key] ?? ''));
+        if (preg_match('#^https?://#i', $url)) {
+            $out[$label] = $url;
+        }
+    }
+    return $out;
+}
+

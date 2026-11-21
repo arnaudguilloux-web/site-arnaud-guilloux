@@ -1,6 +1,8 @@
 <?php
 declare(strict_types=1);
 
+require_once __DIR__ . '/lib_social.php';
+
 /* Fonctions d'affichage partagées par les pages du site (accueil, palmarès, galerie).
    Elles s'appuient sur la variable globale $lang ('fr' ou 'en'). */
 
@@ -230,14 +232,22 @@ function site_header(string $lang, array $home, array $self, array $c, string $c
     return $h;
 }
 
-/** Pied de page commun : mentions légales (+ SIRET si renseigné) et copyright. */
-function site_footer(string $legal, array $settings): string
+/** Pied de page commun : mentions légales (+ SIRET si renseigné), réseaux sociaux et copyright. */
+function site_footer(string $legal, array $settings, string $lang = 'fr'): string
 {
     $siret = preg_replace('/\D/', '', (string) ($settings['siret'] ?? ''));
     if (strlen($siret) === 14) {
         $siret = substr($siret, 0, 3) . ' ' . substr($siret, 3, 3) . ' ' . substr($siret, 6, 3) . ' ' . substr($siret, 9);
     }
     $line = $legal . ($siret !== '' ? ' SIRET ' . $siret . '.' : '');
-    return '<footer class="foot"><div class="wrap"><p>' . e($line) . '</p><p>© ' . date('Y') . ' Arnaud Guilloux</p></div></footer>';
-}
+    $tab  = $lang === 'en' ? 'opens in a new tab' : 'nouvel onglet';
 
+    $soc = '';
+    foreach (social_links($settings) as $label => $url) {
+        $soc .= '<li><a href="' . e($url) . '" rel="noopener me" target="_blank" aria-label="' . e($label . ' — ' . $tab) . '" title="' . e($label) . '">' . social_icon_svg($label) . '</a></li>';
+    }
+
+    return '<footer class="foot"><div class="wrap"><p>' . e($line) . '</p><div class="foot-right">'
+        . ($soc !== '' ? '<ul class="foot-social">' . $soc . '</ul>' : '')
+        . '<p>© ' . date('Y') . ' Arnaud Guilloux</p></div></div></footer>';
+}
