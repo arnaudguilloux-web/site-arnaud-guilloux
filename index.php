@@ -191,7 +191,7 @@ $n = 0; // numérotation des sections
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=53">
+<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=55">
 <script type="application/ld+json"><?= json_encode($jsonLd, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) ?></script>
 </head>
 <body>
@@ -241,7 +241,7 @@ $n = 0; // numérotation des sections
   <?php endif; ?>
 </div>
 
-<section class="highlights">
+<section class="highlights" id="highlights">
   <div class="wrap">
     <div class="head-row">
       <h2><?= e($T['h_highlights']) ?></h2>
@@ -425,6 +425,9 @@ $renderForm = function (bool $withFlash) use ($T, $lang, $base, $sent): void { ?
     var cur = -1;
     navTargets.forEach(function (el, i) { if (el && el.getBoundingClientRect().top <= 120) cur = i; });
     navLinks.forEach(function (a, i) { a.classList.toggle('on', i === cur); });
+    Array.prototype.forEach.call(document.querySelectorAll('.nav .has-sub'), function (w) {
+      w.querySelector('.nav-trigger').classList.toggle('on', !!w.querySelector('.sub a.on'));
+    });
   }
   addEventListener('scroll', spy, { passive: true });
   addEventListener('resize', spy);
