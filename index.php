@@ -107,11 +107,12 @@ $T = [
         'slides'       => [
             ['roth-arrivee', 'Challenge Roth 2026.', '7h46\'30 sur la distance IRONMAN.'],
             ['brasil-podium', 'IRONMAN Brasil 2026.', 'Troisième en 7h38.'],
+            ['kona-lave', 'Kona, Hawaï.', 'Sur les champs de lave.'],
+            ['kona-check-in', 'Championnat du monde IRONMAN.', 'Au dépôt des vélos.'],
             ['roth-velo', '180 km à vélo.', 'Là où se construit la course.'],
             ['roth-course', 'Puis un marathon.', 'Jusqu\'à la ligne.'],
         ],
         'alt_hero'     => 'Arnaud Guilloux à vélo entre deux haies de spectateurs au Challenge Roth',
-        'alt_kona'     => ['Arnaud Guilloux et son vélo sur un champ de lave à Hawaï', 'Arnaud Guilloux au dépôt des vélos du Championnat du monde IRONMAN'],
         'nav'          => ['palmares' => 'Palmarès', 'coaching' => 'Coaching', 'partenaires' => 'Partenaires', 'calendrier' => 'Calendrier', 'contact' => 'Contact'],
         'cta_coaching' => 'Coaching',
         'cta_sponsor'  => 'Devenir partenaire',
@@ -158,11 +159,12 @@ $T = [
         'slides'       => [
             ['roth-arrivee', 'Challenge Roth 2026.', '7:46:30 over the IRONMAN distance.'],
             ['brasil-podium', 'IRONMAN Brasil 2026.', 'Third place in 7:38.'],
+            ['kona-lave', 'Kona, Hawaii.', 'On the lava fields.'],
+            ['kona-check-in', 'IRONMAN World Championship.', 'At bike check-in.'],
             ['roth-velo', '180 km on the bike.', 'Where the race is built.'],
             ['roth-course', 'Then a marathon.', 'All the way to the line.'],
         ],
         'alt_hero'     => 'Arnaud Guilloux riding between two walls of spectators at Challenge Roth',
-        'alt_kona'     => ['Arnaud Guilloux and his bike on a lava field in Hawaii', 'Arnaud Guilloux at bike check-in for the IRONMAN World Championship'],
         'nav'          => ['palmares' => 'Results', 'coaching' => 'Coaching', 'partenaires' => 'Partners', 'calendrier' => 'Calendar', 'contact' => 'Contact'],
         'cta_coaching' => 'Coaching',
         'cta_sponsor'  => 'Become a partner',
@@ -235,7 +237,7 @@ $n = 0; // numérotation des sections
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=23">
+<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=25">
 <script type="application/ld+json"><?= json_encode($jsonLd, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) ?></script>
 </head>
 <body>
@@ -307,13 +309,22 @@ $n = 0; // numérotation des sections
         <a class="more" href="#palmares"><?= e($T['see_results']) ?></a>
       </p>
     </div>
-    <div class="shots">
-      <?php foreach ($T['slides'] as $sl): ?>
-      <figure class="slide">
-        <img src="<?= e($base) ?>assets/img/<?= e($sl[0]) ?>.jpg" alt="" loading="lazy">
-        <figcaption><strong><?= e($sl[1]) ?></strong><span><?= e($sl[2]) ?></span></figcaption>
-      </figure>
-      <?php endforeach; ?>
+  </div>
+  <div class="carousel scar" id="scar" tabindex="0" aria-label="<?= e($T['h_highlights']) ?>">
+    <?php foreach ($T['slides'] as $sl): ?>
+    <figure class="slide">
+      <img src="<?= e($base) ?>assets/img/<?= e($sl[0]) ?>.jpg" alt="" loading="lazy">
+      <figcaption><strong><?= e($sl[1]) ?></strong><span><?= e($sl[2]) ?></span></figcaption>
+    </figure>
+    <?php endforeach; ?>
+  </div>
+  <div class="wrap">
+    <div class="qctrl">
+      <button type="button" class="arrow" id="sprev" aria-label="<?= e($T['prev']) ?>">‹</button>
+      <div class="dots" id="sdots" aria-hidden="true">
+        <?php foreach ($T['slides'] as $i => $sl): ?><span<?= $i === 0 ? ' class="on"' : '' ?>></span><?php endforeach; ?>
+      </div>
+      <button type="button" class="arrow" id="snext" aria-label="<?= e($T['next']) ?>">›</button>
     </div>
   </div>
 </section>
@@ -359,10 +370,6 @@ $firstRows = 8; ?>
   <div class="wrap">
     <h2><?= e($T['h_results']) ?></h2>
     <?php if ($worldsCount > 0): ?><p class="feature-text results-sub"><?= e($T['worlds_big'][0]) ?> <?= e(sprintf($T['worlds_big'][1], $worldsCount)) ?></p><?php endif; ?>
-    <div class="duo">
-      <figure><img src="<?= e($base) ?>assets/img/kona-lave.jpg" alt="<?= e($T['alt_kona'][0]) ?>" loading="lazy"></figure>
-      <figure><img src="<?= e($base) ?>assets/img/kona-check-in.jpg" alt="<?= e($T['alt_kona'][1]) ?>" loading="lazy"></figure>
-    </div>
     <ol class="rows results" id="results">
       <?php foreach ($rows as $i => $r): ?>
       <li<?= $i >= $firstRows ? ' class="extra"' : '' ?>>
@@ -537,10 +544,11 @@ $firstRows = 8; ?>
 (function () {
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  /* Carrousel des témoignages */
-  var car = document.getElementById('qcar'), dots = document.getElementById('qdots');
-  if (car && dots && 'IntersectionObserver' in window) {
-    var slides = car.querySelectorAll('.qcard'), marks = dots.children;
+  /* Carrousels (Temps forts, témoignages) */
+  function carousel(carId, dotsId, prevId, nextId, sel) {
+    var car = document.getElementById(carId), dots = document.getElementById(dotsId);
+    if (!car || !dots || !('IntersectionObserver' in window)) return;
+    var slides = car.querySelectorAll(sel), marks = dots.children;
     Array.prototype.forEach.call(marks, function (m, i) {
       m.addEventListener('click', function () { slides[i].scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', inline: 'center', block: 'nearest' }); });
     });
@@ -553,7 +561,7 @@ $firstRows = 8; ?>
       });
     }, { root: car, threshold: 0.6 });
     slides.forEach(function (s) { so.observe(s); });
-    [['qprev', -1], ['qnext', 1]].forEach(function (a) {
+    [[prevId, -1], [nextId, 1]].forEach(function (a) {
       var b = document.getElementById(a[0]);
       if (!b) return;
       b.addEventListener('click', function () {
@@ -562,6 +570,8 @@ $firstRows = 8; ?>
       });
     });
   }
+  carousel('scar', 'sdots', 'sprev', 'snext', '.slide');
+  carousel('qcar', 'qdots', 'qprev', 'qnext', '.qcard');
 
   /* Palmarès : afficher tout */
   var btn = document.getElementById('show-all'), list = document.getElementById('results');
