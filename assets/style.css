@@ -335,7 +335,8 @@ html:has(dialog[open]) { overflow: hidden; }
 /* ---------- Page Coaching ---------- */
 .coach-intro { padding-block: clamp(36px, 4.5vw, 56px); }
 .coach-lead { max-width: 30em; font-weight: 600; font-size: clamp(1.375rem, 2.6vw, 2rem); line-height: 1.3; letter-spacing: -.022em; color: var(--ink); text-wrap: balance; }
-.offer-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(12px, 1.6vw, 20px); }
+.offer-cards { --oc-gap: clamp(12px, 1.6vw, 20px); --oc-n: 4.25; display: flex; gap: var(--oc-gap); overflow-x: auto; scroll-snap-type: x proximity; overscroll-behavior-x: contain; padding-bottom: 14px; scrollbar-width: thin; scrollbar-color: var(--line-strong) transparent; }
+.offer-cards > li { flex: 0 0 calc((100% - (var(--oc-n) - 1) * var(--oc-gap)) / var(--oc-n)); min-width: 220px; scroll-snap-align: start; }
 .offer-card { display: flex; flex-direction: column; gap: 8px; padding: clamp(20px, 2.4vw, 28px); background: var(--canvas); border: 1px solid var(--line); border-radius: var(--r-card); transition: border-color .18s; }
 .offer-card { border-top: 3px solid var(--accent); }   /* filet d'accent en haut des cartes (comme Triathlon Lab) */
 .offer-card:hover { border-color: var(--accent); }
@@ -345,8 +346,8 @@ html:has(dialog[open]) { overflow: hidden; }
 .card-cta { margin-top: 12px; width: fit-content; color: var(--accent); font: 700 12px/1.3 var(--sans); letter-spacing: .08em; text-transform: uppercase; text-decoration: none; }
 .card-cta::after { content: " →"; }
 .card-cta:hover, .card-cta:focus-visible { text-decoration: underline; text-underline-offset: 4px; }
-@media (max-width: 900px) { .offer-cards { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 760px) { .offer-cards { grid-template-columns: 1fr; } }
+@media (max-width: 1020px) { .offer-cards { --oc-n: 2.4; } }
+@media (max-width: 760px) { .offer-cards { --oc-n: 1.15; } }
 /* Échap : referme le sous-menu même si la souris ou le focus restent dessus */
 .has-sub.esc > .sub { visibility: hidden !important; opacity: 0 !important; }
 /* Témoignages : prénom cliquable vers la fiche Triathlon Lab (facultatif) */
