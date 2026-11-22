@@ -44,8 +44,47 @@ $months = [
     'en' => ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
 ];
 
-/* Calendrier : uniquement les courses à venir, triées par date. */
-$upcoming = upcoming_events($c);
+/* Calendrier : entrées à venir (courses, stages, événements). La prochaine course (à défaut, la prochaine entrée) passe en grand ; le reste est listé. */
+$others = upcoming_events($c);
+$hero   = null;
+foreach ($others as $i => $ev) {
+    if (event_type($ev) === 'race') {
+        $hero = $ev;
+        unset($others[$i]);
+        break;
+    }
+}
+if ($hero === null && $others) {
+    $hero = array_shift($others);
+}
+$others = array_values($others);
+/* Dates : [jour, « mois année », « → fin » (stage sur plusieurs jours)] et version texte (« 12–19 mars 2027 ») */
+$dateParts = static function (array $ev) use ($months, $lang): array {
+    [$y, $m, $d] = array_map('intval', explode('-', $ev['date']));
+    $end   = event_end($ev);
+    $until = '';
+    if ($end !== $ev['date']) {
+        [$y2, $m2, $d2] = array_map('intval', explode('-', $end));
+        $until = '→ ' . $d2 . ($m2 !== $m || $y2 !== $y ? ' ' . ($months[$lang][$m2 - 1] ?? '') : '') . ($y2 !== $y ? ' ' . $y2 : '');
+    }
+    return [sprintf('%02d', $d), ($months[$lang][$m - 1] ?? '') . ' ' . $y, $until];
+};
+$dateText = static function (array $ev) use ($months, $lang): string {
+    [$y, $m, $d] = array_map('intval', explode('-', $ev['date']));
+    $mon = $months[$lang][$m - 1] ?? '';
+    $end = event_end($ev);
+    if ($end === $ev['date']) {
+        return $d . ' ' . $mon . ' ' . $y;
+    }
+    [$y2, $m2, $d2] = array_map('intval', explode('-', $end));
+    if ($y2 === $y && $m2 === $m) {
+        return $d . '–' . $d2 . ' ' . $mon . ' ' . $y;
+    }
+    return $d . ' ' . $mon . ($y2 !== $y ? ' ' . $y : '') . ' → ' . $d2 . ' ' . ($months[$lang][$m2 - 1] ?? '') . ' ' . $y2;
+};
+$typeName = static function (array $ev) use ($lang): string {
+    return event_types()[event_type($ev)][$lang === 'en' ? 1 : 0];
+};
 
 /* ---------- Textes d'interface ---------- */
 $T = [
@@ -73,6 +112,15 @@ $T = [
         'pitch_text'   => 'Un athlète professionnel ancré en Bretagne et présent sur le circuit international. Visibilité en course, contenus, tests de matériel, interventions en entreprise : construisons un partenariat à votre mesure.',
         'pitch_points' => ['Visibilité en course et sur les réseaux', 'Retours terrain et tests de matériel', 'Interventions et sorties avec vos équipes'],
         'h_calendar'   => 'Calendrier',
+        'next_race'    => 'Prochaine course',
+        'next_camp'    => 'Prochain stage',
+        'next_event'   => 'Prochain événement',
+        'in'           => 'Dans',
+        'days'         => 'jours',
+        'day'          => 'jour',
+        'today'        => 'Aujourd\'hui',
+        'ongoing'      => 'En cours',
+        'also'         => 'Aussi au programme',
         'legal'        => 'Éditeur : Arnaud Guilloux, Saint-Renan (29). Hébergement : OVH SAS, 2 rue Kellermann, 59100 Roubaix.',
     ],
     'en' => [
@@ -99,6 +147,15 @@ $T = [
         'pitch_text'   => 'A professional athlete rooted in Brittany and racing the international circuit. Race-day visibility, content, product testing, talks for your teams: let\'s build a partnership that fits you.',
         'pitch_points' => ['Visibility on race day and on social media', 'Field feedback and product testing', 'Talks and rides with your teams'],
         'h_calendar'   => 'Calendar',
+        'next_race'    => 'Next race',
+        'next_camp'    => 'Next camp',
+        'next_event'   => 'Next event',
+        'in'           => 'In',
+        'days'         => 'days',
+        'day'          => 'day',
+        'today'        => 'Today',
+        'ongoing'      => 'Ongoing',
+        'also'         => 'Also on the calendar',
         'legal'        => 'Publisher: Arnaud Guilloux, Saint-Renan, France. Hosting: OVH SAS, 2 rue Kellermann, 59100 Roubaix, France.',
     ],
 ][$lang];
@@ -139,7 +196,7 @@ $slides = array_slice(gallery_items('athlete'), 0, 5); // carrousel Highlights :
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=77">
+<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=78">
 <link rel="icon" href="<?= e($base) ?>assets/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="<?= e($base) ?>favicon.ico" sizes="48x48">
 <link rel="apple-touch-icon" href="<?= e($base) ?>assets/apple-touch-icon.png">
@@ -220,24 +277,56 @@ $resultsUrl = $base . 'palmares.php' . ($lang === 'en' ? '?lang=en' : ''); ?>
 <?php endif; ?>
 
 
-<?php if ($upcoming): ?>
+<?php if ($hero):
+    $hType = event_type($hero);
+    $hDays = event_days_until($hero);
+    [$hDay, $hMonth, $hUntil] = $dateParts($hero); ?>
 <section id="calendrier">
   <div class="wrap">
     <h2><?= e($T['h_calendar']) ?></h2>
+    <article class="next-event">
+      <div class="next-main">
+        <p class="mono next-kicker"><?= e($T['next_' . $hType]) ?></p>
+        <h3><?= e(loc($hero, 'race')) ?></h3>
+        <p class="next-when"><time datetime="<?= e($hero['date']) ?>"><?= e($dateText($hero)) ?></time></p>
+        <?php if (loc($hero, 'location') !== '' || ($hero['format'] ?? '') !== '' || $hType !== 'race'): ?>
+        <p class="next-meta">
+          <?php if (loc($hero, 'location') !== ''): ?><span class="where"><?= e(loc($hero, 'location')) ?></span><?php endif; ?>
+          <?php if ($hType !== 'race'): ?><span class="mono tag tag-<?= $hType ?>"><?= e($typeName($hero)) ?></span><?php endif; ?>
+          <?php if (($hero['format'] ?? '') !== ''): ?><span class="mono tag"><?= e($hero['format']) ?></span><?php endif; ?>
+        </p>
+        <?php endif; ?>
+        <?php if (tr($hero, 'note') !== ''): ?><p class="note"><?= e(tr($hero, 'note')) ?></p><?php endif; ?>
+      </div>
+      <?php if ($hDays > 0): ?>
+      <div class="next-count" aria-label="<?= e($T['in'] . ' ' . $hDays . ' ' . ($hDays > 1 ? $T['days'] : $T['day'])) ?>">
+        <span class="mono"><?= e($T['in']) ?></span><b><?= $hDays ?></b><span class="mono"><?= e($hDays > 1 ? $T['days'] : $T['day']) ?></span>
+      </div>
+      <?php else: ?>
+      <div class="next-count now"><b><?= e($hDays === 0 ? $T['today'] : $T['ongoing']) ?></b></div>
+      <?php endif; ?>
+    </article>
+    <?php if ($others): ?>
+    <h3 class="mono cal-sub"><?= e($T['also']) ?></h3>
     <ol class="rows calendar">
-      <?php foreach ($upcoming as $ev):
-          [$y, $m, $d] = array_map('intval', explode('-', $ev['date'])); ?>
+      <?php foreach ($others as $ev):
+          $evType = event_type($ev);
+          [$d1, $m1, $until] = $dateParts($ev); ?>
       <li>
-        <time datetime="<?= e($ev['date']) ?>"><b><?= sprintf('%02d', $d) ?></b><span class="mono"><?= e($months[$lang][$m - 1] ?? '') ?> <?= $y ?></span></time>
+        <time datetime="<?= e($ev['date']) ?>"><b><?= e($d1) ?></b><span class="mono"><?= e($m1) ?></span><?php if ($until !== ''): ?><span class="mono until"><?= e($until) ?></span><?php endif; ?></time>
         <span class="what">
           <strong><?= e(loc($ev, 'race')) ?></strong>
           <?php if (loc($ev, 'location') !== ''): ?><span class="where"><?= e(loc($ev, 'location')) ?></span><?php endif; ?>
         </span>
         <span class="note"><?= e(tr($ev, 'note')) ?></span>
-        <?php if (($ev['format'] ?? '') !== ''): ?><span class="mono tag"><?= e($ev['format']) ?></span><?php else: ?><span></span><?php endif; ?>
+        <span class="tags">
+          <?php if ($evType !== 'race'): ?><span class="mono tag tag-<?= $evType ?>"><?= e($typeName($ev)) ?></span><?php endif; ?>
+          <?php if (($ev['format'] ?? '') !== ''): ?><span class="mono tag"><?= e($ev['format']) ?></span><?php endif; ?>
+        </span>
       </li>
       <?php endforeach; ?>
     </ol>
+    <?php endif; ?>
   </div>
 </section>
 <?php endif; ?>

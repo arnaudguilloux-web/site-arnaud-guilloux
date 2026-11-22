@@ -196,12 +196,33 @@ function ext_icon_svg(): string
     return '<svg class="ext" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14 4h6v6"/><path d="M20 4l-9 9"/><path d="M18 14v4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4"/></svg>';
 }
 
-/** Courses à venir (date >= aujourd'hui), de la plus proche à la plus lointaine. */
+/** Type d'une entrée du calendrier : 'race' (par défaut), 'camp' ou 'event'. */
+function event_type(array $ev): string
+{
+    $t = (string) ($ev['type'] ?? '');
+    return isset(event_types()[$t]) ? $t : 'race';
+}
+
+/** Dernier jour d'une entrée (stage de plusieurs jours) ; sinon son jour. */
+function event_end(array $ev): string
+{
+    $d   = (string) ($ev['date'] ?? '');
+    $end = (string) ($ev['date_end'] ?? '');
+    return (preg_match('/^\d{4}-\d{2}-\d{2}$/', $end) && $end > $d) ? $end : $d;
+}
+
+/** Jours avant le début (0 = aujourd'hui, négatif = déjà commencé). */
+function event_days_until(array $ev): int
+{
+    return (int) (new DateTime('today'))->diff(new DateTime((string) $ev['date']))->format('%r%a');
+}
+
+/** Entrées à venir (courses, stages, événements ; pas encore terminées), de la plus proche à la plus lointaine. */
 function upcoming_events(array $c): array
 {
     $today = date('Y-m-d');
     $list  = array_values(array_filter($c['calendar'] ?? [], static function ($ev) use ($today) {
-        return is_array($ev) && preg_match('/^\d{4}-\d{2}-\d{2}$/', (string) ($ev['date'] ?? '')) && $ev['date'] >= $today;
+        return is_array($ev) && preg_match('/^\d{4}-\d{2}-\d{2}$/', (string) ($ev['date'] ?? '')) && event_end($ev) >= $today;
     }));
     usort($list, static function ($a, $b) {
         return strcmp($a['date'], $b['date']);

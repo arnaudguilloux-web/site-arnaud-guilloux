@@ -56,6 +56,16 @@ function save_content(array $content): bool
     return rename($tmp, CONTENT_FILE);
 }
 
+/* Types d'entrées du calendrier : code => [FR, EN]. Une entrée sans type est une course. */
+function event_types(): array
+{
+    return [
+        'race'  => ['Course', 'Race'],
+        'camp'  => ['Stage', 'Camp'],
+        'event' => ['Événement', 'Event'],
+    ];
+}
+
 function e($value): string
 {
     return htmlspecialchars((string) $value, ENT_QUOTES, 'UTF-8');

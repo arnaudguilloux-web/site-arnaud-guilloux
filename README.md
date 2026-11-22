@@ -59,6 +59,7 @@ Points utiles :
 - Mot de passe : stocké sous forme de hash dans `data/admin.php` (jamais versionné). Oublié : supprimer ce fichier par FTP, puis rouvrir `/admin/`.
 - Après 5 échecs de connexion, l'accès est bloqué 15 minutes.
 - Menu : les sous-menus « L'Athlète » et « Le Coach » sont dynamiques. Une entrée n'existe que si sa section est affichée (Highlights s'il y a des photos du type correspondant, Palmarès s'il y a des courses visibles, Calendrier s'il y a une course à venir, Offres, Témoignages…). Seule la petite phrase sous chaque entrée se règle dans l'onglet Menu (vide = titre seul).
+- Calendrier : trois types d'entrées, **Course**, **Stage** (date de fin facultative pour plusieurs jours) et **Événement** (tests aéro…). La prochaine course (à défaut, la prochaine entrée) s'affiche en grande carte avec compte à rebours ; les autres entrées sont listées dessous. Une entrée disparaît le lendemain de sa dernière date ; sans entrée à venir, la section et son lien de menu disparaissent.
 - Palmarès : le continent d'une course (filtre de la page Palmarès) est déduit de la course PTO ou du lieu ; le champ « Continent » d'une course permet de le forcer. Une course sans continent reconnu reste visible, mais n'apparaît dans aucun filtre continent.
 - Les photos ne se gèrent pas dans le back office (voir ci-dessous).
 

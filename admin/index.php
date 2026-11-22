@@ -71,13 +71,17 @@ $SCHEMA = [
         'role_fr' => ['Rôle (FR)', 'text'],
         'role_en' => ['Rôle (EN)', 'text'],
     ]],
-    'calendar' => ['label' => 'Calendrier', 'type' => 'list', 'title' => 'race', 'sub' => 'date', 'fields' => [
-        'date'     => ['Date', 'date'],
-        'race'     => ['Course', 'text'],
-        'race_en'  => ['Course (EN, si le nom diffère)', 'text'],
+    'calendar' => ['label' => 'Calendrier', 'type' => 'list', 'title' => 'race', 'sub' => 'date',
+        'help' => 'Courses, stages de préparation et événements (tests aéro…). La prochaine course s\'affiche en grand avec un compte à rebours ; tout le reste est dans la liste en dessous.',
+        'fields' => [
+        'type'     => ['Type', 'select_event_type'],
+        'date'     => ['Date (ou date de début)', 'date'],
+        'date_end' => ['Date de fin (facultatif : stage de plusieurs jours)', 'date'],
+        'race'     => ['Intitulé', 'text'],
+        'race_en'  => ['Intitulé (EN, si différent)', 'text'],
         'location' => ['Lieu', 'text'],
         'location_en' => ['Lieu (EN, si différent)', 'text'],
-        'format'   => ['Format (IRONMAN, 70.3, Half…)', 'text'],
+        'format'   => ['Étiquette (IRONMAN, 70.3, Half… facultatif)', 'text'],
         'note_fr'  => ['Note (FR)', 'text'],
         'note_en'  => ['Note (EN)', 'text'],
     ]],
@@ -180,6 +184,13 @@ function field(string $name, array $def, string $value): string
     $h = '<label><span>' . e($label) . '</span>';
     if ($type === 'textarea') {
         $h .= '<textarea name="' . e($name) . '" rows="4">' . e($value) . '</textarea>';
+    } elseif ($type === 'select_event_type') {
+        $h .= '<select name="' . e($name) . '">';
+        foreach (event_types() as $k => $nm) {
+            $sel = $value === $k || ($value === '' && $k === 'race');
+            $h  .= '<option value="' . e($k) . '"' . ($sel ? ' selected' : '') . '>' . e($nm[0]) . '</option>';
+        }
+        $h .= '</select>';
     } elseif ($type === 'select_continent') {
         $h .= '<select name="' . e($name) . '"><option value="">Automatique</option>';
         foreach (continent_names() as $k => $nm) {
@@ -343,10 +354,16 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
                     } else {
                         $empty = $empty && $v === '';
                     }
+                    if ($fk === 'type' && !isset(event_types()[$v])) {
+                        $v = '';
+                    }
                     if ($fk === 'continent' && !isset(continent_names()[$v])) {
                         $v = '';
                     }
                     $row[$fk] = $v;
+                }
+                if ($key === 'calendar' && ($row['date_end'] ?? '') !== '' && ($row['date_end'] <= ($row['date'] ?? ''))) {
+                    $row['date_end'] = '';   // fin avant (ou égale à) le début : ignorée
                 }
                 if (!$empty) {
                     if ($key === 'results' && preg_match('/^(\d{4})-\d{2}-\d{2}$/', $row['date'], $dm)) {
