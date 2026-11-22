@@ -204,7 +204,7 @@ $slides = array_slice(gallery_items('athlete'), 0, 5); // carrousel Highlights :
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=84">
+<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=85">
 <link rel="icon" href="<?= e($base) ?>assets/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="<?= e($base) ?>favicon.ico" sizes="48x48">
 <link rel="apple-touch-icon" href="<?= e($base) ?>assets/apple-touch-icon.png">
@@ -216,7 +216,7 @@ $slides = array_slice(gallery_items('athlete'), 0, 5); // carrousel Highlights :
 <main>
 <section class="hero">
   <div class="wrap">
-    <div class="hero-panel">
+    <div class="hero-panel hero-tall">
       <img class="hero-bg" src="<?= e($base) ?>assets/img/roth-solarer-berg.jpg" width="2000" height="1333" alt="<?= e($T['alt_hero']) ?>" fetchpriority="high">
       <div class="hero-inner">
         <div class="hero-copy">
