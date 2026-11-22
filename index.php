@@ -46,16 +46,16 @@ $months = [
 
 /* Calendrier : entrées à venir (courses, stages, événements). La prochaine course (à défaut, la prochaine entrée) passe en grand ; le reste est listé. */
 $others = upcoming_events($c);
-$hero   = null;
+$nextEv   = null;
 foreach ($others as $i => $ev) {
     if (event_type($ev) === 'race') {
-        $hero = $ev;
+        $nextEv = $ev;
         unset($others[$i]);
         break;
     }
 }
-if ($hero === null && $others) {
-    $hero = array_shift($others);
+if ($nextEv === null && $others) {
+    $nextEv = array_shift($others);
 }
 $others = array_values($others);
 /* Dates : [jour, « mois année », « → fin » (stage sur plusieurs jours)] et version texte (« 12–19 mars 2027 ») */
@@ -277,26 +277,26 @@ $resultsUrl = $base . 'palmares.php' . ($lang === 'en' ? '?lang=en' : ''); ?>
 <?php endif; ?>
 
 
-<?php if ($hero):
-    $hType = event_type($hero);
-    $hDays = event_days_until($hero);
-    [$hDay, $hMonth, $hUntil] = $dateParts($hero); ?>
+<?php if ($nextEv):
+    $hType = event_type($nextEv);
+    $hDays = event_days_until($nextEv);
+    [$hDay, $hMonth, $hUntil] = $dateParts($nextEv); ?>
 <section id="calendrier">
   <div class="wrap">
     <h2><?= e($T['h_calendar']) ?></h2>
     <article class="next-event">
       <div class="next-main">
         <p class="mono next-kicker"><?= e($T['next_' . $hType]) ?></p>
-        <h3><?= e(loc($hero, 'race')) ?></h3>
-        <p class="next-when"><time datetime="<?= e($hero['date']) ?>"><?= e($dateText($hero)) ?></time></p>
-        <?php if (loc($hero, 'location') !== '' || ($hero['format'] ?? '') !== '' || $hType !== 'race'): ?>
+        <h3><?= e(loc($nextEv, 'race')) ?></h3>
+        <p class="next-when"><time datetime="<?= e($nextEv['date']) ?>"><?= e($dateText($nextEv)) ?></time></p>
+        <?php if (loc($nextEv, 'location') !== '' || ($nextEv['format'] ?? '') !== '' || $hType !== 'race'): ?>
         <p class="next-meta">
-          <?php if (loc($hero, 'location') !== ''): ?><span class="where"><?= e(loc($hero, 'location')) ?></span><?php endif; ?>
-          <?php if ($hType !== 'race'): ?><span class="mono tag tag-<?= $hType ?>"><?= e($typeName($hero)) ?></span><?php endif; ?>
-          <?php if (($hero['format'] ?? '') !== ''): ?><span class="mono tag"><?= e($hero['format']) ?></span><?php endif; ?>
+          <?php if (loc($nextEv, 'location') !== ''): ?><span class="where"><?= e(loc($nextEv, 'location')) ?></span><?php endif; ?>
+          <?php if ($hType !== 'race'): ?><span class="mono tag tag-<?= $hType ?>"><?= e($typeName($nextEv)) ?></span><?php endif; ?>
+          <?php if (($nextEv['format'] ?? '') !== ''): ?><span class="mono tag"><?= e($nextEv['format']) ?></span><?php endif; ?>
         </p>
         <?php endif; ?>
-        <?php if (tr($hero, 'note') !== ''): ?><p class="note"><?= e(tr($hero, 'note')) ?></p><?php endif; ?>
+        <?php if (tr($nextEv, 'note') !== ''): ?><p class="note"><?= e(tr($nextEv, 'note')) ?></p><?php endif; ?>
       </div>
       <?php if ($hDays > 0): ?>
       <div class="next-count" aria-label="<?= e($T['in'] . ' ' . $hDays . ' ' . ($hDays > 1 ? $T['days'] : $T['day'])) ?>">
