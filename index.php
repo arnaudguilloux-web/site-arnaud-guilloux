@@ -58,7 +58,7 @@ if ($nextEv === null && $others) {
     $nextEv = array_shift($others);
 }
 $others = array_values($others);
-/* Dates : [« 24 → 31 », « MAI 2027 »] ; sur deux mois : « 24 → 2 » / « MAI JUIN 2027 » ; sur deux ans : « DÉC 2027 JANV 2028 » */
+/* Dates : [« 24 – 31 », « MAI 2027 »] ; sur deux mois : « 24 – 2 » / « MAI JUIN 2027 » ; sur deux ans : « DÉC 2027 JANV 2028 » */
 $dateParts = static function (array $ev) use ($months, $lang): array {
     [$y, $m, $d] = array_map('intval', explode('-', $ev['date']));
     $end = event_end($ev);
@@ -75,7 +75,7 @@ $dateParts = static function (array $ev) use ($months, $lang): array {
     } else {
         $line = $mon . ' ' . $y;
     }
-    return [$d . ' → ' . $d2, $line];
+    return [$d . ' – ' . $d2, $line];
 };
 $dateText = static function (array $ev) use ($months, $lang): string {
     [$y, $m, $d] = array_map('intval', explode('-', $ev['date']));
@@ -88,7 +88,7 @@ $dateText = static function (array $ev) use ($months, $lang): string {
     if ($y2 === $y && $m2 === $m) {
         return $d . '–' . $d2 . ' ' . $mon . ' ' . $y;
     }
-    return $d . ' ' . $mon . ($y2 !== $y ? ' ' . $y : '') . ' → ' . $d2 . ' ' . ($months[$lang][$m2 - 1] ?? '') . ' ' . $y2;
+    return $d . ' ' . $mon . ($y2 !== $y ? ' ' . $y : '') . ' – ' . $d2 . ' ' . ($months[$lang][$m2 - 1] ?? '') . ' ' . $y2;
 };
 $typeName = static function (array $ev) use ($lang): string {
     return event_types()[event_type($ev)][$lang === 'en' ? 1 : 0];
