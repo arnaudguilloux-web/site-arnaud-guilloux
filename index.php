@@ -220,6 +220,28 @@ $resultsUrl = $base . 'palmares.php' . ($lang === 'en' ? '?lang=en' : ''); ?>
 <?php endif; ?>
 
 
+<?php if ($upcoming): ?>
+<section id="calendrier">
+  <div class="wrap">
+    <h2><?= e($T['h_calendar']) ?></h2>
+    <ol class="rows calendar">
+      <?php foreach ($upcoming as $ev):
+          [$y, $m, $d] = array_map('intval', explode('-', $ev['date'])); ?>
+      <li>
+        <time datetime="<?= e($ev['date']) ?>"><b><?= sprintf('%02d', $d) ?></b><span class="mono"><?= e($months[$lang][$m - 1] ?? '') ?> <?= $y ?></span></time>
+        <span class="what">
+          <strong><?= e(loc($ev, 'race')) ?></strong>
+          <?php if (loc($ev, 'location') !== ''): ?><span class="where"><?= e(loc($ev, 'location')) ?></span><?php endif; ?>
+        </span>
+        <span class="note"><?= e(tr($ev, 'note')) ?></span>
+        <?php if (($ev['format'] ?? '') !== ''): ?><span class="mono tag"><?= e($ev['format']) ?></span><?php else: ?><span></span><?php endif; ?>
+      </li>
+      <?php endforeach; ?>
+    </ol>
+  </div>
+</section>
+<?php endif; ?>
+
 <section id="partenaires">
   <div class="wrap">
     <p class="eyebrow"><?= e($T['h_partners']) ?></p>
@@ -254,28 +276,6 @@ $resultsUrl = $base . 'palmares.php' . ($lang === 'en' ? '?lang=en' : ''); ?>
     </div>
   </div>
 </section>
-
-<?php if ($upcoming): ?>
-<section id="calendrier">
-  <div class="wrap">
-    <h2><?= e($T['h_calendar']) ?></h2>
-    <ol class="rows calendar">
-      <?php foreach ($upcoming as $ev):
-          [$y, $m, $d] = array_map('intval', explode('-', $ev['date'])); ?>
-      <li>
-        <time datetime="<?= e($ev['date']) ?>"><b><?= sprintf('%02d', $d) ?></b><span class="mono"><?= e($months[$lang][$m - 1] ?? '') ?> <?= $y ?></span></time>
-        <span class="what">
-          <strong><?= e(loc($ev, 'race')) ?></strong>
-          <?php if (loc($ev, 'location') !== ''): ?><span class="where"><?= e(loc($ev, 'location')) ?></span><?php endif; ?>
-        </span>
-        <span class="note"><?= e(tr($ev, 'note')) ?></span>
-        <?php if (($ev['format'] ?? '') !== ''): ?><span class="mono tag"><?= e($ev['format']) ?></span><?php else: ?><span></span><?php endif; ?>
-      </li>
-      <?php endforeach; ?>
-    </ol>
-  </div>
-</section>
-<?php endif; ?>
 
 <?= contact_section_html($F, $lang, $base, $sent === null ? null : (string) $sent, $socials, 'sponsoring') ?>
 </main>

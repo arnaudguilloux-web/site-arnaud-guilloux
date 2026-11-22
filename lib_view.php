@@ -220,10 +220,10 @@ function site_header(string $lang, array $home, array $self, array $c, string $c
     $en = $lang === 'en';
     $T  = $en
         ? ['athlete' => 'The Athlete', 'coach' => 'The Coach', 'ads' => 'My Listings', 'new_tab' => 'opens in a new tab',
-           'athlete_items' => ['top' => 'Overview', 'highlights' => 'Highlights', 'palmares' => 'Results', 'partenaires' => 'Partners', 'calendrier' => 'Calendar', 'contact' => 'Contact'],
+           'athlete_items' => ['top' => 'Overview', 'highlights' => 'Highlights', 'palmares' => 'Results', 'calendrier' => 'Calendar', 'partenaires' => 'Partners', 'contact' => 'Contact'],
            'coach_items'   => ['top' => 'Overview', 'offres' => 'Offers', 'highlights' => 'Highlights', 'temoignages' => 'Testimonials', 'contact' => 'Contact']]
         : ['athlete' => "L'Athlète", 'coach' => 'Le Coach', 'ads' => 'Mes Annonces', 'new_tab' => 'nouvel onglet',
-           'athlete_items' => ['top' => 'Présentation', 'highlights' => 'Highlights', 'palmares' => 'Palmarès', 'partenaires' => 'Partenaires', 'calendrier' => 'Calendrier', 'contact' => 'Contact'],
+           'athlete_items' => ['top' => 'Présentation', 'highlights' => 'Highlights', 'palmares' => 'Palmarès', 'calendrier' => 'Calendrier', 'partenaires' => 'Partenaires', 'contact' => 'Contact'],
            'coach_items'   => ['top' => 'Présentation', 'offres' => 'Offres', 'highlights' => 'Highlights', 'temoignages' => 'Témoignages', 'contact' => 'Contact']];
 
     /* Sous-menus dynamiques : une entrée n'existe que si sa section est réellement affichée sur le site.
