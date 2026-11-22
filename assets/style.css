@@ -131,7 +131,7 @@ h1 { font-weight: 700; font-size: clamp(2rem, 4.2vw, 2.875rem); line-height: 1.0
 .lead { align-self: center; max-width: none; font-weight: 400; font-size: clamp(1rem, 1.4vw, 1.125rem); line-height: 1.6; text-wrap: pretty; }
 /* Chiffres clés : bandeau ouvert sur les côtés, filets fins entre les tuiles, picto à gauche. */
 .stats { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: var(--gap); border-bottom: 1px solid var(--line); }
-.stats > div { display: grid; grid-template-columns: auto 1fr; align-content: center; column-gap: 12px; padding: 22px 16px; border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
+.stats > div { display: grid; grid-template-columns: auto 1fr; align-content: center; min-width: 0; column-gap: 12px; padding: 22px 16px; border-top: 1px solid var(--line); border-left: 1px solid var(--line); }
 .stats > div:nth-child(3n+1) { border-left: 0; padding-left: 0; }
 .stat-ico { grid-row: 1 / span 2; align-self: center; color: var(--accent); line-height: 0; }
 .stat-ico svg { width: 22px; height: 22px; }
@@ -264,7 +264,9 @@ form .btn { align-self: flex-start; }
   .sub { left: 0; right: 0; min-width: 0; }
   html { scroll-padding-top: 104px; }
   .pitch, .contact, .intro-grid { grid-template-columns: 1fr; }
-  .stats { grid-template-columns: repeat(2, 1fr); }
+  .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .stats > div { padding-left: 12px; padding-right: 10px; column-gap: 8px; }
+  .stats dd { font-size: clamp(15px, 4.4vw, 17px); overflow-wrap: break-word; hyphens: manual; }
   .stats > div:nth-child(3n+1) { border-left: 1px solid var(--line); padding-left: 16px; }
   .stats > div:nth-child(2n+1) { border-left: 0; padding-left: 0; }
   .results li { grid-template-columns: 5ch 1fr; }
