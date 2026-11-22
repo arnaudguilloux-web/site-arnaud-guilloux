@@ -18,6 +18,12 @@ $origin = (is_https() ? 'https://' : 'http://') . $host;
 $c        = load_content();
 $settings = $c['settings'] ?? [];
 $hero     = $c['hero'] ?? [];
+/* Photos du hero (diaporama) : fichier, largeur, hauteur, cadrage desktop, cadrage mobile, clé du texte alternatif */
+$heroSlides = [
+    ['hero-course-a-pied.jpg', 1333, 2000, '50% 38%', '55% 50%', 'alt_hero2'],
+    ['roth-solarer-berg.jpg', 2000, 1333, '50% 32%', '47% 40%', 'alt_hero'],
+    ['hero-velodrome.jpg', 2000, 1443, '50% 55%', '58% 50%', 'alt_hero3'],
+];
 $coaching = $c['coaching'] ?? [];
 $draft    = ($settings['draft'] ?? '1') === '1';
 $sent     = $_GET['sent'] ?? null;
@@ -111,6 +117,9 @@ $T = [
         'prev'         => 'Précédent',
         'next'         => 'Suivant',
         'alt_hero'     => 'Arnaud Guilloux à vélo entre deux haies de spectateurs au Challenge Roth',
+        'alt_hero2'    => 'Arnaud Guilloux en course à pied au bord de l\'océan',
+        'alt_hero3'    => 'Arnaud Guilloux en position aéro sur un vélodrome',
+        'hero_photo'   => 'Photo',
         'cta_coaching' => 'Coaching',
         'cta_sponsor'  => 'Devenir Partenaire',
         'place'        => 'Saint-Renan, Bretagne',
@@ -146,6 +155,9 @@ $T = [
         'prev'         => 'Previous',
         'next'         => 'Next',
         'alt_hero'     => 'Arnaud Guilloux riding between two walls of spectators at Challenge Roth',
+        'alt_hero2'    => 'Arnaud Guilloux running along the ocean',
+        'alt_hero3'    => 'Arnaud Guilloux in aero position on a velodrome',
+        'hero_photo'   => 'Photo',
         'cta_coaching' => 'Coaching',
         'cta_sponsor'  => 'Become a Partner',
         'place'        => 'Saint-Renan, Brittany',
@@ -204,7 +216,7 @@ $slides = array_slice(gallery_items('athlete'), 0, 5); // carrousel Highlights :
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=85">
+<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=87">
 <link rel="icon" href="<?= e($base) ?>assets/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="<?= e($base) ?>favicon.ico" sizes="48x48">
 <link rel="apple-touch-icon" href="<?= e($base) ?>assets/apple-touch-icon.png">
@@ -217,7 +229,12 @@ $slides = array_slice(gallery_items('athlete'), 0, 5); // carrousel Highlights :
 <section class="hero">
   <div class="wrap">
     <div class="hero-panel hero-tall">
-      <img class="hero-bg" src="<?= e($base) ?>assets/img/roth-solarer-berg.jpg" width="2000" height="1333" alt="<?= e($T['alt_hero']) ?>" fetchpriority="high">
+      <?php foreach ($heroSlides as $i => $sl): ?>
+      <img class="hero-bg hero-slide<?= $i === 0 ? ' is-on' : '' ?>" src="<?= e($base) ?>assets/img/<?= e($sl[0]) ?>" width="<?= (int) $sl[1] ?>" height="<?= (int) $sl[2] ?>" alt="<?= e($T[$sl[5]]) ?>" style="--pos: <?= e($sl[3]) ?>; --pos-m: <?= e($sl[4]) ?>"<?= $i === 0 ? ' fetchpriority="high"' : ' decoding="async"' ?>>
+      <?php endforeach; ?>
+      <div class="hero-dots" id="hero-dots" role="group" aria-label="Photos">
+        <?php foreach ($heroSlides as $i => $sl): ?><button type="button" class="<?= $i === 0 ? 'on' : '' ?>" aria-label="<?= e($T['hero_photo'] . ' ' . ($i + 1)) ?>"<?= $i === 0 ? ' aria-current="true"' : '' ?>></button><?php endforeach; ?>
+      </div>
       <div class="hero-inner">
         <div class="hero-copy">
           <p class="mono kicker"><?= e(tr($hero, 'kicker')) ?></p>
@@ -382,6 +399,7 @@ $resultsUrl = $base . 'palmares.php' . ($lang === 'en' ? '?lang=en' : ''); ?>
 <?= contact_dialog_html($F, $lang, $base) ?>
 
 <script src="<?= e($base) ?>assets/carousel.js?v=2"></script>
+<script src="<?= e($base) ?>assets/hero.js?v=1"></script>
 <script>
 (function () {
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
