@@ -133,6 +133,67 @@ function pto_locations(): array
     ];
 }
 
+/* Continents (filtre du palmarès) : code => [FR, EN]. */
+function continent_names(): array
+{
+    return [
+        'eu' => ['Europe', 'Europe'],
+        'na' => ['Amérique du Nord', 'North America'],
+        'sa' => ['Amérique du Sud', 'South America'],
+        'af' => ['Afrique', 'Africa'],
+        'as' => ['Asie', 'Asia'],
+        'oc' => ['Océanie', 'Oceania'],
+    ];
+}
+
+/* Continent de chaque course PTO connue (clé PTO sans l'année). Hawaï est rangé en Amérique du Nord (État américain). */
+function pto_continents(): array
+{
+    return [
+        'im-hawaii' => 'na', 'ironman-nice-world-championships' => 'eu', 'im-st-george-world-championships' => 'na',
+        'challenge-roth' => 'eu', 'im-brasil' => 'sa', 'im-texas' => 'na', 'im-703-california' => 'na', 'im-arizona' => 'na',
+        'im-chattanooga' => 'na', 'im-lanzarote' => 'eu', 'ironman-703-valencia' => 'eu', 'im-new-zealand' => 'oc',
+        'im-703-zell-am-see' => 'eu', 'im-lake-placid' => 'na', 'im-703-les-sables-dolonne' => 'eu', 'im-cairns' => 'oc',
+        'im-703-pays-daix' => 'eu', 'im-703-campeche' => 'na', 'im-cozumel' => 'na', 'challenge-sanremo' => 'eu',
+        'alpe-dhuez-l' => 'eu', 'im-austria' => 'eu', 'im-south-africa' => 'af', 'im-703-vichy' => 'eu', 'im-703-warsaw' => 'eu',
+        'im-florida' => 'na', 'challenge-gran-canaria' => 'eu', 'im-wales' => 'eu', 'im-hamburg' => 'eu', 'im-703-barcelona' => 'eu',
+        'im-703-dubai' => 'as', 'im-uk' => 'eu', 'im-703-elsinore' => 'na', 'im-703-bahrain' => 'as', 'challenge-sardinia' => 'eu',
+        'im-france' => 'eu', 'ironman-703-loire-valley' => 'eu',
+    ];
+}
+
+/* Continent d'une course : réglage manuel du back office, sinon clé PTO connue, sinon pays/région cités dans le lieu, sinon '' (non classée). */
+function race_continent(array $r): string
+{
+    $names = continent_names();
+    $set   = (string) ($r['continent'] ?? '');
+    if (isset($names[$set])) {
+        return $set;
+    }
+    $slug = strtolower((string) strtok((string) ($r['pto'] ?? ''), '/'));
+    $map  = pto_continents();
+    if ($slug !== '' && isset($map[$slug])) {
+        return $map[$slug];
+    }
+    $loc   = mb_strtolower(($r['location'] ?? '') . ' ' . ($r['location_en'] ?? ''));
+    $hints = [
+        'eu' => ['france', 'espagne', 'spain', 'italie', 'italy', 'allemagne', 'germany', 'autriche', 'austria', 'royaume-uni', 'uk', 'galles', 'wales', 'pologne', 'poland', 'suisse', 'switzerland', 'portugal', 'belgique', 'belgium', 'pays-bas', 'netherlands', 'croatie', 'croatia', 'danemark', 'denmark', 'suède', 'sweden', 'norvège', 'norway', 'finlande', 'finland', 'grèce', 'greece', 'irlande', 'ireland', 'bretagne', 'verdon', 'baudreix', 'alpe d', 'gravelines'],
+        'na' => ['états-unis', 'usa', 'united states', 'mexique', 'mexico', 'canada', 'californie', 'california', 'floride', 'florida', 'texas', 'hawaï', 'hawaii', 'arizona', 'utah', 'tennessee'],
+        'sa' => ['brésil', 'brazil', 'argentine', 'chili', 'chile', 'colombie', 'colombia', 'pérou', 'peru'],
+        'af' => ['afrique', 'africa', 'maroc', 'morocco', 'égypte', 'egypt'],
+        'as' => ['bahreïn', 'bahrain', 'dubaï', 'dubai', 'émirats', 'emirates', 'uae', 'japon', 'japan', 'chine', 'china', 'thaïlande', 'thailand', 'oman', 'qatar', 'inde', 'india', 'vietnam'],
+        'oc' => ['australie', 'australia', 'nouvelle-zélande', 'new zealand'],
+    ];
+    foreach ($hints as $code => $words) {
+        foreach ($words as $w) {
+            if ($loc !== '' && strpos($loc, $w) !== false) {
+                return $code;
+            }
+        }
+    }
+    return '';
+}
+
 /** Noms d'affichage : [FR, EN (vide si identique), est un Championnat du monde]. */
 function pto_names(string $slug, string $year, string $name): array
 {

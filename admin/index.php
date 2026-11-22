@@ -56,6 +56,7 @@ $SCHEMA = [
         'race_en'  => ['Course (EN, si le nom diffère)', 'text'],
         'location' => ['Lieu', 'text'],
         'location_en' => ['Lieu (EN, si différent)', 'text'],
+        'continent' => ['Continent (filtre du palmarès ; automatique si laissé vide)', 'select_continent'],
         'rank'     => ['Place (1, 2, 3…, DNF ou texte libre)', 'text'],
         'time'     => ['Temps (h:mm:ss, ex. 7:38:52)', 'text'],
         'note_fr'  => ['Note (FR)', 'text'],
@@ -179,6 +180,12 @@ function field(string $name, array $def, string $value): string
     $h = '<label><span>' . e($label) . '</span>';
     if ($type === 'textarea') {
         $h .= '<textarea name="' . e($name) . '" rows="4">' . e($value) . '</textarea>';
+    } elseif ($type === 'select_continent') {
+        $h .= '<select name="' . e($name) . '"><option value="">Automatique</option>';
+        foreach (continent_names() as $k => $nm) {
+            $h .= '<option value="' . e($k) . '"' . ($value === $k ? ' selected' : '') . '>' . e($nm[0]) . '</option>';
+        }
+        $h .= '</select>';
     } elseif ($type === 'select' || $type === 'select_offer') {
         $h .= '<select name="' . e($name) . '"><option value="">Aucun</option>';
         foreach ($type === 'select' ? stat_icons() : offer_icons() as $k => $ic) {
@@ -335,6 +342,9 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
                         $v = $v === '1' ? '1' : '0';
                     } else {
                         $empty = $empty && $v === '';
+                    }
+                    if ($fk === 'continent' && !isset(continent_names()[$v])) {
+                        $v = '';
                     }
                     $row[$fk] = $v;
                 }

@@ -10,7 +10,7 @@ Site bilingue (FR `/`, EN `/en/`) en PHP sans dépendance, pour hébergement mut
 | `coaching.php` | Page coach : offres, Highlights (photos des stages et courses), 5 témoignages au hasard, contact |
 | `temoignages.php` | Tous les témoignages |
 | `galerie.php` | Toutes les photos, filtre Tout / Athlète / Coach, agrandissement en pop-in |
-| `palmares.php` | Palmarès complet |
+| `palmares.php` | Palmarès complet, filtrable par année, type (Mondiaux, IRONMAN, 70.3, Challenge) et continent (liens `?year=&kind=&continent=`) |
 | `contact.php` | Envoi du formulaire de contact par e-mail |
 | `admin/` | Back office mobile (styles propres, en ligne dans `admin/index.php`) |
 
@@ -59,6 +59,7 @@ Points utiles :
 - Mot de passe : stocké sous forme de hash dans `data/admin.php` (jamais versionné). Oublié : supprimer ce fichier par FTP, puis rouvrir `/admin/`.
 - Après 5 échecs de connexion, l'accès est bloqué 15 minutes.
 - Menu : les sous-menus « L'Athlète » et « Le Coach » sont dynamiques. Une entrée n'existe que si sa section est affichée (Highlights s'il y a des photos du type correspondant, Palmarès s'il y a des courses visibles, Calendrier s'il y a une course à venir, Offres, Témoignages…). Seule la petite phrase sous chaque entrée se règle dans l'onglet Menu (vide = titre seul).
+- Palmarès : le continent d'une course (filtre de la page Palmarès) est déduit de la course PTO ou du lieu ; le champ « Continent » d'une course permet de le forcer. Une course sans continent reconnu reste visible, mais n'apparaît dans aucun filtre continent.
 - Les photos ne se gèrent pas dans le back office (voir ci-dessous).
 
 Les textes fixes de l'interface (titres de sections, libellés du formulaire) sont dans le tableau `$T` en tête de chaque page (`index.php`, `coaching.php`, …).
