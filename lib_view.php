@@ -196,6 +196,19 @@ function ext_icon_svg(): string
     return '<svg class="ext" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14 4h6v6"/><path d="M20 4l-9 9"/><path d="M18 14v4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4"/></svg>';
 }
 
+/** Courses à venir (date >= aujourd'hui), de la plus proche à la plus lointaine. */
+function upcoming_events(array $c): array
+{
+    $today = date('Y-m-d');
+    $list  = array_values(array_filter($c['calendar'] ?? [], static function ($ev) use ($today) {
+        return is_array($ev) && preg_match('/^\d{4}-\d{2}-\d{2}$/', (string) ($ev['date'] ?? '')) && $ev['date'] >= $today;
+    }));
+    usort($list, static function ($a, $b) {
+        return strcmp($a['date'], $b['date']);
+    });
+    return $list;
+}
+
 /**
  * En-tête commun à toutes les pages : marque, menu, bascule FR/EN.
  * Menu : « L'Athlète » et « Le Coach » (sous-menus d'ancres vers les sections), « Mes Annonces » (lien externe).
@@ -207,46 +220,27 @@ function site_header(string $lang, array $home, array $self, array $c, string $c
     $en = $lang === 'en';
     $T  = $en
         ? ['athlete' => 'The Athlete', 'coach' => 'The Coach', 'ads' => 'My Listings', 'new_tab' => 'opens in a new tab',
-           'athlete_items' => [
-               'top'         => ['Overview', 'Professional long-distance triathlete'],
-               'highlights'  => ['Highlights', 'Photos from the big races'],
-               'palmares'    => ['Results', 'The full race record'],
-               'partenaires' => ['Partners', 'Those who back me'],
-               'contact'     => ['Contact', 'A question, a project'],
-           ],
-           'coach_items' => [
-               'top'         => ['Overview', 'Performance-driven'],
-               'offres'      => ['Offers', 'Plans, camps, testing, bike fitting'],
-               'temoignages' => ['Testimonials', 'What my athletes say'],
-               'contact'     => ['Contact', 'A goal? Let\'s talk'],
-           ]]
+           'athlete_items' => ['top' => 'Overview', 'highlights' => 'Highlights', 'palmares' => 'Results', 'partenaires' => 'Partners', 'calendrier' => 'Calendar', 'contact' => 'Contact'],
+           'coach_items'   => ['top' => 'Overview', 'offres' => 'Offers', 'highlights' => 'Highlights', 'temoignages' => 'Testimonials', 'contact' => 'Contact']]
         : ['athlete' => "L'Athlète", 'coach' => 'Le Coach', 'ads' => 'Mes Annonces', 'new_tab' => 'nouvel onglet',
-           'athlete_items' => [
-               'top'         => ['Présentation', 'Triathlète professionnel longue distance'],
-               'highlights'  => ['Highlights', 'Photos des grandes courses'],
-               'palmares'    => ['Palmarès', 'Tous les résultats'],
-               'partenaires' => ['Partenaires', 'Ceux qui m\'accompagnent'],
-               'contact'     => ['Contact', 'Une question, un projet'],
-           ],
-           'coach_items' => [
-               'top'         => ['Présentation', 'Orienté performance'],
-               'offres'      => ['Offres', 'Plans, stages, tests, bike fitting'],
-               'temoignages' => ['Témoignages', 'Ce que disent mes athlètes'],
-               'contact'     => ['Contact', 'Un objectif ? Parlons-en'],
-           ]];
+           'athlete_items' => ['top' => 'Présentation', 'highlights' => 'Highlights', 'palmares' => 'Palmarès', 'partenaires' => 'Partenaires', 'calendrier' => 'Calendrier', 'contact' => 'Contact'],
+           'coach_items'   => ['top' => 'Présentation', 'offres' => 'Offres', 'highlights' => 'Highlights', 'temoignages' => 'Témoignages', 'contact' => 'Contact']];
 
-    /* « Highlights » du Coach : l'entrée n'existe que s'il y a des photos coach (la section est masquée sinon). */
-    if (gallery_items('coach')) {
-        $hl = $en ? ['Highlights', 'Photos from camps and races'] : ['Highlights', 'Photos des stages et des courses'];
-        $items = [];
-        foreach ($T['coach_items'] as $id => $it) {
-            if ($id === 'temoignages') {
-                $items['highlights'] = $hl;
-            }
-            $items[$id] = $it;
-        }
-        $T['coach_items'] = $items;
-    }
+    /* Sous-menus dynamiques : une entrée n'existe que si sa section est réellement affichée sur le site.
+       (Présentation, Partenaires et Contact sont toujours là.) */
+    $shown = [
+        'athlete' => ['highlights' => gallery_items('athlete') !== [], 'palmares' => results_rows($c) !== [], 'calendrier' => upcoming_events($c) !== []],
+        'coach'   => ['offres' => coaching_items($c) !== [], 'highlights' => gallery_items('coach') !== [], 'temoignages' => testimonials($c) !== []],
+    ];
+    /* La petite phrase sous chaque entrée se règle dans le back office (Site → Menu) ; vide = titre seul. */
+    $menu = is_array($c['menu'] ?? null) ? $c['menu'] : [];
+    $hint = static function (string $group, string $id) use ($menu, $lang): string {
+        return trim((string) ($menu[$group . '_' . $id . '_' . $lang] ?? ''));
+    };
+    $entry = static function (string $href, string $attrs, string $label, string $hintText): string {
+        return '<li><a href="' . e($href) . '"' . $attrs . '><strong>' . e($label) . '</strong>'
+            . ($hintText !== '' ? '<span>' . e($hintText) . '</span>' : '') . '</a></li>';
+    };
 
     /* Lien externe « Mes Annonces » : réglable dans l'admin (Réglages), sinon page d'accueil Troc-Vélo. */
     $set    = $c['settings'] ?? [];
@@ -273,34 +267,40 @@ function site_header(string $lang, array $home, array $self, array $c, string $c
 
     /* L'Athlète */
     $a = '';
-    foreach ($T['athlete_items'] as $id => [$label, $hint]) {
+    foreach ($T['athlete_items'] as $id => $label) {
+        if (($shown['athlete'][$id] ?? true) === false) {
+            continue;
+        }
         if ($id === 'top') {
             $href = $onHome ? '#' : $home[$lang];   /* haut de la page d'accueil */
         } else {
             $href = ($id === $current && isset($pages[$id])) ? $base . $pages[$id] . $suffix : (($onHome ? '' : $home[$lang]) . '#' . $id);
         }
-        $on   = $id === $current ? ' class="on" aria-current="page"' : '';
+        $on = $id === $current ? ' class="on" aria-current="page"' : '';
         if ($id === 'top' && $onHome) { $on .= ' data-top="1"'; }   /* actif tant qu'on est en haut de page (scroll-spy) */
-        $a   .= '<li><a href="' . e($href) . '"' . $on . '><strong>' . e($label) . '</strong><span>' . e($hint) . '</span></a></li>';
+        $a .= $entry($href, $on, $label, $hint('athlete', $id));
     }
 
     /* Le Coach */
     $k = '';
-    foreach ($T['coach_items'] as $id => [$label, $hint]) {
+    foreach ($T['coach_items'] as $id => $label) {
+        if (($shown['coach'][$id] ?? true) === false) {
+            continue;
+        }
         $href = $id === 'top' ? $coachUrl : (($onCoach ? '' : $coachUrl) . '#' . $id);
         $top  = ($id === 'top' && $onCoach) ? ' data-top="1"' : '';
         if ($id === 'temoignages' && $current === 'temoignages') {   /* page « Tous les témoignages » : l'entrée pointe sur elle-même */
             $href = $base . 'temoignages.php' . $suffix;
             $top  = ' class="on" aria-current="page"';
         }
-        $k   .= '<li><a href="' . e($href) . '"' . $top . '><strong>' . e($label) . '</strong><span>' . e($hint) . '</span></a></li>';
+        $k .= $entry($href, $top, $label, $hint('coach', $id));
     }
 
     $h  = '<header class="top"><div class="wrap">';
     $h .= '<a class="brand" href="' . e($home[$lang]) . '">Arnaud <strong>Guilloux</strong></a>';
     $h .= '<nav class="nav" aria-label="Sections">';
     /* Sur ordinateur, cliquer le titre ouvre la page ; le sous-menu s'ouvre au survol. Sur mobile / tactile, le clic déplie le sous-menu. */
-    $h .= $group('athlete', $T['athlete'], $onHome ? '#' : $home[$lang], isset($T['athlete_items'][$current]), $a);
+    $h .= $group('athlete', $T['athlete'], $onHome ? '#' : $home[$lang], isset($pages[$current]), $a);
     $h .= $group('coach', $T['coach'], $coachUrl, $inCoach, $k);
     $h .= '<a href="' . e($adsUrl) . '" target="_blank" rel="noopener noreferrer" aria-label="' . e($T['ads'] . ' — ' . $T['new_tab']) . '">' . e($T['ads']) . ext_icon_svg() . '</a>';
     $h .= '</nav>';

@@ -48,7 +48,7 @@ Site bilingue (FR `/`, EN `/en/`) en PHP sans dépendance, pour hébergement mut
 
 - **L'Athlète** : Accroche, Chiffres, Palmarès, Partenaires, Calendrier
 - **Le Coach** : Coaching, Offres coaching, Témoignages
-- **Site** : Réglages
+- **Site** : Menu, Réglages
 
 Points utiles :
 
@@ -58,6 +58,7 @@ Points utiles :
 - Témoignages : le prénom peut être un lien facultatif vers la fiche Triathlon Lab de l'athlète. Le carrousel de la page coach tire 5 témoignages au hasard parmi ceux qui ont à la fois un chiffre clé et un titre (complété par les autres s'il en manque) ; « Tous les Témoignages » mène à la liste complète.
 - Mot de passe : stocké sous forme de hash dans `data/admin.php` (jamais versionné). Oublié : supprimer ce fichier par FTP, puis rouvrir `/admin/`.
 - Après 5 échecs de connexion, l'accès est bloqué 15 minutes.
+- Menu : les sous-menus « L'Athlète » et « Le Coach » sont dynamiques. Une entrée n'existe que si sa section est affichée (Highlights s'il y a des photos du type correspondant, Palmarès s'il y a des courses visibles, Calendrier s'il y a une course à venir, Offres, Témoignages…). Seule la petite phrase sous chaque entrée se règle dans l'onglet Menu (vide = titre seul).
 - Les photos ne se gèrent pas dans le back office (voir ci-dessous).
 
 Les textes fixes de l'interface (titres de sections, libellés du formulaire) sont dans le tableau `$T` en tête de chaque page (`index.php`, `coaching.php`, …).

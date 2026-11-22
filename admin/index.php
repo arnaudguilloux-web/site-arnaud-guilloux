@@ -107,6 +107,32 @@ $SCHEMA = [
         'city'         => ['Ville (facultatif)', 'text'],
         'url'          => ['Lien du prénom : fiche Triathlon Lab (https://…) — facultatif', 'url'],
     ]],
+    'menu' => ['label' => 'Menu', 'type' => 'single',
+        'help' => 'La petite phrase affichée sous chaque entrée des sous-menus « L\'Athlète » et « Le Coach ». Les entrées apparaissent toutes seules selon les sections affichées sur le site (pas de palmarès visible = pas d\'entrée Palmarès, etc.) ; seules les phrases se règlent ici. Vide = le titre seul.',
+        'fields' => [
+        'athlete_top_fr' => ['L\'Athlète › Présentation (FR)', 'text'],
+        'athlete_top_en' => ['L\'Athlète › Présentation (EN)', 'text'],
+        'athlete_highlights_fr' => ['L\'Athlète › Highlights (FR)', 'text'],
+        'athlete_highlights_en' => ['L\'Athlète › Highlights (EN)', 'text'],
+        'athlete_palmares_fr' => ['L\'Athlète › Palmarès (FR)', 'text'],
+        'athlete_palmares_en' => ['L\'Athlète › Palmarès (EN)', 'text'],
+        'athlete_partenaires_fr' => ['L\'Athlète › Partenaires (FR)', 'text'],
+        'athlete_partenaires_en' => ['L\'Athlète › Partenaires (EN)', 'text'],
+        'athlete_calendrier_fr' => ['L\'Athlète › Calendrier (FR)', 'text'],
+        'athlete_calendrier_en' => ['L\'Athlète › Calendrier (EN)', 'text'],
+        'athlete_contact_fr' => ['L\'Athlète › Contact (FR)', 'text'],
+        'athlete_contact_en' => ['L\'Athlète › Contact (EN)', 'text'],
+        'coach_top_fr' => ['Le Coach › Présentation (FR)', 'text'],
+        'coach_top_en' => ['Le Coach › Présentation (EN)', 'text'],
+        'coach_offres_fr' => ['Le Coach › Offres (FR)', 'text'],
+        'coach_offres_en' => ['Le Coach › Offres (EN)', 'text'],
+        'coach_highlights_fr' => ['Le Coach › Highlights (FR)', 'text'],
+        'coach_highlights_en' => ['Le Coach › Highlights (EN)', 'text'],
+        'coach_temoignages_fr' => ['Le Coach › Témoignages (FR)', 'text'],
+        'coach_temoignages_en' => ['Le Coach › Témoignages (EN)', 'text'],
+        'coach_contact_fr' => ['Le Coach › Contact (FR)', 'text'],
+        'coach_contact_en' => ['Le Coach › Contact (EN)', 'text'],
+    ]],
     'settings' => ['label' => 'Réglages', 'type' => 'single', 'fields' => [
         'draft'         => ['Site masqué des moteurs de recherche (noindex) : à désactiver au lancement', 'bool'],
         'contact_email' => ['E-mail qui reçoit le formulaire (jamais affiché sur le site)', 'email'],
@@ -122,7 +148,7 @@ $SCHEMA = [
 ];
 
 /* Onglets du back office, dans l'ordre du site : L'Athlète (accueil), Le Coach (page coaching), puis les réglages. */
-$GROUPS = ['L\'Athlète' => ['hero', 'stats', 'results', 'partners', 'calendar'], 'Le Coach' => ['coaching', 'coaching_items', 'testimonials'], 'Site' => ['settings']];
+$GROUPS = ['L\'Athlète' => ['hero', 'stats', 'results', 'partners', 'calendar'], 'Le Coach' => ['coaching', 'coaching_items', 'testimonials'], 'Site' => ['menu', 'settings']];
 
 /* ---------- Outils ---------- */
 function flash(string $msg, string $kind = 'ok'): void
@@ -489,6 +515,7 @@ button { font-family:inherit; }
     </div>
     <template id="tpl"><?= card('__i__', $def, [], true) ?></template>
     <?php else: ?>
+    <?php if (isset($def['help'])): ?><p class="help"><?= e($def['help']) ?></p><?php endif; ?>
     <div class="single">
       <?php foreach ($def['fields'] as $key => $f): ?>
       <?= field('f[' . $key . ']', $f, (string) ($data[$key] ?? '')) ?>

@@ -45,13 +45,7 @@ $months = [
 ];
 
 /* Calendrier : uniquement les courses à venir, triées par date. */
-$today    = date('Y-m-d');
-$upcoming = array_values(array_filter($c['calendar'] ?? [], static function ($ev) use ($today) {
-    return is_array($ev) && preg_match('/^\d{4}-\d{2}-\d{2}$/', (string) ($ev['date'] ?? '')) && $ev['date'] >= $today;
-}));
-usort($upcoming, static function ($a, $b) {
-    return strcmp($a['date'], $b['date']);
-});
+$upcoming = upcoming_events($c);
 
 /* ---------- Textes d'interface ---------- */
 $T = [
@@ -223,9 +217,6 @@ $resultsUrl = $base . 'palmares.php' . ($lang === 'en' ? '?lang=en' : ''); ?>
     <?php endif; ?>
   </div>
 </section>
-<?php endif; ?>
-
-<?php if (tr($coaching, 'intro') !== '' || $coachItems): ?>
 <?php endif; ?>
 
 
