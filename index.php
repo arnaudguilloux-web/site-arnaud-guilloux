@@ -58,16 +58,24 @@ if ($nextEv === null && $others) {
     $nextEv = array_shift($others);
 }
 $others = array_values($others);
-/* Dates : [jour, « mois année », « → fin » (stage sur plusieurs jours)] et version texte (« 12–19 mars 2027 ») */
+/* Dates : [« 24 → 31 », « MAI 2027 »] ; sur deux mois : « 24 → 2 » / « MAI JUIN 2027 » ; sur deux ans : « DÉC 2027 JANV 2028 » */
 $dateParts = static function (array $ev) use ($months, $lang): array {
     [$y, $m, $d] = array_map('intval', explode('-', $ev['date']));
-    $end   = event_end($ev);
-    $until = '';
-    if ($end !== $ev['date']) {
-        [$y2, $m2, $d2] = array_map('intval', explode('-', $end));
-        $until = '→ ' . $d2 . ($m2 !== $m || $y2 !== $y ? ' ' . ($months[$lang][$m2 - 1] ?? '') : '') . ($y2 !== $y ? ' ' . $y2 : '');
+    $end = event_end($ev);
+    $mon = $months[$lang][$m - 1] ?? '';
+    if ($end === $ev['date']) {
+        return [sprintf('%02d', $d), $mon . ' ' . $y];
     }
-    return [sprintf('%02d', $d), ($months[$lang][$m - 1] ?? '') . ' ' . $y, $until];
+    [$y2, $m2, $d2] = array_map('intval', explode('-', $end));
+    $mon2 = $months[$lang][$m2 - 1] ?? '';
+    if ($y2 !== $y) {
+        $line = $mon . ' ' . $y . ' ' . $mon2 . ' ' . $y2;
+    } elseif ($m2 !== $m) {
+        $line = $mon . ' ' . $mon2 . ' ' . $y;
+    } else {
+        $line = $mon . ' ' . $y;
+    }
+    return [$d . ' → ' . $d2, $line];
 };
 $dateText = static function (array $ev) use ($months, $lang): string {
     [$y, $m, $d] = array_map('intval', explode('-', $ev['date']));
@@ -196,7 +204,7 @@ $slides = array_slice(gallery_items('athlete'), 0, 5); // carrousel Highlights :
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=78">
+<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=79">
 <link rel="icon" href="<?= e($base) ?>assets/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="<?= e($base) ?>favicon.ico" sizes="48x48">
 <link rel="apple-touch-icon" href="<?= e($base) ?>assets/apple-touch-icon.png">
@@ -280,7 +288,7 @@ $resultsUrl = $base . 'palmares.php' . ($lang === 'en' ? '?lang=en' : ''); ?>
 <?php if ($nextEv):
     $hType = event_type($nextEv);
     $hDays = event_days_until($nextEv);
-    [$hDay, $hMonth, $hUntil] = $dateParts($nextEv); ?>
+    [$hDay, $hMonth] = $dateParts($nextEv); ?>
 <section id="calendrier">
   <div class="wrap">
     <h2><?= e($T['h_calendar']) ?></h2>
@@ -311,9 +319,9 @@ $resultsUrl = $base . 'palmares.php' . ($lang === 'en' ? '?lang=en' : ''); ?>
     <ol class="rows calendar">
       <?php foreach ($others as $ev):
           $evType = event_type($ev);
-          [$d1, $m1, $until] = $dateParts($ev); ?>
+          [$d1, $m1] = $dateParts($ev); ?>
       <li>
-        <time datetime="<?= e($ev['date']) ?>"><b><?= e($d1) ?></b><span class="mono"><?= e($m1) ?></span><?php if ($until !== ''): ?><span class="mono until"><?= e($until) ?></span><?php endif; ?></time>
+        <time datetime="<?= e($ev['date']) ?>"><b><?= e($d1) ?></b><span class="mono"><?= e($m1) ?></span></time>
         <span class="what">
           <strong><?= e(loc($ev, 'race')) ?></strong>
           <?php if (loc($ev, 'location') !== ''): ?><span class="where"><?= e(loc($ev, 'location')) ?></span><?php endif; ?>
