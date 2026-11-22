@@ -54,7 +54,7 @@ $F = contact_strings($lang);
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=82">
+<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=83">
 <link rel="icon" href="<?= e($base) ?>assets/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="<?= e($base) ?>favicon.ico" sizes="48x48">
 <link rel="apple-touch-icon" href="<?= e($base) ?>assets/apple-touch-icon.png">
@@ -92,17 +92,26 @@ $F = contact_strings($lang);
   <div class="wrap">
     <p class="eyebrow"><?= e($T['h_offers']) ?></p>
     <h2 class="big"><?= e($T['offers_big'][0]) ?> <span><?= e($T['offers_big'][1]) ?></span></h2>
-    <ul class="offer-cards">
-      <?php foreach ($coachItems as $it): ?>
-      <li class="offer-card">
-        <?php if (($oico = offer_icon_svg((string) ($it['icon'] ?? ''))) !== ''): ?><span class="offer-ico"><?= $oico ?></span><?php endif; ?>
-        <h3><?= e(tr($it, 'title')) ?></h3>
-        <?php if (tr($it, 'detail') !== ''): ?><p class="offer-detail"><?= e(tr($it, 'detail')) ?></p><?php endif; ?>
-        <?php if (tr($it, 'price') !== ''): ?><p class="offer-price"><?= implode('<br>', array_map('e', explode(' · ', tr($it, 'price')))) ?></p><?php endif; ?>
-        <a class="card-cta" href="#contact" data-contact="coaching"><?= e($T['card_cta']) ?></a>
-      </li>
-      <?php endforeach; ?>
-    </ul>
+  </div>
+  <div class="carousel ocar" id="ocar" tabindex="0" aria-label="<?= e($T['h_offers']) ?>">
+    <?php foreach ($coachItems as $it): ?>
+    <article class="offer-card">
+      <?php if (($oico = offer_icon_svg((string) ($it['icon'] ?? ''))) !== ''): ?><span class="offer-ico"><?= $oico ?></span><?php endif; ?>
+      <h3><?= e(tr($it, 'title')) ?></h3>
+      <?php if (tr($it, 'detail') !== ''): ?><p class="offer-detail"><?= e(tr($it, 'detail')) ?></p><?php endif; ?>
+      <?php if (tr($it, 'price') !== ''): ?><p class="offer-price"><?= implode('<br>', array_map('e', explode(' · ', tr($it, 'price')))) ?></p><?php endif; ?>
+      <a class="card-cta" href="#contact" data-contact="coaching"><?= e($T['card_cta']) ?></a>
+    </article>
+    <?php endforeach; ?>
+  </div>
+  <div class="wrap">
+    <div class="qctrl">
+      <button type="button" class="arrow" id="oprev" aria-label="<?= e($T['prev']) ?>">‹</button>
+      <div class="dots" id="odots" aria-hidden="true">
+        <?php foreach ($coachItems as $i => $it): ?><span<?= $i === 0 ? ' class="on"' : '' ?>></span><?php endforeach; ?>
+      </div>
+      <button type="button" class="arrow" id="onext" aria-label="<?= e($T['next']) ?>">›</button>
+    </div>
   </div>
 </section>
 <?php endif; ?>
@@ -146,6 +155,7 @@ $F = contact_strings($lang);
 <?= site_footer($T['legal'], $settings, $lang) ?>
 <script src="<?= e($base) ?>assets/carousel.js?v=2"></script>
 <script>
+carousel('ocar', 'odots', 'oprev', 'onext', '.offer-card');
 carousel('qcar', 'qdots', 'qprev', 'qnext', '.qcard');
 carousel('ccar', 'cdots', 'cprev', 'cnext', '.slide');
 </script>
