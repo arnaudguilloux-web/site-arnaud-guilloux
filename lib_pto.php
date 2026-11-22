@@ -158,7 +158,7 @@ function pto_continents(): array
         'alpe-dhuez-l' => 'eu', 'im-austria' => 'eu', 'im-south-africa' => 'af', 'im-703-vichy' => 'eu', 'im-703-warsaw' => 'eu',
         'im-florida' => 'na', 'challenge-gran-canaria' => 'eu', 'im-wales' => 'eu', 'im-hamburg' => 'eu', 'im-703-barcelona' => 'eu',
         'im-703-dubai' => 'as', 'im-uk' => 'eu', 'im-703-elsinore' => 'na', 'im-703-bahrain' => 'as', 'challenge-sardinia' => 'eu',
-        'im-france' => 'eu', 'ironman-703-loire-valley' => 'eu',
+        'im-france' => 'eu', 'ironman-703-loire-valley' => 'eu', '1406inn-international-triathlon' => 'eu',
     ];
 }
 
