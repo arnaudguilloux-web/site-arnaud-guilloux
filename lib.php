@@ -103,6 +103,8 @@ function offer_icons(): array
         'camp'   => ['Stage', '<path d="M2.5 20.5L12 4l9.5 16.5M12 4v16.5M8.5 20.5l3.5-6.5 3.5 6.5"/>'],
         'test'   => ['Test (effort, mesure)', '<path d="M3 12h4l2.5-6 4 12 2.5-6H21"/>'],
         'bike'   => ['Vélo', '<circle cx="6" cy="16.5" r="3.5"/><circle cx="18" cy="16.5" r="3.5"/><path d="M6 16.5l4-8h5l3 8M10 8.5l3 8M9 8.5H7M15 8.5L14 6h2"/>'],
+        'seminar' => ['Séminaire (groupe, conférence)', '<rect x="3" y="4" width="18" height="11" rx="1.5"/><path d="M12 15v4M8 20h8M7.5 11l3-3 2.5 2 3.5-4"/>'],
+        'meet'   => ['Rendez-vous (échange)', '<path d="M4 5h11a1.5 1.5 0 0 1 1.5 1.5V12A1.5 1.5 0 0 1 15 13.5H9L5.5 16.5v-3H4A1.5 1.5 0 0 1 2.5 12V6.5A1.5 1.5 0 0 1 4 5zM18.5 9H20a1.5 1.5 0 0 1 1.5 1.5v5A1.5 1.5 0 0 1 20 17h-1v3l-3-3h-4"/>'],
         'target' => ['Objectif', '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2"/>'],
     ];
 }

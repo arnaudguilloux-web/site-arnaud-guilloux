@@ -1157,6 +1157,24 @@
       "price_fr": "150 € vélo de route · 200 € vélo de chrono",
       "price_en": "€150 road bike · €200 TT bike",
       "icon": "bike"
+    },
+    {
+      "title_fr": "Séminaires",
+      "title_en": "Seminars",
+      "detail_fr": "",
+      "detail_en": "",
+      "price_fr": "Sur demande",
+      "price_en": "On request",
+      "icon": "seminar"
+    },
+    {
+      "title_fr": "Rendez-vous 1-1 · Consulting",
+      "title_en": "1-to-1 sessions · Consulting",
+      "detail_fr": "",
+      "detail_en": "",
+      "price_fr": "Sur demande",
+      "price_en": "On request",
+      "icon": "meet"
     }
   ]
 }
