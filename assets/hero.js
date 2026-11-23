@@ -1,5 +1,12 @@
 /* Diaporama du hero (page Athlète) : fondu automatique, puces cliquables.
    Pause au survol / au focus et quand l'onglet est masqué ; pas d'enchaînement automatique si « réduire les animations ». */
+/* Hauteur réelle de la barre du haut (varie en mobile) : le hero fixe s'y cale */
+(function () {
+  var top = document.querySelector('.top');
+  if (!top) return;
+  function set() { document.documentElement.style.setProperty('--top-h', top.offsetHeight + 'px'); }
+  set(); addEventListener('resize', set); addEventListener('load', set);
+})();
 (function () {
   var box = document.getElementById('hero-dots');
   if (!box) return;

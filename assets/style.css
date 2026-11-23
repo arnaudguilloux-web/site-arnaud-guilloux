@@ -105,13 +105,15 @@ h2.big span { color: var(--text-3); }
 }
 .hero-tall { min-height: clamp(420px, 50vw, 640px); }   /* page Athlète : photo plus haute (le Coach garde le format standard) */
 /* Hero plein écran fixe (page Athlète) : la section sert d'espace, le panneau reste fixé derrière ; le reste de la page le recouvre au scroll */
-.hero-fixed { padding: 0; height: calc(100vh - 65px); height: calc(100svh - 65px); }
+.hero-fixed { padding: 0; height: calc(100vh - var(--top-h, 65px)); height: calc(100svh - var(--top-h, 65px)); }
 .hero-stage { position: fixed; inset: 0; z-index: 0; }
 .hero-stage .hero-panel { height: 100%; min-height: 0; border-radius: 0; }
-.hero-stage .hero-dots { top: 81px; }
+.hero-stage .hero-dots { top: calc(var(--top-h, 65px) + 16px); }
 .hero-stage .hero-inner { max-width: 1200px; margin: 0 auto; padding: 96px var(--gutter) clamp(28px, 5vh, 56px); }
 .hero-stage h1 { font-size: clamp(2.5rem, 7vw, 5rem); }
 main > .hero-fixed ~ *, .foot { position: relative; z-index: 1; background: var(--canvas); }
+/* l'intro est dans un .wrap (1200px) : fond blanc étendu à toute la largeur */
+main > .hero-fixed ~ .intro { box-shadow: 0 0 0 100vmax var(--canvas); clip-path: inset(0 -100vmax); }
 .hero-panel::before {
   content: ""; position: absolute; inset: 0 0 auto 0; height: 3px; z-index: 2;
   background: linear-gradient(90deg, var(--swim) 0 33.33%, var(--bike) 33.33% 66.66%, var(--run) 66.66% 100%);
