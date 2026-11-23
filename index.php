@@ -216,7 +216,7 @@ $slides = array_slice(gallery_items('athlete'), 0, 5); // carrousel Highlights :
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=88">
+<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=89">
 <link rel="icon" href="<?= e($base) ?>assets/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="<?= e($base) ?>favicon.ico" sizes="48x48">
 <link rel="apple-touch-icon" href="<?= e($base) ?>assets/apple-touch-icon.png">
@@ -226,8 +226,8 @@ $slides = array_slice(gallery_items('athlete'), 0, 5); // carrousel Highlights :
 <?= site_header($lang, $home, $home, $c, '', true) ?>
 
 <main>
-<section class="hero">
-  <div class="wrap">
+<section class="hero hero-fixed">
+  <div class="hero-stage">
     <div class="hero-panel hero-tall">
       <?php foreach ($heroSlides as $i => $sl): ?>
       <img class="hero-bg hero-slide<?= $i === 0 ? ' is-on' : '' ?>" src="<?= e($base) ?>assets/img/<?= e($sl[0]) ?>" width="<?= (int) $sl[1] ?>" height="<?= (int) $sl[2] ?>" alt="<?= e($T[$sl[5]]) ?>" style="--pos: <?= e($sl[3]) ?>; --pos-m: <?= e($sl[4]) ?>"<?= $i === 0 ? ' fetchpriority="high"' : ' decoding="async"' ?>>
