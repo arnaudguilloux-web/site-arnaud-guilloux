@@ -35,6 +35,7 @@ jobs:
             **/.git*/**
             .github/**
             README.md
+            CLAUDE.md
             data/content.json
             data/content.json.tmp
             data/content.bak.json
