@@ -12,7 +12,7 @@ RewriteEngine On
 RewriteRule ^en/?$ index.php?lang=en [L,QSA]
 
 # Fichiers internes non servis
-<FilesMatch "^(lib\.php|README\.md|CLAUDE\.md|\.gitignore)$">
+<FilesMatch "^(lib\.php|README\.md|CLAUDE\.md|STATUS\.md|\.gitignore)$">
   Require all denied
 </FilesMatch>
 

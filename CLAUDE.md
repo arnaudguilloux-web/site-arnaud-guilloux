@@ -35,7 +35,7 @@ Pas de tests ni de linter. Vérifier avec `php -l <fichier>` puis en ouvrant les
 - `declare(strict_types=1);` en tête de chaque fichier PHP ; échapper toute sortie HTML avec `e()`.
 - PHP 7.4 minimum : pas de `match`, propriétés promues, `str_contains`, `?->`… Les closures s'écrivent `static function (...) {}`.
 - **Cache-busting** : les assets sont appelés avec `?v=N` (`style.css?v=88` répété dans les 5 pages, `nav.js?v=5` et `contact.js?v=1` dans `lib_view.php`, `carousel.js?v=2`, `hero.js?v=1`, `lightbox.js?v=1`). Après toute modification d'un asset, incrémenter son `v` partout où il apparaît (`grep -rn 'style.css?v=' *.php`).
-- `.htaccess` : le `FilesMatch` ne refuse que `lib.php`, `README.md`, `CLAUDE.md` et `.gitignore`. Les autres `lib_*.php` restent accessibles (ils ne produisent aucune sortie). Tout nouveau fichier interne non destiné au public (note, doc…) doit être ajouté à ce `FilesMatch` **et** à la liste `exclude` de `.github/workflows/deploy.yml`.
+- `.htaccess` : le `FilesMatch` ne refuse que `lib.php`, `README.md`, `CLAUDE.md`, `STATUS.md` et `.gitignore`. Les autres `lib_*.php` restent accessibles (ils ne produisent aucune sortie). Tout nouveau fichier interne non destiné au public (note, doc…) doit être ajouté à ce `FilesMatch` **et** à la liste `exclude` de `.github/workflows/deploy.yml`.
 - Messages de commit en français, préfixés par la zone (ex. « Partenaires: … », « Coaching : … »).
 
 ## Git et déploiement
