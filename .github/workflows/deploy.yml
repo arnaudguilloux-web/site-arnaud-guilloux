@@ -34,6 +34,7 @@ jobs:
             **/.git*
             **/.git*/**
             .github/**
+            .claude/**
             README.md
             CLAUDE.md
             STATUS.md
