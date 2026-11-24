@@ -38,6 +38,7 @@ jobs:
             README.md
             CLAUDE.md
             STATUS.md
+            upload/**
             data/content.json
             data/content.json.tmp
             data/content.bak.json
