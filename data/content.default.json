@@ -1176,5 +1176,161 @@
       "price_en": "On request",
       "icon": "meet"
     }
+  ],
+  "gallery": [
+    {
+      "image": "assets/img/roth-arrivee.jpg",
+      "title_fr": "Challenge Roth 2026.",
+      "title_en": "Challenge Roth 2026.",
+      "desc_fr": "7h46'30 sur la distance IRONMAN.",
+      "desc_en": "7:46:30 over the IRONMAN distance.",
+      "type": "athlete",
+      "date": "",
+      "focus": "50% 30%",
+      "visible": "1"
+    },
+    {
+      "image": "assets/img/brasil-podium.jpg",
+      "title_fr": "IRONMAN Brasil 2026.",
+      "title_en": "IRONMAN Brasil 2026.",
+      "desc_fr": "Troisième en 7h38.",
+      "desc_en": "Third place in 7:38.",
+      "type": "athlete",
+      "date": "",
+      "focus": "50% 30%",
+      "visible": "1"
+    },
+    {
+      "image": "assets/img/kona-lave.jpg",
+      "title_fr": "Kona, Hawaï.",
+      "title_en": "Kona, Hawaii.",
+      "desc_fr": "Sur les champs de lave.",
+      "desc_en": "On the lava fields.",
+      "type": "athlete",
+      "date": "",
+      "focus": "50% 30%",
+      "visible": "1"
+    },
+    {
+      "image": "assets/img/kona-check-in.jpg",
+      "title_fr": "Championnat du monde IRONMAN.",
+      "title_en": "IRONMAN World Championship.",
+      "desc_fr": "Au dépôt des vélos.",
+      "desc_en": "At bike check-in.",
+      "type": "athlete",
+      "date": "",
+      "focus": "50% 30%",
+      "visible": "1"
+    },
+    {
+      "image": "assets/img/roth-velo.jpg",
+      "title_fr": "180 km à vélo.",
+      "title_en": "180 km on the bike.",
+      "desc_fr": "Là où se construit la course.",
+      "desc_en": "Where the race is built.",
+      "type": "athlete",
+      "date": "",
+      "focus": "50% 30%",
+      "visible": "1"
+    },
+    {
+      "image": "assets/img/roth-course.jpg",
+      "title_fr": "Puis un marathon.",
+      "title_en": "Then a marathon.",
+      "desc_fr": "Jusqu'à la ligne.",
+      "desc_en": "All the way to the line.",
+      "type": "athlete",
+      "date": "",
+      "focus": "50% 30%",
+      "visible": "1"
+    },
+    {
+      "image": "assets/img/roth-solarer-berg.jpg",
+      "title_fr": "Challenge Roth.",
+      "title_en": "Challenge Roth.",
+      "desc_fr": "Entre deux haies de spectateurs.",
+      "desc_en": "Between two walls of spectators.",
+      "type": "athlete",
+      "date": "",
+      "focus": "50% 30%",
+      "visible": "1"
+    },
+    {
+      "image": "assets/img/petit-minou.jpg",
+      "title_fr": "Bretagne.",
+      "title_en": "Brittany.",
+      "desc_fr": "Au phare du Petit Minou.",
+      "desc_en": "At the Petit Minou lighthouse.",
+      "type": "athlete",
+      "date": "",
+      "focus": "50% 30%",
+      "visible": "1"
+    },
+    {
+      "image": "assets/img/nice-reconnaissance.jpg",
+      "title_fr": "Nice.",
+      "title_en": "Nice.",
+      "desc_fr": "Stage de reconnaissance du parcours du Championnat du monde IRONMAN 70.3.",
+      "desc_en": "Course recon camp for the IRONMAN 70.3 World Championship.",
+      "type": "coach",
+      "date": "",
+      "focus": "50% 50%",
+      "visible": "1"
+    },
+    {
+      "image": "assets/img/nice-70-3-wc.jpg",
+      "title_fr": "Championnat du monde IRONMAN 70.3.",
+      "title_en": "IRONMAN 70.3 World Championship.",
+      "desc_fr": "Nice, 2026.",
+      "desc_en": "Nice, 2026.",
+      "type": "coach",
+      "date": "",
+      "focus": "50% 30%",
+      "visible": "1"
+    },
+    {
+      "image": "assets/img/kona-parc-velo.jpg",
+      "title_fr": "Kona, Hawaï.",
+      "title_en": "Kona, Hawaii.",
+      "desc_fr": "Au parc à vélo avec Geoffroy.",
+      "desc_en": "At the bike park with Geoffroy.",
+      "type": "coach",
+      "date": "",
+      "focus": "50% 50%",
+      "visible": "1"
+    },
+    {
+      "image": "assets/img/texas-athletes.jpg",
+      "title_fr": "IRONMAN Texas.",
+      "title_en": "IRONMAN Texas.",
+      "desc_fr": "Avec une bonne partie des athlètes.",
+      "desc_en": "With many of the athletes.",
+      "type": "coach",
+      "date": "",
+      "focus": "50% 30%",
+      "visible": "1"
+    },
+    {
+      "image": "assets/img/kona-depose-velos.jpg",
+      "title_fr": "Championnat du monde IRONMAN.",
+      "title_en": "IRONMAN World Championship.",
+      "desc_fr": "Dépose des vélos, Hawaï.",
+      "desc_en": "Bike drop-off, Hawaii.",
+      "type": "coach",
+      "date": "",
+      "focus": "50% 30%",
+      "visible": "1"
+    },
+    {
+      "image": "assets/img/lanzarote-stage.jpg",
+      "title_fr": "Stage à Lanzarote.",
+      "title_en": "Lanzarote camp.",
+      "desc_fr": "Fin de longue journée.",
+      "desc_en": "End of a long day.",
+      "type": "coach",
+      "date": "",
+      "focus": "50% 30%",
+      "visible": "1"
+    }
   ]
 }

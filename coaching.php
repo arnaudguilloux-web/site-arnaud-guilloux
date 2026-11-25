@@ -23,7 +23,7 @@ $others   = array_values(array_filter($allQuotes, static function ($q) { return 
 shuffle($featured);
 shuffle($others);
 $quotes = array_slice(array_merge($featured, $others), 0, 5);
-$coachSlides = array_slice(gallery_items('coach'), 0, 5);   /* Highlights du Coach : 5 premières photos « coach » */
+$coachSlides = array_slice(gallery_items($c, 'coach'), 0, 5);   /* Highlights du Coach : 5 premières photos « coach » */
 $draft = ($settings['draft'] ?? '1') === '1';
 
 $T = [
@@ -54,7 +54,7 @@ $F = contact_strings($lang);
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=91">
+<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=92">
 <link rel="icon" href="<?= e($base) ?>assets/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="<?= e($base) ?>favicon.ico" sizes="48x48">
 <link rel="apple-touch-icon" href="<?= e($base) ?>assets/apple-touch-icon.png">

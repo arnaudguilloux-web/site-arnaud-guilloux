@@ -15,9 +15,9 @@ $settings = ($c['settings'] ?? []);
 $draft = ($settings['draft'] ?? '1') === '1';
 
 $type = in_array($_GET['type'] ?? '', ['athlete', 'coach'], true) ? (string) $_GET['type'] : '';
-$items = gallery_items($type !== '' ? $type : null);
-$hasCoach = count(gallery_items('coach')) > 0;
-$hasAthlete = count(gallery_items('athlete')) > 0;
+$items = gallery_items($c, $type !== '' ? $type : null);
+$hasCoach = count(gallery_items($c, 'coach')) > 0;
+$hasAthlete = count(gallery_items($c, 'athlete')) > 0;
 
 $T = [
     'fr' => ['title' => 'Galerie — Arnaud Guilloux', 'h1' => 'Galerie', 'back' => 'Retour à l\'accueil', 'f_all' => 'Tout', 'f_athlete' => 'Athlète', 'f_coach' => 'Coach', 'f_label' => 'Filtrer par type', 'lb_zoom' => 'Agrandir', 'lb_close' => 'Fermer', 'lb_prev' => 'Photo précédente', 'lb_next' => 'Photo suivante',
@@ -40,7 +40,7 @@ $T = [
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=91">
+<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=92">
 <link rel="icon" href="<?= e($base) ?>assets/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="<?= e($base) ?>favicon.ico" sizes="48x48">
 <link rel="apple-touch-icon" href="<?= e($base) ?>assets/apple-touch-icon.png">
@@ -64,10 +64,10 @@ $T = [
     <div class="gallery">
       <?php foreach ($items as $g): ?>
       <figure>
-        <button type="button" class="g-zoom" aria-label="<?= e($T['lb_zoom'] . ' : ' . $g[$lang === 'en' ? 3 : 1] . ' ' . $g[$lang === 'en' ? 4 : 2]) ?>">
-          <img src="<?= e($base) ?>assets/img/<?= e($g[0]) ?>.jpg" alt="<?= e($g[$lang === 'en' ? 3 : 1] . ' ' . $g[$lang === 'en' ? 4 : 2]) ?>" loading="lazy">
+        <button type="button" class="g-zoom" aria-label="<?= e($T['lb_zoom'] . ' : ' . gallery_alt($g, $lang)) ?>">
+          <img src="<?= e($base) ?><?= e($g['image']) ?>" alt="<?= e(gallery_alt($g, $lang)) ?>" loading="lazy">
         </button>
-        <figcaption><strong><?= e($g[$lang === 'en' ? 3 : 1]) ?></strong><span><?= e($g[$lang === 'en' ? 4 : 2]) ?></span></figcaption>
+        <figcaption><?= gallery_caption_html($g, $lang) ?></figcaption>
       </figure>
       <?php endforeach; ?>
     </div>

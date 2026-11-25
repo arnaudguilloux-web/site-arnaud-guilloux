@@ -2,6 +2,7 @@
 declare(strict_types=1);
 require __DIR__ . '/../lib.php';
 require __DIR__ . '/../lib_pto.php';
+require __DIR__ . '/../lib_gallery.php';
 
 /*
  * Back office léger, pensé pour le téléphone.
@@ -85,6 +86,19 @@ $SCHEMA = [
         'note_fr'  => ['Note (FR)', 'text'],
         'note_en'  => ['Note (EN)', 'text'],
     ]],
+    'gallery' => ['label' => 'Photos', 'type' => 'list', 'title' => 'title_fr', 'sub' => 'date', 'eye' => true,
+        'add' => '+ Ajouter une photo',
+        'help' => 'Alimente la page Galerie et les carrousels Highlights (Athlète et Coach). Chaque carrousel affiche les 5 photos les plus récentes de son type ; la page Galerie les montre toutes, de la plus récente à la plus ancienne (sans date : à la suite). La photo est redimensionnée (1800 px max.) et compressée automatiquement, et ses données GPS/EXIF sont effacées : envoyez-la telle qu\'elle sort du téléphone ou de l\'appareil, quelques photos à la fois. L\'œil permet de masquer une photo sans la supprimer.',
+        'fields' => [
+        'image'    => ['Photo (JPEG, PNG ou WebP)', 'image'],
+        'title_fr' => ['Titre (FR)', 'text'],
+        'title_en' => ['Titre (EN)', 'text'],
+        'desc_fr'  => ['Description (FR)', 'text'],
+        'desc_en'  => ['Description (EN)', 'text'],
+        'type'     => ['Type : alimente le carrousel Athlète (accueil) ou Coach', 'select_gallery_type'],
+        'date'     => ['Date de la photo (affichée sur le site)', 'date'],
+        'focus'    => ['Cadrage dans le carrousel (utile pour une photo verticale)', 'select_focus'],
+    ]],
     'coaching' => ['label' => 'Coaching', 'type' => 'single', 'fields' => [
         'intro_fr' => ['Texte de présentation (FR)', 'textarea'],
         'intro_en' => ['Texte de présentation (EN)', 'textarea'],
@@ -153,7 +167,7 @@ $SCHEMA = [
 ];
 
 /* Onglets du back office, dans l'ordre du site : L'Athlète (accueil), Le Coach (page coaching), puis les réglages. */
-$GROUPS = ['L\'Athlète' => ['hero', 'stats', 'results', 'partners', 'calendar'], 'Le Coach' => ['coaching', 'coaching_items', 'testimonials'], 'Site' => ['menu', 'settings']];
+$GROUPS = ['L\'Athlète' => ['hero', 'stats', 'results', 'partners', 'calendar'], 'Galerie' => ['gallery'], 'Le Coach' => ['coaching', 'coaching_items', 'testimonials'], 'Site' => ['menu', 'settings']];
 
 /* ---------- Outils ---------- */
 function flash(string $msg, string $kind = 'ok'): void
@@ -191,6 +205,25 @@ function field(string $name, array $def, string $value): string
             $h  .= '<option value="' . e($k) . '"' . ($sel ? ' selected' : '') . '>' . e($nm[0]) . '</option>';
         }
         $h .= '</select>';
+    } elseif ($type === 'select_gallery_type') {
+        $h .= '<select name="' . e($name) . '">';
+        foreach (gallery_types() as $k => $nm) {
+            $h .= '<option value="' . e($k) . '"' . ($value === $k || ($value === '' && $k === 'athlete') ? ' selected' : '') . '>' . e($nm[0]) . '</option>';
+        }
+        $h .= '</select>';
+    } elseif ($type === 'select_focus') {
+        $h .= '<select name="' . e($name) . '">';
+        foreach (gallery_focuses() as $k => $nm) {
+            $h .= '<option value="' . e($k) . '"' . ($value === $k || ($value === '' && $k === '50% 30%') ? ' selected' : '') . '>' . e($nm) . '</option>';
+        }
+        $h .= '</select>';
+    } elseif ($type === 'image') {
+        preg_match('/\[([^\]]+)\]/', $name, $im);   /* items[<index>][image] : le fichier envoyé s'appelle photo[<index>] */
+        if (gallery_valid_image($value)) {
+            $h .= '<img class="thumb" src="../' . e($value) . '" alt="" loading="lazy">';
+        }
+        $h .= '<input type="hidden" name="' . e($name) . '" value="' . e($value) . '">'
+            . '<input type="file" name="photo[' . e($im[1] ?? '') . ']" accept="image/jpeg,image/png,image/webp">';
     } elseif ($type === 'select_continent') {
         $h .= '<select name="' . e($name) . '"><option value="">Automatique</option>';
         foreach (continent_names() as $k => $nm) {
@@ -259,6 +292,10 @@ if (!isset($SCHEMA[$section])) {
 }
 
 if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
+    if ($_POST === [] && (int) ($_SERVER['CONTENT_LENGTH'] ?? 0) > 0) {
+        flash('Envoi trop volumineux pour le serveur (' . ini_get('post_max_size') . ' maximum au total) : rien n\'a été enregistré. Envoyez moins de photos à la fois.', 'err');
+        redirect('s=' . rawurlencode((string) ($_GET['s'] ?? 'hero')));
+    }
     if (!hash_equals($_SESSION['csrf'], (string) ($_POST['csrf'] ?? ''))) {
         flash('Session expirée, merci de réessayer.', 'err');
         redirect();
@@ -341,7 +378,9 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
         if ($def['type'] === 'list') {
             $rows  = [];
             $items = $_POST['items'] ?? [];
-            foreach (is_array($items) ? $items : [] as $item) {
+            $uploadErrors = [];
+            $noPhoto = 0;
+            foreach (is_array($items) ? $items : [] as $idx => $item) {
                 if (!is_array($item)) {
                     continue;
                 }
@@ -349,12 +388,34 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
                 $empty = true;
                 foreach ($def['fields'] as $fk => $_f) {
                     $v = trim((string) (is_scalar($item[$fk] ?? '') ? ($item[$fk] ?? '') : ''));
+                    if ($_f[1] === 'image') {
+                        $up = $_FILES['photo'] ?? null;
+                        if (is_array($up) && is_array($up['error'] ?? null) && (int) ($up['error'][$idx] ?? UPLOAD_ERR_NO_FILE) !== UPLOAD_ERR_NO_FILE) {
+                            [$stored, $why] = gallery_store_upload([
+                                'error' => $up['error'][$idx], 'tmp_name' => $up['tmp_name'][$idx] ?? '',
+                            ]);
+                            if ($stored !== null) {
+                                $v = $stored;
+                            } else {
+                                $uploadErrors[] = '« ' . (string) ($up['name'][$idx] ?? 'photo') . ' » : ' . $why;
+                            }
+                        }
+                        if (!gallery_valid_image($v)) {
+                            $v = '';
+                        }
+                    }
                     if ($_f[1] === 'yesno') {
                         $v = $v === '1' ? '1' : '0';
-                    } else {
+                    } elseif (!in_array($_f[1], ['select_gallery_type', 'select_focus'], true)) {
                         $empty = $empty && $v === '';
                     }
-                    if ($fk === 'type' && !isset(event_types()[$v])) {
+                    if ($fk === 'type' && $_f[1] === 'select_gallery_type' && !isset(gallery_types()[$v])) {
+                        $v = 'athlete';
+                    }
+                    if ($_f[1] === 'select_focus' && !isset(gallery_focuses()[$v])) {
+                        $v = '50% 30%';
+                    }
+                    if ($fk === 'type' && $key === 'calendar' && !isset(event_types()[$v])) {
                         $v = '';
                     }
                     if ($fk === 'continent' && !isset(continent_names()[$v])) {
@@ -371,6 +432,9 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
                     }
                     if (!empty($def['eye'])) {
                         $row['visible'] = (string) ($item['visible'] ?? '1') === '0' ? '0' : '1';
+                    }
+                    if ($key === 'gallery' && $row['image'] === '') {
+                        $noPhoto++;
                     }
                     $rows[] = $row;
                 }
@@ -394,7 +458,17 @@ if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'POST') {
         }
 
         if (save_content($content)) {
-            flash('Enregistré. Le site est à jour.' . (!empty($undated) ? ' Attention : ' . $undated . ' course(s) sans date ni année, placée(s) tout en bas.' : ''));
+            if ($key === 'gallery') {
+                gallery_cleanup($rows);
+            }
+            $extra = '';
+            if (!empty($uploadErrors)) {
+                $extra .= ' Photo(s) refusée(s) : ' . implode(' ; ', $uploadErrors) . '.';
+            }
+            if (!empty($noPhoto)) {
+                $extra .= ' Attention : ' . $noPhoto . ' entrée(s) sans photo, non affichée(s) sur le site.';
+            }
+            flash('Enregistré. Le site est à jour.' . $extra . (!empty($undated) ? ' Attention : ' . $undated . ' course(s) sans date ni année, placée(s) tout en bas.' : ''));
         } else {
             flash('Échec de l\'enregistrement (droits d\'écriture sur data/ ?).', 'err');
         }
@@ -456,6 +530,8 @@ p.help { color:var(--mute); font-size:14px; margin:0 0 16px; }
 .single { background:var(--paper); border:1px solid var(--ink); padding:16px 14px; display:grid; gap:14px; }
 label { display:grid; gap:6px; }
 label span { font:500 11px/1.3 var(--mono); letter-spacing:.05em; text-transform:uppercase; color:var(--mute); }
+img.thumb { display:block; width:100%; max-height:220px; object-fit:contain; background:var(--tint); border:1px solid var(--hair); }
+input[type=file] { padding:9px 10px; min-height:0; font-size:14px; }
 input[readonly] { background:var(--tint); color:var(--mute); }
 input, textarea, select { width:100%; font:400 16px/1.4 inherit; font-family:inherit; color:var(--ink); background:var(--paper); border:1px solid var(--ink); border-radius:0; padding:11px 12px; min-height:46px; }
 textarea { resize:vertical; }
@@ -523,7 +599,7 @@ button { font-family:inherit; }
   </form>
   <?php endif; ?>
 
-  <form method="post" id="form">
+  <form method="post" id="form" enctype="multipart/form-data">
     <input type="hidden" name="csrf" value="<?= e($csrf) ?>">
     <input type="hidden" name="action" value="save">
     <input type="hidden" name="section" value="<?= e($section) ?>">
@@ -533,7 +609,9 @@ button { font-family:inherit; }
         ? 'Les courses sont triées par date à l\'enregistrement ; les courses passées disparaissent du site automatiquement.'
         : ($section === 'results'
             ? 'Le palmarès est trié par année puis par date à l\'enregistrement.'
-            : 'L\'ordre affiché ici est celui du site. Utilisez ↑ ↓ pour réordonner.') ?></p>
+            : ($section === 'gallery'
+                ? 'Le site ordonne les photos par date (la plus récente d\'abord) ; ↑ ↓ ne change que l\'ordre des photos sans date.'
+                : 'L\'ordre affiché ici est celui du site. Utilisez ↑ ↓ pour réordonner.')) ?></p>
     <button type="button" class="add" id="add"><?= e($def['add'] ?? '+ Ajouter') ?></button>
     <div id="list">
       <?php foreach (array_values($data) as $i => $item): ?>

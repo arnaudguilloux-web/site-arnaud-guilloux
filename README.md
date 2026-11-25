@@ -20,7 +20,7 @@ Site bilingue (FR `/`, EN `/en/`) en PHP sans dépendance, pour hébergement mut
 | --- | --- |
 | `lib.php` | Chargement/sauvegarde du contenu, helpers (`e()`, pictos des chiffres et des offres) |
 | `lib_view.php` | Blocs partagés : en-tête et menu, pied de page, formulaire de contact, témoignages, carrousel Highlights |
-| `lib_gallery.php` | Liste des photos de la galerie (voir « Ajouter une photo ») |
+| `lib_gallery.php` | Photos de la galerie : tri, légendes, dates, traitement des envois (voir « Ajouter une photo ») |
 | `lib_pto.php` | Import du palmarès depuis Pro Triathlete Organisation (bouton dans le back office) |
 | `lib_social.php` | Liens et pictos des réseaux sociaux |
 | `assets/style.css` | Styles (thème clair, encre bleu nuit + accent marine, Inter). Couleurs, rayons et espacements se règlent dans `:root` |
@@ -61,17 +61,21 @@ Points utiles :
 - Menu : les sous-menus « L'Athlète » et « Le Coach » sont dynamiques. Une entrée n'existe que si sa section est affichée (Highlights s'il y a des photos du type correspondant, Palmarès s'il y a des courses visibles, Calendrier s'il y a une course à venir, Offres, Témoignages…). Seule la petite phrase sous chaque entrée se règle dans l'onglet Menu (vide = titre seul).
 - Calendrier : trois types d'entrées, **Course**, **Stage** (date de fin facultative pour plusieurs jours) et **Événement** (tests aéro…). La prochaine course (à défaut, la prochaine entrée) s'affiche en grande carte avec compte à rebours ; les autres entrées sont listées dessous. Une entrée disparaît le lendemain de sa dernière date ; sans entrée à venir, la section et son lien de menu disparaissent.
 - Palmarès : le continent d'une course (filtre de la page Palmarès) est déduit de la course PTO ou du lieu ; le champ « Continent » d'une course permet de le forcer. Une course sans continent reconnu reste visible, mais n'apparaît dans aucun filtre continent.
-- Les photos ne se gèrent pas dans le back office (voir ci-dessous).
+- Galerie : onglet « Photos » du back office (voir « Ajouter une photo » ci-dessous).
 
 Les textes fixes de l'interface (titres de sections, libellés du formulaire) sont dans le tableau `$T` en tête de chaque page (`index.php`, `coaching.php`, …).
 
 ## Ajouter une photo
 
-1. Préparer le .jpg : 1800 px maximum sur le grand côté, qualité ~82, sans métadonnées GPS/EXIF. Le déposer dans `assets/img/`.
-2. Ajouter une ligne dans `lib_gallery.php` : `[fichier sans .jpg, titre FR, légende FR, titre EN, légende EN, type, cadrage]`.
-   - `type` : `'athlete'` (carrousel de l'accueil) ou `'coach'` (carrousel de la page Coach). La galerie montre tout.
-   - `cadrage` (facultatif) : point de focus du carrousel, ex. `'50% 30%'`.
-3. Les carrousels affichent les 5 premières photos de leur type, dans l'ordre de la liste. Le lien « Highlights » du menu Le Coach n'apparaît que s'il y a au moins une photo `coach`.
+Back office → onglet **Galerie › Photos** → « + Ajouter une photo ».
+
+- **Photo** : JPEG, PNG ou WebP, envoyée telle quelle. Le serveur la remet à l'endroit, la réduit à 1800 px sur le grand côté, la ré-encode en JPEG (qualité 82) et efface ses métadonnées GPS/EXIF. Elle est rangée dans `assets/gallery/` (non versionné, non écrasé par un déploiement). Limite d'envoi : `upload_max_filesize` / `post_max_size` de l'hébergement, donc quelques photos à la fois.
+- **Titre** et **description** en FR et EN (l'EN retombe sur le FR s'il est vide).
+- **Type** : `Athlète` alimente le carrousel Highlights de l'accueil, `Coach` celui de la page Coach. La page Galerie montre tout.
+- **Date** (facultative) : affichée sous le titre, sur la page Galerie, dans les carrousels et dans la pop-in. Les photos sont triées de la plus récente à la plus ancienne ; sans date, elles passent après les datées, dans l'ordre saisi.
+- **Cadrage** : point de focus dans le carrousel (cadre 3:2) pour les photos verticales.
+- L'œil masque une photo sans la supprimer. Supprimer une entrée efface aussi son fichier dans `assets/gallery/` (les photos historiques de `assets/img/` ne sont jamais effacées).
+- Chaque carrousel affiche les 5 photos les plus récentes de son type. Le lien « Highlights » du menu n'apparaît que s'il y a au moins une photo du type correspondant.
 
 ## Aperçu local
 

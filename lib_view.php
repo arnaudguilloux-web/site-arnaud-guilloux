@@ -164,7 +164,7 @@ function testimonial_card_html(array $q, string $lang): string
 
 /**
  * Section « Highlights » : carrousel de photos + lien « Voir la Galerie » (accueil et page Coach).
- * $slides : lignes de gallery_items() ; $p : préfixe des ids du carrousel (ex. « s » → scar, sdots, sprev, snext).
+ * $slides : photos renvoyées par gallery_items() ; $p : préfixe des ids du carrousel (ex. « s » → scar, sdots, sprev, snext).
  */
 function highlights_section_html(array $slides, string $lang, string $base, string $title, string $moreHref, string $moreLabel, string $prev, string $next, string $p = 's'): string
 {
@@ -176,9 +176,9 @@ function highlights_section_html(array $slides, string $lang, string $base, stri
     $h .= '<p class="links"><a class="more" href="' . e($moreHref) . '">' . e($moreLabel) . '</a></p></div></div>';
     $h .= '<div class="carousel scar" id="' . $p . 'car" tabindex="0" aria-label="' . e($title) . '">';
     foreach ($slides as $sl) {
-        $focus = isset($sl[6]) && preg_match('/^\d{1,3}% \d{1,3}%$/', (string) $sl[6]) ? ' style="object-position: ' . $sl[6] . '"' : '';
-        $h .= '<figure class="slide"><img src="' . e($base) . 'assets/img/' . e($sl[0]) . '.jpg" alt=""' . $focus . ' loading="lazy">'
-            . '<figcaption><strong>' . e($sl[$en ? 3 : 1]) . '</strong><span>' . e($sl[$en ? 4 : 2]) . '</span></figcaption></figure>';
+        $focus = isset($sl['focus'], gallery_focuses()[$sl['focus']]) ? ' style="object-position: ' . $sl['focus'] . '"' : '';
+        $h .= '<figure class="slide"><img src="' . e($base) . e($sl['image']) . '" alt=""' . $focus . ' loading="lazy">'
+            . '<figcaption>' . gallery_caption_html($sl, $lang) . '</figcaption></figure>';
     }
     $h .= '</div><div class="wrap"><div class="qctrl">'
         . '<button type="button" class="arrow" id="' . $p . 'prev" aria-label="' . e($prev) . '">‹</button>'
@@ -250,8 +250,8 @@ function site_header(string $lang, array $home, array $self, array $c, string $c
     /* Sous-menus dynamiques : une entrée n'existe que si sa section est réellement affichée sur le site.
        (Présentation, Partenaires et Contact sont toujours là.) */
     $shown = [
-        'athlete' => ['highlights' => gallery_items('athlete') !== [], 'palmares' => results_rows($c) !== [], 'calendrier' => upcoming_events($c) !== []],
-        'coach'   => ['offres' => coaching_items($c) !== [], 'highlights' => gallery_items('coach') !== [], 'temoignages' => testimonials($c) !== []],
+        'athlete' => ['highlights' => gallery_items($c, 'athlete') !== [], 'palmares' => results_rows($c) !== [], 'calendrier' => upcoming_events($c) !== []],
+        'coach'   => ['offres' => coaching_items($c) !== [], 'highlights' => gallery_items($c, 'coach') !== [], 'temoignages' => testimonials($c) !== []],
     ];
     /* La petite phrase sous chaque entrée se règle dans le back office (Site → Menu) ; vide = titre seul. */
     $menu = is_array($c['menu'] ?? null) ? $c['menu'] : [];

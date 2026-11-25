@@ -166,6 +166,7 @@ h1 { font-weight: 700; font-size: clamp(2rem, 4.2vw, 2.875rem); line-height: 1.0
 .slide figcaption { display: flex; flex-direction: column; gap: 2px; padding-top: 12px; }
 .slide figcaption strong { font-weight: 700; font-size: 1.0625rem; letter-spacing: -.015em; }
 .slide figcaption span { color: var(--text-2); font-size: 14px; }
+.g-date { font-size: 12px; font-weight: 600; letter-spacing: .04em; color: var(--text-3); }
 
 /* ---------- Lignes (palmarès, calendrier) ---------- */
 .rows { margin-top: clamp(24px, 3.5vw, 40px); border-top: 1px solid var(--line); }
@@ -402,6 +403,7 @@ html.lb-open { overflow: hidden; }
 .lb-stage img { max-width: 100%; max-height: calc(100vh - 140px); width: auto; height: auto; object-fit: contain; border-radius: var(--r-card); }
 .lb-stage figcaption { display: flex; flex-direction: column; gap: 2px; text-align: center; font-size: 14px; color: rgba(255, 255, 255, .8); }
 .lb-stage figcaption strong { color: #fff; font-size: 1rem; }
+.lb-stage figcaption .g-date { font-size: 12px; font-weight: 600; letter-spacing: .04em; color: rgba(255, 255, 255, .6); }
 .lb-close, .lb-nav { width: 44px; height: 44px; border-radius: var(--r-sm); border: 1px solid rgba(255, 255, 255, .4); background: rgba(255, 255, 255, .08); color: #fff; font: 400 22px/1 var(--sans); cursor: pointer; transition: background .18s, border-color .18s; }
 .lb-close:hover, .lb-nav:hover, .lb-close:focus-visible, .lb-nav:focus-visible { background: rgba(255, 255, 255, .22); border-color: #fff; }
 .lb-close { position: absolute; top: clamp(12px, 2vw, 24px); right: clamp(12px, 2vw, 24px); z-index: 1; font-size: 18px; }

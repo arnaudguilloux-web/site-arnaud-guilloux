@@ -6,6 +6,9 @@ data/content.bak.json
 data/admin.php
 data/throttle.json
 
+# Photos téléversées depuis le back office (galerie) : vivent sur le serveur.
+assets/gallery/
+
 # Fichiers système et éditeurs
 .DS_Store
 Thumbs.db

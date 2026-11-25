@@ -41,6 +41,7 @@ jobs:
             CLAUDE.md
             STATUS.md
             upload/**
+            assets/gallery/**
             data/content.json
             data/content.json.tmp
             data/content.bak.json
