@@ -8,12 +8,15 @@
     "ads_url_fr": "https://www.troc-velo.com/fr-fr/user/marlou29/bff4e2baf2c79c9712a4873de7406890",
     "ads_url_en": "https://www.troc-velo.com/en/user/marlou29/bff4e2baf2c79c9712a4873de7406890",
     "siret": "92124585800011",
+    "trainingpeaks": "https://www.trainingpeaks.com/coach/arnaudguilloux",
     "facebook": "https://www.facebook.com/arnaudguillouxtriathlete",
     "x": "https://twitter.com/arnaud_guillx"
   },
   "menu": {
     "athlete_top_fr": "Triathlète professionnel longue distance",
     "athlete_top_en": "Professional long-distance triathlete",
+    "athlete_histoire_fr": "De Brest aux Mondiaux",
+    "athlete_histoire_en": "From Brest to the World Championships",
     "athlete_highlights_fr": "Photos des grandes courses",
     "athlete_highlights_en": "Photos from the big races",
     "athlete_palmares_fr": "Tous les résultats",
@@ -83,6 +86,57 @@
       "label_fr": "après 4h15 de vélo — Challenge Roth 2026",
       "label_en": "after 4h15 on the bike — Challenge Roth 2026",
       "icon": "chrono"
+    }
+  ],
+  "story": [
+    {
+      "year": "1994",
+      "title_fr": "Brest, les bassins",
+      "title_en": "Brest, in the pool",
+      "text_fr": "J'ai grandi à Brest et appris le sport dans l'eau, dès le CP. Basket, foot, badminton, VTT, escalade : j'ai tout essayé, sans jamais lâcher la natation. À l'époque, je faisais du sport pour m'amuser, pas pour gagner.",
+      "text_en": "I grew up in Brest and learned sport in the water, from the age of six. Basketball, football, badminton, mountain biking, climbing: I tried everything and never let go of swimming. Back then I did sport for fun, not to win."
+    },
+    {
+      "year": "2002",
+      "title_fr": "Le détour par la piste",
+      "title_en": "A detour via the track",
+      "text_fr": "Après une overdose de longueurs, je pars courir au Stade Brestois Athlétisme : cross, steeple, demi-fond. Je reviens à la compétition en natation en 2007 et j'y décroche mes meilleurs résultats : trois titres de champion de France N3, en brasse et en quatre nages.",
+      "text_en": "After an overdose of lengths, I went running with Stade Brestois Athlétisme: cross-country, steeplechase, middle distance. I returned to competitive swimming in 2007 and got my best results there: three French N3 titles, in breaststroke and individual medley."
+    },
+    {
+      "year": "2007",
+      "title_fr": "Un colocataire, un vélo",
+      "title_en": "A flatmate, a bike",
+      "text_fr": "Septembre 2007, après le bac : je commence un BTS de conception et industrialisation en microtechnique, et je n'ai jamais touché un vélo de course. Mon colocataire, cycliste, m'emmène rouler après les cours. Deux mois de souffrance, puis des sorties de 120 km. Première licence en 2010, première catégorie trois saisons plus tard. C'est là que naît l'envie de performance.",
+      "text_en": "September 2007, straight out of school: I start a degree in microtechnology design and manufacturing, and I have never touched a road bike. My flatmate, a cyclist, takes me riding after class. Two months of suffering, then 120 km rides. First racing licence in 2010, top amateur category three seasons later. That is where the drive to perform was born."
+    },
+    {
+      "year": "2012",
+      "title_fr": "Le triple effort",
+      "title_en": "Three sports at once",
+      "text_fr": "Nageur, coureur, cycliste : le triathlon s'impose. En septembre 2012, je m'inscris sur un coup de tête à Locquirec et je termine 5e. En janvier 2013, je rejoins Rennes Triathlon et sa nouvelle équipe de 3e division. Deux ans plus tard, je gagne à l'Alpe d'Huez : le tremplin de ma carrière.",
+      "text_en": "Swimmer, runner, cyclist: triathlon was the obvious next step. In September 2012 I entered the Locquirec triathlon on a whim and finished 5th. In January 2013 I joined Rennes Triathlon and its new third-division team. Two years later I won at Alpe d'Huez: the springboard of my career."
+    },
+    {
+      "year": "2016–2021",
+      "title_fr": "Deux vies en une",
+      "title_en": "Two lives in one",
+      "text_fr": "Formé à la conception mécanique et microtechnique, passé par l'horlogerie suisse, je travaille dans le naval de défense puis dans le spatial. Pendant cinq ans, je mène de front un poste à 35-40 heures et une carrière de triathlète professionnel. Tout ce qui m'entoure est optimisé, la routine est cadrée. Je sais ce que coûte l'entraînement quand on a une vie professionnelle à côté.",
+      "text_en": "Trained in mechanical and microtechnology design, with a spell in Swiss watchmaking, I worked in naval defence and then in the space industry. For five years I held a 35-40 hour job alongside a professional triathlon career. Everything around me was optimised, the routine tightly framed. I know what training costs when you have a working life on the side."
+    },
+    {
+      "year": "2018–2019",
+      "title_fr": "La casse, puis le tournant",
+      "title_en": "The crashes, then the turning point",
+      "text_fr": "2018 : deux grosses chutes, deux clavicules cassées à trois mois d'intervalle. L'année suivante, je gagne l'IRONMAN Wales, et ma carrière change de dimension. Les moments les plus durs font partie de la réussite.",
+      "text_en": "2018: two heavy crashes, two broken collarbones three months apart. The following year I won IRONMAN Wales, and my career moved up a level. The hardest moments are part of success."
+    },
+    {
+      "year": "2021",
+      "title_fr": "Ce que je transmets",
+      "title_en": "What I pass on",
+      "text_fr": "Je commence à coacher en 2021. Le souci du détail, l'aérodynamisme, les processus d'amélioration : je retrouve dans mon sport ce qui me passionnait dans l'industrie. Ma carrière continue et nourrit chaque jour ma vision de l'entraînement, avec les études scientifiques, le suivi des données, de la récupération et du sommeil. La performance, ce n'est pas être champion du monde : c'est aller chercher la meilleure version de soi-même, et amener un athlète jusqu'à l'objectif qu'il s'est fixé.",
+      "text_en": "I started coaching in 2021. Attention to detail, aerodynamics, continuous improvement: I find in my sport what fascinated me in industry. My career is still going and feeds my view of training every day, along with scientific studies and the monitoring of data, recovery and sleep. Performance does not mean being world champion: it means reaching the best version of yourself, and taking an athlete all the way to the goal they set."
     }
   ],
   "results": [

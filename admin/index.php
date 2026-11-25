@@ -47,6 +47,16 @@ $SCHEMA = [
         'label_en' => ['Légende (EN)', 'text'],
         'icon'     => ['Picto', 'select'],
     ]],
+    'story' => ['label' => 'Mon histoire', 'type' => 'list', 'title' => 'title_fr', 'sub' => 'year',
+        'add' => '+ Ajouter une étape',
+        'help' => 'Les étapes de la section « Mon histoire », affichées sous les chiffres de l\'accueil, dans l\'ordre de cette liste. Les 4 premières sont visibles, les suivantes se déplient avec « Lire la suite ». Sans aucune étape, la section et son entrée de menu disparaissent.',
+        'fields' => [
+        'year'     => ['Année ou période (ex. 2012 ou 2016–2021)', 'text'],
+        'title_fr' => ['Titre (FR)', 'text'],
+        'title_en' => ['Titre (EN)', 'text'],
+        'text_fr'  => ['Texte (FR)', 'textarea'],
+        'text_en'  => ['Texte (EN)', 'textarea'],
+    ]],
     'results' => ['label' => 'Palmarès', 'type' => 'list', 'title' => 'race', 'sub' => 'date', 'sub2' => 'year', 'eye' => true,
         'add' => '+ Ajouter une course',
         'help' => 'Toutes les courses y sont, y compris les Mondiaux. « + Ajouter » permet de saisir à la main une course absente de PTO. L\'œil à droite de chaque course permet de l\'afficher sur le site ou de la masquer sans la supprimer. « Importer depuis PTO » ajoute les nouvelles courses et met à jour place et temps ; vos lieux, traductions et notes ne sont jamais écrasés.',
@@ -131,6 +141,8 @@ $SCHEMA = [
         'fields' => [
         'athlete_top_fr' => ['L\'Athlète › Présentation (FR)', 'text'],
         'athlete_top_en' => ['L\'Athlète › Présentation (EN)', 'text'],
+        'athlete_histoire_fr' => ['L\'Athlète › Mon histoire (FR)', 'text'],
+        'athlete_histoire_en' => ['L\'Athlète › Mon histoire (EN)', 'text'],
         'athlete_highlights_fr' => ['L\'Athlète › Highlights (FR)', 'text'],
         'athlete_highlights_en' => ['L\'Athlète › Highlights (EN)', 'text'],
         'athlete_palmares_fr' => ['L\'Athlète › Palmarès (FR)', 'text'],
@@ -162,12 +174,13 @@ $SCHEMA = [
         'linkedin'      => ['LinkedIn (https://…)', 'url'],
         'ads_url_fr'    => ['Menu « Mes annonces » : lien en français (https://…)', 'url'],
         'ads_url_en'    => ['Menu « My listings » : lien en anglais (https://…)', 'url'],
+        'trainingpeaks' => ['Profil coach TrainingPeaks (https://…) : lien affiché sous les offres du Coach', 'url'],
         'siret'         => ['SIRET (mentions légales)', 'text'],
     ]],
 ];
 
 /* Onglets du back office, dans l'ordre du site : L'Athlète (accueil), Le Coach (page coaching), puis les réglages. */
-$GROUPS = ['L\'Athlète' => ['hero', 'stats', 'results', 'partners', 'calendar'], 'Galerie' => ['gallery'], 'Le Coach' => ['coaching', 'coaching_items', 'testimonials'], 'Site' => ['menu', 'settings']];
+$GROUPS = ['L\'Athlète' => ['hero', 'stats', 'story', 'results', 'partners', 'calendar'], 'Galerie' => ['gallery'], 'Le Coach' => ['coaching', 'coaching_items', 'testimonials'], 'Site' => ['menu', 'settings']];
 
 /* ---------- Outils ---------- */
 function flash(string $msg, string $kind = 'ok'): void

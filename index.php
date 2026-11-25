@@ -105,6 +105,9 @@ $T = [
     'fr' => [
         'title'        => 'Arnaud Guilloux — Triathlète professionnel longue distance · Coaching, tests, bike fitting',
         'description'  => 'Arnaud Guilloux, triathlète professionnel longue distance (Nissa Triathlon), basé à Saint-Renan. Coaching, tests physiologiques, bike fitting et partenariats.',
+        'h_story'      => 'Mon histoire',
+        'story_big'    => ['Nageur, coureur, cycliste.', 'Puis les trois à la fois.'],
+        'story_more'   => 'Lire la suite',
         'h_highlights' => 'Highlights',
         'see_gallery'  => 'Voir la Galerie',
         'show_all'     => 'Afficher le Palmarès',
@@ -143,6 +146,9 @@ $T = [
     'en' => [
         'title'        => 'Arnaud Guilloux — Professional long-distance triathlete · Coaching, testing, bike fitting',
         'description'  => 'Arnaud Guilloux, professional long-distance triathlete (Nissa Triathlon), based in Saint-Renan, Brittany. Coaching, physiological testing, bike fitting and partnerships.',
+        'h_story'      => 'My story',
+        'story_big'    => ['Swimmer, runner, cyclist.', 'Then all three at once.'],
+        'story_more'   => 'Read more',
         'h_highlights' => 'Highlights',
         'see_gallery'  => 'See the Gallery',
         'show_all'     => 'Show Results',
@@ -216,7 +222,7 @@ $slides = array_slice(gallery_items($c, 'athlete'), 0, 5); // carrousel Highligh
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=92">
+<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=93">
 <link rel="icon" href="<?= e($base) ?>assets/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="<?= e($base) ?>favicon.ico" sizes="48x48">
 <link rel="apple-touch-icon" href="<?= e($base) ?>assets/apple-touch-icon.png">
@@ -273,6 +279,40 @@ $slides = array_slice(gallery_items($c, 'athlete'), 0, 5); // carrousel Highligh
   </dl>
   <?php endif; ?>
 </div>
+
+<?php
+/* Mon histoire : étapes datées (back office → L'Athlète → Mon histoire). Les 4 premières sont visibles, la suite se déplie. */
+$story = array_values(array_filter(is_array($c['story'] ?? null) ? $c['story'] : [], static function ($s): bool {
+    return is_array($s) && tr($s, 'title') !== '';
+}));
+$storyLi = static function (array $s): string {
+    return '<li><span class="story-year">' . e($s['year'] ?? '') . '</span><div><h3>' . e(tr($s, 'title')) . '</h3>'
+        . (tr($s, 'text') !== '' ? '<p>' . e(tr($s, 'text')) . '</p>' : '') . '</div></li>';
+};
+$storyFirst = 4; ?>
+<?php if ($story): ?>
+<section id="histoire">
+  <div class="wrap">
+    <p class="eyebrow"><?= e($T['h_story']) ?></p>
+    <h2 class="big"><?= e($T['story_big'][0]) ?> <span><?= e($T['story_big'][1]) ?></span></h2>
+    <ol class="story-list">
+      <?php foreach (array_slice($story, 0, $storyFirst) as $s): ?>
+      <?= $storyLi($s) . "\n" ?>
+      <?php endforeach; ?>
+    </ol>
+    <?php if (count($story) > $storyFirst): ?>
+    <details class="story-more">
+      <summary><?= e($T['story_more']) ?></summary>
+      <ol class="story-list">
+        <?php foreach (array_slice($story, $storyFirst) as $s): ?>
+        <?= $storyLi($s) . "\n" ?>
+        <?php endforeach; ?>
+      </ol>
+    </details>
+    <?php endif; ?>
+  </div>
+</section>
+<?php endif; ?>
 
 <?= highlights_section_html($slides, $lang, $base, $T['h_highlights'], $base . 'galerie.php?type=athlete' . ($lang === 'en' ? '&lang=en' : ''), $T['see_gallery'], $T['prev'], $T['next'], 's') ?>
 
