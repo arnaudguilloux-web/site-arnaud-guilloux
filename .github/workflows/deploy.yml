@@ -28,7 +28,9 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           protocol: ftps        # si la connexion échoue, remplacer par : ftp
-          server-dir: www/
+          # Hébergement partagé avec aquaself.fr (dossier www/) : on n'écrit que dans
+          # le dossier racine d'arnaudguilloux.fr (OVH → Mes sites → Dossier racine).
+          server-dir: site-arnaud/
           # Le contenu saisi dans le back office reste sur le serveur :
           exclude: |
             **/.git*

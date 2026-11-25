@@ -37,7 +37,7 @@ Site bilingue (FR `/`, EN `/en/`) en PHP sans dépendance, pour hébergement mut
 
 1. Créer un dépôt GitHub et y pousser ce dossier. Le déploiement part de la branche `main` ; le travail courant se fait sur `develop` et n'est mis en ligne qu'une fois fusionné dans `main`.
 2. Dans le dépôt : *Settings → Secrets and variables → Actions*, créer `FTP_SERVER`, `FTP_USERNAME`, `FTP_PASSWORD` (identifiants FTP du manager OVH).
-3. Le push sur `main` déclenche le déploiement dans `www/`. PHP 7.4 minimum (8.x recommandé, réglable dans le manager OVH).
+3. Le push sur `main` déclenche le déploiement dans `site-arnaud/` (dossier racine d'arnaudguilloux.fr ; l'hébergement est partagé avec aquaself.fr, qui occupe `www/`). PHP 7.4 minimum (8.x recommandé, réglable dans le manager OVH).
 4. **Tout de suite après le premier déploiement**, ouvrir `https://votre-domaine/admin/` et créer le mot de passe du back office : tant que ce n'est pas fait, le premier visiteur de cette page peut le choisir.
 5. Dans *Réglages* : saisir l'e-mail de contact et les réseaux, puis, au lancement, désactiver « Site masqué des moteurs de recherche » une fois palmarès, tarifs et calendrier vérifiés (le site est en `noindex` tant que cette case est cochée).
 6. Une fois le certificat SSL actif, décommenter la redirection HTTPS dans `.htaccess`.
