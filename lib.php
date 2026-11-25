@@ -35,6 +35,14 @@ function load_content(): array
     foreach ($default as $key => $value) {
         if (!array_key_exists($key, $saved)) {
             $saved[$key] = $value;
+            continue;
+        }
+        /* Rubriques à champs nommés (Réglages, Menu, Accroche…) : un champ ajouté par une mise à jour du site
+           prend sa valeur par défaut tant qu'il n'a jamais été enregistré. Un champ vidé exprès reste vide.
+           Les listes (palmarès, étapes, partenaires…) ne sont jamais complétées. */
+        $isList = is_array($value) && array_keys($value) === range(0, count($value) - 1);
+        if (is_array($value) && !$isList && is_array($saved[$key])) {
+            $saved[$key] += $value;
         }
     }
     return $saved;
