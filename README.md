@@ -11,7 +11,7 @@ Site bilingue (FR `/`, EN `/en/`) en PHP sans dépendance, pour hébergement mut
 | `temoignages.php` | Tous les témoignages |
 | `galerie.php` | Toutes les photos, filtre Tout / Athlète / Coach, agrandissement en pop-in |
 | `palmares.php` | Palmarès complet, filtrable par année, type (Mondiaux, IRONMAN, 70.3, Challenge) et continent (liens `?year=&kind=&continent=`) |
-| `contact.php` | Envoi du formulaire de contact par e-mail |
+| `contact.php` | Page Contact, et envoi du formulaire de contact par e-mail |
 | `admin/` | Back office mobile (styles propres, en ligne dans `admin/index.php`) |
 
 ## Structure

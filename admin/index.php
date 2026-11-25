@@ -157,6 +157,8 @@ $SCHEMA = [
         'coach_top_en' => ['Le Coach › Présentation (EN)', 'text'],
         'coach_offres_fr' => ['Le Coach › Offres (FR)', 'text'],
         'coach_offres_en' => ['Le Coach › Offres (EN)', 'text'],
+        'coach_trainingpeaks_fr' => ['Le Coach › TrainingPeaks (FR)', 'text'],
+        'coach_trainingpeaks_en' => ['Le Coach › TrainingPeaks (EN)', 'text'],
         'coach_highlights_fr' => ['Le Coach › Highlights (FR)', 'text'],
         'coach_highlights_en' => ['Le Coach › Highlights (EN)', 'text'],
         'coach_temoignages_fr' => ['Le Coach › Témoignages (FR)', 'text'],
@@ -174,7 +176,7 @@ $SCHEMA = [
         'linkedin'      => ['LinkedIn (https://…)', 'url'],
         'ads_url_fr'    => ['Menu « Mes annonces » : lien en français (https://…)', 'url'],
         'ads_url_en'    => ['Menu « My listings » : lien en anglais (https://…)', 'url'],
-        'trainingpeaks' => ['Profil coach TrainingPeaks (https://…) : lien affiché sous les offres du Coach', 'url'],
+        'trainingpeaks' => ['Profil coach TrainingPeaks (https://…) : vide = la section TrainingPeaks du Coach est masquée', 'url'],
         'siret'         => ['SIRET (mentions légales)', 'text'],
     ]],
 ];

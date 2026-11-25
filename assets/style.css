@@ -169,7 +169,24 @@ h1 { font-weight: 700; font-size: clamp(2rem, 4.2vw, 2.875rem); line-height: 1.0
 .story-more[open] summary { display: none; }
 .story-more .story-list { border-top: 0; }
 @media (max-width: 760px) { .story-list li { grid-template-columns: 1fr; } }
-.tp-link { margin-top: clamp(20px, 3vw, 32px); }
+
+/* ---------- TrainingPeaks (page Coach) ---------- */
+.tp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 5vw, 64px); align-items: center; }
+.tp-points { margin-block: 24px 28px; border-top: 1px solid var(--line); }
+.tp-points li { padding-block: 13px; border-bottom: 1px solid var(--line); color: var(--text-2); }
+.tp-shot { display: block; border: 1px solid var(--line); border-radius: var(--r-card); overflow: hidden; box-shadow: 0 18px 40px rgba(15, 27, 36, .10); background: var(--soft); }
+.tp-shot img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; object-position: top; }
+.pmc-fig { margin-top: clamp(36px, 5vw, 64px); padding: clamp(18px, 2.4vw, 28px); border: 1px solid var(--line); border-radius: var(--r-card); background: var(--canvas); }
+.pmc-fig h3 { font-weight: 700; font-size: 1.125rem; letter-spacing: -.015em; }
+.pmc-fig figcaption p { margin-top: 6px; max-width: 70ch; color: var(--text-2); font-size: 15px; line-height: 1.6; }
+.pmc-scroll { margin-top: 18px; overflow-x: auto; }
+.pmc { display: block; width: 100%; min-width: 720px; height: auto; font-family: var(--sans); }
+.pmc-legend { display: flex; flex-wrap: wrap; gap: 6px 24px; margin-top: 12px; color: var(--text-2); font-size: 13px; }
+.pmc-legend li { display: flex; align-items: center; gap: 8px; }
+.pmc-legend li::before { content: ""; flex: none; width: 18px; height: 3px; border-radius: 2px; background: var(--accent); }
+.pmc-legend .l-atl::before { height: 2px; background: var(--swim); opacity: .7; }
+.pmc-legend .l-race::before { width: 9px; height: 9px; border-radius: 50%; background: var(--canvas); border: 2px solid var(--ink); }
+@media (max-width: 760px) { .tp-grid { grid-template-columns: 1fr; } }
 
 /* ---------- Highlights ---------- */
 .head-row { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px 32px; }
@@ -263,6 +280,7 @@ h1 { font-weight: 700; font-size: clamp(2rem, 4.2vw, 2.875rem); line-height: 1.0
 /* ---------- Contact ---------- */
 .contact { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 6vw, 80px); align-items: start; }
 .contact h2 { margin-bottom: 18px; }
+.gal-page .contact h1 { margin: 0 0 18px; }
 .socials { display: flex; flex-wrap: wrap; gap: 4px 24px; margin-top: 20px; }
 .soc-ico { flex: none; color: var(--accent); }
 form { display: flex; flex-direction: column; gap: 16px; }
@@ -293,7 +311,10 @@ form .btn { align-self: flex-start; }
 @media (max-width: 760px) {
   .top .wrap { flex-wrap: wrap; height: auto; padding-top: 10px; row-gap: 0; }
   .brand { flex: 1; }
-  .nav { order: 3; flex: 0 0 100%; justify-content: flex-start; gap: 0; margin-inline: -10px; }
+  .nav { order: 3; flex: 0 0 100%; justify-content: flex-start; gap: 0; margin-inline: -8px; }
+  .nav a, .nav-trigger { padding-inline: 8px; font-size: clamp(11.5px, 3.3vw, 13px); }   /* 4 entrées sur une ligne dès 360 px */
+  .nav-trigger { gap: 5px; }
+  .nav .ext { margin-left: 4px; }
   .has-sub { position: static; }
   .sub { left: 0; right: 0; min-width: 0; }
   html { scroll-padding-top: 104px; }

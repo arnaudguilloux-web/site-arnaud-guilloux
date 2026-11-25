@@ -232,8 +232,8 @@ function upcoming_events(array $c): array
 
 /**
  * En-tête commun à toutes les pages : marque, menu, bascule FR/EN.
- * Menu : « L'Athlète » et « Le Coach » (sous-menus d'ancres vers les sections), « Mes Annonces » (lien externe).
- * $current : 'highlights' | 'palmares' | 'coaching' | 'temoignages' | '' (page courante, mise en avant dans le menu).
+ * Menu : « L'Athlète » et « Le Coach » (sous-menus d'ancres vers les sections), « Contact » (page contact.php), « Mes Annonces » (lien externe).
+ * $current : 'highlights' | 'palmares' | 'coaching' | 'temoignages' | 'contact' | '' (page courante, mise en avant dans le menu).
  * $onHome  : sur l'accueil, les liens vers la home sont des ancres (#id) ; sur la page Coaching, ceux du Coach aussi.
  */
 function site_header(string $lang, array $home, array $self, array $c, string $current = '', bool $onHome = false): string
@@ -242,16 +242,16 @@ function site_header(string $lang, array $home, array $self, array $c, string $c
     $T  = $en
         ? ['athlete' => 'The Athlete', 'coach' => 'The Coach', 'ads' => 'My Listings', 'new_tab' => 'opens in a new tab',
            'athlete_items' => ['top' => 'Overview', 'histoire' => 'My Story', 'highlights' => 'Highlights', 'palmares' => 'Results', 'calendrier' => 'Calendar', 'partenaires' => 'Partners', 'contact' => 'Contact'],
-           'coach_items'   => ['top' => 'Overview', 'offres' => 'Offers', 'highlights' => 'Highlights', 'temoignages' => 'Testimonials', 'contact' => 'Contact']]
+           'coach_items'   => ['top' => 'Overview', 'offres' => 'Offers', 'trainingpeaks' => 'TrainingPeaks', 'highlights' => 'Highlights', 'temoignages' => 'Testimonials', 'contact' => 'Contact']]
         : ['athlete' => "L'Athlète", 'coach' => 'Le Coach', 'ads' => 'Mes Annonces', 'new_tab' => 'nouvel onglet',
            'athlete_items' => ['top' => 'Présentation', 'histoire' => 'Mon histoire', 'highlights' => 'Highlights', 'palmares' => 'Palmarès', 'calendrier' => 'Calendrier', 'partenaires' => 'Partenaires', 'contact' => 'Contact'],
-           'coach_items'   => ['top' => 'Présentation', 'offres' => 'Offres', 'highlights' => 'Highlights', 'temoignages' => 'Témoignages', 'contact' => 'Contact']];
+           'coach_items'   => ['top' => 'Présentation', 'offres' => 'Offres', 'trainingpeaks' => 'TrainingPeaks', 'highlights' => 'Highlights', 'temoignages' => 'Témoignages', 'contact' => 'Contact']];
 
     /* Sous-menus dynamiques : une entrée n'existe que si sa section est réellement affichée sur le site.
        (Présentation, Partenaires et Contact sont toujours là.) */
     $shown = [
         'athlete' => ['histoire' => !empty($c['story']), 'highlights' => gallery_items($c, 'athlete') !== [], 'palmares' => results_rows($c) !== [], 'calendrier' => upcoming_events($c) !== []],
-        'coach'   => ['offres' => coaching_items($c) !== [], 'highlights' => gallery_items($c, 'coach') !== [], 'temoignages' => testimonials($c) !== []],
+        'coach'   => ['offres' => coaching_items($c) !== [], 'trainingpeaks' => (bool) preg_match('#^https?://#i', trim((string) (($c['settings'] ?? [])['trainingpeaks'] ?? ''))), 'highlights' => gallery_items($c, 'coach') !== [], 'temoignages' => testimonials($c) !== []],
     ];
     /* La petite phrase sous chaque entrée se règle dans le back office (Site → Menu) ; vide = titre seul. */
     $menu = is_array($c['menu'] ?? null) ? $c['menu'] : [];
@@ -323,6 +323,7 @@ function site_header(string $lang, array $home, array $self, array $c, string $c
     /* Sur ordinateur, cliquer le titre ouvre la page ; le sous-menu s'ouvre au survol. Sur mobile / tactile, le clic déplie le sous-menu. */
     $h .= $group('athlete', $T['athlete'], $onHome ? '#' : $home[$lang], isset($pages[$current]), $a);
     $h .= $group('coach', $T['coach'], $coachUrl, $inCoach, $k);
+    $h .= '<a href="' . e($base . 'contact.php' . $suffix) . '"' . ($current === 'contact' ? ' class="on" aria-current="page"' : '') . '>Contact</a>';
     $h .= '<a href="' . e($adsUrl) . '" target="_blank" rel="noopener noreferrer" aria-label="' . e($T['ads'] . ' — ' . $T['new_tab']) . '">' . e($T['ads']) . ext_icon_svg() . '</a>';
     $h .= '</nav>';
 
@@ -371,8 +372,9 @@ function contact_strings(string $lang): array
 }
 
 /** Formulaire de contact (section Contact de l'accueil et popin). $withFlash : affiche le résultat d'un envoi sans JavaScript (?sent=). */
-function contact_form_html(array $F, string $lang, string $base, ?string $sent, bool $withFlash, string $topic = ''): string
+function contact_form_html(array $F, string $lang, string $base, ?string $sent, bool $withFlash, string $topic = '', string $from = ''): string
 {
+    /* $from = 'contact' : après l'envoi, on revient sur la page Contact (sinon sur l'accueil). */
     $h = '<form class="card" method="post" action="' . e($base) . 'contact.php">';
     if ($withFlash && $sent === '1') {
         $h .= '<p class="flash" role="status">' . e($F['sent_ok']) . '</p>';
@@ -381,6 +383,9 @@ function contact_form_html(array $F, string $lang, string $base, ?string $sent, 
     }
     $h .= '<input type="hidden" name="lang" value="' . e($lang) . '">';
     $h .= '<input type="hidden" name="ts" value="' . time() . '">';
+    if ($from !== '') {
+        $h .= '<input type="hidden" name="from" value="' . e($from) . '">';
+    }
     $h .= '<p class="hp" aria-hidden="true"><label>Website <input type="text" name="website" tabindex="-1" autocomplete="off"></label></p>';
     $h .= '<label><span>' . e($F['f_name']) . '</span><input type="text" name="name" required maxlength="120" autocomplete="name"></label>';
     $h .= '<label><span>' . e($F['f_email']) . '</span><input type="email" name="email" required maxlength="160" autocomplete="email"></label>';
