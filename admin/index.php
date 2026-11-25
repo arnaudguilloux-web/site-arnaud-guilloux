@@ -176,7 +176,7 @@ $SCHEMA = [
         'linkedin'      => ['LinkedIn (https://…)', 'url'],
         'ads_url_fr'    => ['Menu « Mes annonces » : lien en français (https://…)', 'url'],
         'ads_url_en'    => ['Menu « My listings » : lien en anglais (https://…)', 'url'],
-        'trainingpeaks' => ['Profil coach TrainingPeaks (https://…) : vide = la section TrainingPeaks du Coach est masquée', 'url'],
+        'trainingpeaks' => ['Profil coach TrainingPeaks (https://…) : affiché en pied de page et dans la section TrainingPeaks du Coach ; vide = les deux sont masqués', 'url'],
         'siret'         => ['SIRET (mentions légales)', 'text'],
     ]],
 ];

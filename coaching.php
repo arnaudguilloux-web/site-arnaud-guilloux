@@ -34,8 +34,8 @@ $T = [
              'tp_text' => 'Je planifie et j\'analyse l\'entraînement de mes athlètes sur TrainingPeaks. Vous y retrouvez vos séances, je vois vos données dès la fin de l\'entraînement, et le plan s\'ajuste semaine après semaine.',
              'tp_points' => ['Vos séances dans votre calendrier, envoyées sur votre montre et votre compteur', 'Chaque séance analysée : puissance, allure, fréquence cardiaque', 'Charge, forme et fatigue suivies sur toute la saison'],
              'pmc_title' => 'Trois saisons de charge d\'entraînement',
-             'pmc_text' => 'Mon propre PMC (Performance Management Chart), de novembre 2023 à novembre 2026. C\'est ce pilotage de la charge, jusqu\'au jour de course, que j\'applique à chaque athlète.',
-             'pmc_legend' => ['Forme (CTL)', 'Fatigue (ATL)', 'Courses longue distance'],
+             'pmc_text' => 'Mon propre PMC (Performance Management Chart), de novembre 2023 à novembre 2026 : les courses, les coupures hivernales, une blessure en juillet 2025. Fin 2025, je change de méthode d\'entraînement : ma charge chronique (CTL) baisse nettement, et pourtant je vais plus vite, avec 7h38 à l\'IRONMAN Brasil et un marathon en 2h37 à Roth. La charge n\'est pas un objectif en soi : ce qui compte, c\'est ce qu\'elle produit le jour de la course.',
+             'pmc_legend' => ['Forme (CTL)', 'Fatigue (ATL)', 'Courses longue distance', 'Coupure hivernale', 'Blessure (juillet 2025)'],
              'h_highlights' => 'Highlights', 'see_gallery' => 'Voir la Galerie', 'h_quotes' => 'Témoignages', 'quotes_big' => ['Ce que disent', 'mes athlètes.'], 'quotes_note' => '', 'all_quotes' => 'Tous les Témoignages', 'prev' => 'Précédent', 'next' => 'Suivant',
              'legal' => 'Éditeur : Arnaud Guilloux, Saint-Renan (29). Hébergement : OVH SAS, 2 rue Kellermann, 59100 Roubaix.'],
     'en' => ['title' => 'Coaching — Arnaud Guilloux', 'kicker' => 'Arnaud Guilloux · Professional triathlete', 'h1' => 'Coaching', 'place' => 'Performance-driven',
@@ -45,8 +45,8 @@ $T = [
              'tp_text' => 'I plan and analyse my athletes\' training on TrainingPeaks. You find your sessions there, I see your data as soon as you finish, and the plan adjusts week after week.',
              'tp_points' => ['Your sessions in your calendar, sent to your watch and bike computer', 'Every session analysed: power, pace, heart rate', 'Load, fitness and fatigue tracked across the whole season'],
              'pmc_title' => 'Three seasons of training load',
-             'pmc_text' => 'My own PMC (Performance Management Chart), from November 2023 to November 2026. This is the load management, right up to race day, that I apply to every athlete.',
-             'pmc_legend' => ['Fitness (CTL)', 'Fatigue (ATL)', 'Long-distance races'],
+             'pmc_text' => 'My own PMC (Performance Management Chart), from November 2023 to November 2026: races, off-season breaks, an injury in July 2025. In late 2025 I changed my training method: my chronic load (CTL) dropped markedly, and yet I race faster, with 7:38 at IRONMAN Brasil and a 2:37 marathon at Roth. Load is not a goal in itself: what matters is what it produces on race day.',
+             'pmc_legend' => ['Fitness (CTL)', 'Fatigue (ATL)', 'Long-distance races', 'Off-season break', 'Injury (July 2025)'],
              'h_highlights' => 'Highlights', 'see_gallery' => 'See the Gallery', 'h_quotes' => 'Testimonials', 'quotes_big' => ['What my', 'athletes say.'], 'quotes_note' => 'Testimonials are shown in their original French.', 'all_quotes' => 'All Testimonials', 'prev' => 'Previous', 'next' => 'Next',
              'legal' => 'Publisher: Arnaud Guilloux, Saint-Renan, France. Hosting: OVH SAS, 2 rue Kellermann, 59100 Roubaix, France.'],
 ][$lang];
@@ -66,7 +66,7 @@ $F = contact_strings($lang);
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=94">
+<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=95">
 <link rel="icon" href="<?= e($base) ?>assets/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="<?= e($base) ?>favicon.ico" sizes="48x48">
 <link rel="apple-touch-icon" href="<?= e($base) ?>assets/apple-touch-icon.png">
@@ -152,6 +152,8 @@ $pmcSvg = is_file(__DIR__ . '/assets/img/pmc.svg') ? (string) file_get_contents(
         <li class="l-ctl"><?= e($T['pmc_legend'][0]) ?></li>
         <li class="l-atl"><?= e($T['pmc_legend'][1]) ?></li>
         <li class="l-race"><?= e($T['pmc_legend'][2]) ?></li>
+        <li class="l-off"><?= e($T['pmc_legend'][3]) ?></li>
+        <li class="l-inj"><?= e($T['pmc_legend'][4]) ?></li>
       </ul>
     </figure>
     <?php endif; ?>

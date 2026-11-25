@@ -185,6 +185,9 @@ h1 { font-weight: 700; font-size: clamp(2rem, 4.2vw, 2.875rem); line-height: 1.0
 .pmc-legend li { display: flex; align-items: center; gap: 8px; }
 .pmc-legend li::before { content: ""; flex: none; width: 18px; height: 3px; border-radius: 2px; background: var(--accent); }
 .pmc-legend .l-atl::before { height: 2px; background: var(--swim); opacity: .7; }
+.pmc-legend .l-off::before, .pmc-legend .l-inj::before { width: 14px; height: 14px; border-radius: 3px; background: rgba(93, 143, 168, .28); }
+.pmc-legend .l-inj::before { background: rgba(176, 83, 63, .32); }
+html[lang="fr"] .pmc .en, html[lang="en"] .pmc .fr { display: none; }
 .pmc-legend .l-race::before { width: 9px; height: 9px; border-radius: 50%; background: var(--canvas); border: 2px solid var(--ink); }
 @media (max-width: 760px) { .tp-grid { grid-template-columns: 1fr; } }
 

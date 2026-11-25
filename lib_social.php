@@ -2,7 +2,8 @@
 declare(strict_types=1);
 
 /**
- * Pictos des réseaux sociaux (tracés Simple Icons, licence CC0 ; LinkedIn dessiné à la main).
+ * Pictos des réseaux sociaux (tracés Simple Icons, licence CC0 ; LinkedIn dessiné à la main ;
+ * TrainingPeaks : sigle repris du site trainingpeaks.com).
  * Les marques et logos restent la propriété de leurs détenteurs.
  */
 function social_icon_svg(string $label): string
@@ -13,6 +14,7 @@ function social_icon_svg(string $label): string
         'Facebook' => '<svg class="soc-ico" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true" focusable="false"><path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"/></svg>',
         'X' => '<svg class="soc-ico" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true" focusable="false"><path d="M14.234 10.162 22.977 0h-2.072l-7.591 8.824L7.251 0H.258l9.168 13.343L.258 24H2.33l8.016-9.318L16.749 24h6.993zm-2.837 3.299-.929-1.329L3.076 1.56h3.182l5.965 8.532.929 1.329 7.754 11.09h-3.182z"/></svg>',
         'LinkedIn' => '<svg class="soc-ico" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="3" width="18" height="18" rx="3.5"/><path d="M8 10.8V17M12.2 17v-6.2m0 2.6c0-1.5 1-2.6 2.5-2.6s2.5 1.1 2.5 2.6V17"/><circle cx="8" cy="7.6" r=".6" fill="currentColor"/></svg>',
+        'TrainingPeaks' => '<svg class="soc-ico" viewBox="0 0 25.1 24" width="18" height="18" fill="currentColor" aria-hidden="true" focusable="false"><path d="M10.7432 0H15.3882L7.20747 18.6126H2.56246L10.7432 0ZM2.6613 5.3986H7.30631L4.64501 11.4546H0L2.6613 5.3986ZM14.0789 5.3986L5.9037 24.0001H10.5487L18.7239 5.3986H14.0789ZM15.4088 15.3619L20.4483 3.89625H25.0933L20.0538 15.3619H15.4088Z"/></svg>',
     ];
     return $icons[$label] ?? '';
 }
@@ -21,7 +23,7 @@ function social_icon_svg(string $label): string
 function social_links(array $settings): array
 {
     $out = [];
-    foreach (['instagram' => 'Instagram', 'strava' => 'Strava', 'facebook' => 'Facebook', 'x' => 'X', 'linkedin' => 'LinkedIn'] as $key => $label) {
+    foreach (['instagram' => 'Instagram', 'strava' => 'Strava', 'facebook' => 'Facebook', 'x' => 'X', 'linkedin' => 'LinkedIn', 'trainingpeaks' => 'TrainingPeaks'] as $key => $label) {
         $url = trim((string) ($settings[$key] ?? ''));
         if (preg_match('#^https?://#i', $url)) {
             $out[$label] = $url;
