@@ -27,7 +27,7 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          protocol: ftps        # si la connexion échoue, remplacer par : ftp
+          protocol: ftp         # OVH mutualisé refuse ftps (« 500 This security scheme is not implemented »)
           # Hébergement partagé avec aquaself.fr (dossier www/) : on n'écrit que dans
           # le dossier racine d'arnaudguilloux.fr (OVH → Mes sites → Dossier racine).
           server-dir: site-arnaud/
