@@ -105,7 +105,7 @@ $socials = social_links($settings);
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=95">
+<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=97">
 <link rel="icon" href="<?= e($base) ?>assets/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="<?= e($base) ?>favicon.ico" sizes="48x48">
 <link rel="apple-touch-icon" href="<?= e($base) ?>assets/apple-touch-icon.png">
@@ -119,13 +119,7 @@ $socials = social_links($settings);
     <div>
       <h1><?= e($F['h_contact']) ?></h1>
       <p class="feature-text"><?= e($F['contact_lead']) ?></p>
-      <?php if ($socials): ?>
-      <ul class="socials">
-        <?php foreach ($socials as $label => $url): ?>
-        <li><a class="more" href="<?= e($url) ?>" rel="noopener me" target="_blank"><?= e($label) ?></a></li>
-        <?php endforeach; ?>
-      </ul>
-      <?php endif; ?>
+      <?= social_cards_html($socials, $base, $lang) ?>
     </div>
     <?= contact_form_html($F, $lang, $base, $sent, true, $topic, 'contact') ?>
   </div>

@@ -412,19 +412,37 @@ function contact_dialog_html(array $F, string $lang, string $base): string
         . '<script src="' . e($base) . 'assets/contact.js?v=1" defer></script>';
 }
 
+/**
+ * Vignettes des réseaux (sections Contact) : capture de la page de destination teintée aux couleurs du site,
+ * logo de la plateforme en filigrane, nom dessous. La capture est facultative : assets/img/social/<nom>.jpg
+ * (instagram, strava, facebook, x, linkedin, trainingpeaks) ; sans fichier, la vignette garde le logo sur fond uni.
+ */
+function social_cards_html(array $socials, string $base, string $lang): string
+{
+    if (!$socials) {
+        return '';
+    }
+    $tab = $lang === 'en' ? 'opens in a new tab' : 'nouvel onglet';
+    $h   = '<ul class="s-cards">';
+    foreach ($socials as $label => $url) {
+        $file = 'assets/img/social/' . strtolower($label) . '.jpg';
+        $shot = is_file(__DIR__ . '/' . $file);
+        $h .= '<li><a class="s-card" href="' . e($url) . '" rel="noopener me" target="_blank" aria-label="' . e($label . ' — ' . $tab) . '">'
+            . '<span class="s-shot' . ($shot ? ' has-shot' : '') . '">'
+            . ($shot ? '<img src="' . e($base . $file) . '" alt="" loading="lazy" width="640" height="480">' : '')
+            . social_icon_svg($label) . '</span>'
+            . '<span class="s-name">' . e($label) . ext_icon_svg() . '</span></a></li>';
+    }
+    return $h . '</ul>';
+}
+
 /** Section Contact (identique sur l'accueil et la page Coaching) : texte, réseaux sociaux, formulaire. $topic : sujet présélectionné. */
 function contact_section_html(array $F, string $lang, string $base, ?string $sent, array $socials, string $topic = ''): string
 {
     $h = '<section id="contact"><div class="wrap contact"><div>'
        . '<h2>' . e($F['h_contact']) . '</h2>'
-       . '<p class="feature-text">' . e($F['contact_lead']) . '</p>';
-    if ($socials) {
-        $h .= '<ul class="socials">';
-        foreach ($socials as $label => $url) {
-            $h .= '<li><a class="more" href="' . e($url) . '" rel="noopener me" target="_blank">' . e($label) . '</a></li>';
-        }
-        $h .= '</ul>';
-    }
+       . '<p class="feature-text">' . e($F['contact_lead']) . '</p>'
+       . social_cards_html($socials, $base, $lang);
     return $h . '</div>' . contact_form_html($F, $lang, $base, $sent, true, $topic) . '</div></section>';
 }
 

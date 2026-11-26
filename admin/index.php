@@ -171,6 +171,7 @@ $SCHEMA = [
         'contact_email' => ['E-mail qui reçoit le formulaire (jamais affiché sur le site)', 'email'],
         'instagram'     => ['Instagram (https://…)', 'url'],
         'strava'        => ['Strava (https://…)', 'url'],
+        'strava_widget' => ['Widget Strava de l\'accueil : coller ici le code fourni par Strava (strava.com/athlete/share), résumé et/ou dernières activités ; vide = pas de widget', 'textarea'],
         'facebook'      => ['Facebook (https://…)', 'url'],
         'x'             => ['X / Twitter (https://…)', 'url'],
         'linkedin'      => ['LinkedIn (https://…)', 'url'],

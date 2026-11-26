@@ -105,6 +105,10 @@ $T = [
     'fr' => [
         'title'        => 'Arnaud Guilloux — Triathlète professionnel longue distance · Coaching, tests, bike fitting',
         'description'  => 'Arnaud Guilloux, triathlète professionnel longue distance (Nissa Triathlon), basé à Saint-Renan. Coaching, tests physiologiques, bike fitting et partenariats.',
+        'h_strava'     => 'L\'entraînement, au jour le jour',
+        'strava_follow' => 'Me suivre sur Strava',
+        'strava_summary' => 'Strava : résumé de la semaine',
+        'strava_latest' => 'Strava : dernières activités',
         'h_story'      => 'Mon histoire',
         'story_big'    => ['Nageur, coureur, cycliste.', 'Puis les trois à la fois.'],
         'story_more'   => 'Lire la suite',
@@ -146,6 +150,10 @@ $T = [
     'en' => [
         'title'        => 'Arnaud Guilloux — Professional long-distance triathlete · Coaching, testing, bike fitting',
         'description'  => 'Arnaud Guilloux, professional long-distance triathlete (Nissa Triathlon), based in Saint-Renan, Brittany. Coaching, physiological testing, bike fitting and partnerships.',
+        'h_strava'     => 'Training, day by day',
+        'strava_follow' => 'Follow me on Strava',
+        'strava_summary' => 'Strava: weekly summary',
+        'strava_latest' => 'Strava: latest activities',
         'h_story'      => 'My story',
         'story_big'    => ['Swimmer, runner, cyclist.', 'Then all three at once.'],
         'story_more'   => 'Read more',
@@ -222,7 +230,7 @@ $slides = array_slice(gallery_items($c, 'athlete'), 0, 5); // carrousel Highligh
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=95">
+<link rel="stylesheet" href="<?= e($base) ?>assets/style.css?v=97">
 <link rel="icon" href="<?= e($base) ?>assets/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="<?= e($base) ?>favicon.ico" sizes="48x48">
 <link rel="apple-touch-icon" href="<?= e($base) ?>assets/apple-touch-icon.png">
@@ -430,6 +438,29 @@ $resultsUrl = $base . 'palmares.php' . ($lang === 'en' ? '?lang=en' : ''); ?>
     </div>
   </div>
 </section>
+
+<?php
+/* Widget Strava : on colle dans Réglages le code fourni par Strava (strava.com/athlete/share) ;
+   seules les adresses de widget Strava reconnues sont affichées (résumé de la semaine, dernières activités). */
+preg_match_all('#https://www\.strava\.com/athletes/\d+/(activity-summary|latest-rides)/[a-f0-9]+#i', (string) ($settings['strava_widget'] ?? ''), $sm);
+$stravaEmbeds = array_slice(array_values(array_unique($sm[0])), 0, 2); ?>
+<?php if ($stravaEmbeds): ?>
+<section id="strava">
+  <div class="wrap">
+    <div class="head-row">
+      <h2><?= e($T['h_strava']) ?></h2>
+      <?php if (!empty($socials['Strava'])): ?>
+      <p class="links"><a class="more" href="<?= e($socials['Strava']) ?>" target="_blank" rel="noopener me"><?= e($T['strava_follow']) ?></a></p>
+      <?php endif; ?>
+    </div>
+    <div class="strava-grid">
+      <?php foreach ($stravaEmbeds as $src): $tall = strpos($src, 'latest-rides') !== false; ?>
+      <iframe class="strava-frame<?= $tall ? ' tall' : '' ?>" src="<?= e($src) ?>" title="<?= e($tall ? $T['strava_latest'] : $T['strava_summary']) ?>" loading="lazy" scrolling="no"></iframe>
+      <?php endforeach; ?>
+    </div>
+  </div>
+</section>
+<?php endif; ?>
 
 <?= contact_section_html($F, $lang, $base, $sent === null ? null : (string) $sent, $socials, 'sponsoring') ?>
 </main>
