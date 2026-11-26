@@ -318,7 +318,8 @@ function site_header(string $lang, array $home, array $self, array $c, string $c
     }
 
     $h  = '<header class="top"><div class="wrap">';
-    $h .= '<a class="brand" href="' . e($home[$lang]) . '">Arnaud <strong>Guilloux</strong></a>';
+    $h .= '<a class="brand" href="' . e($home[$lang]) . '"><img class="brand-logo" src="' . e($base) . 'assets/img/logo-ag-marine.png" alt="" width="153" height="120">'
+        . '<span>Arnaud <strong>Guilloux</strong></span></a>';
     $h .= '<nav class="nav" aria-label="Sections">';
     /* Sur ordinateur, cliquer le titre ouvre la page ; le sous-menu s'ouvre au survol. Sur mobile / tactile, le clic déplie le sous-menu. */
     $h .= $group('athlete', $T['athlete'], $onHome ? '#' : $home[$lang], isset($pages[$current]), $a);
@@ -352,7 +353,10 @@ function site_footer(string $legal, array $settings, string $lang = 'fr'): strin
         $soc .= '<li><a href="' . e($url) . '" rel="noopener me" target="_blank" aria-label="' . e($label . ' — ' . $tab) . '" title="' . e($label) . '">' . social_icon_svg($label) . '</a></li>';
     }
 
-    return '<footer class="foot"><div class="wrap"><p>' . e($line) . '</p><div class="foot-right">'
+    $base = base_path(dirname((string) ($_SERVER['SCRIPT_NAME'] ?? '/index.php')));
+    return '<footer class="foot"><div class="wrap"><div class="foot-left">'
+        . '<img class="foot-logo" src="' . e($base) . 'assets/img/logo-ag-blanc.png" alt="Arnaud Guilloux" width="153" height="120" loading="lazy">'
+        . '<p>' . e($line) . '</p></div><div class="foot-right">'
         . ($soc !== '' ? '<ul class="foot-social">' . $soc . '</ul>' : '')
         . '<p>© ' . date('Y') . ' Arnaud Guilloux</p></div></div></footer>';
 }
