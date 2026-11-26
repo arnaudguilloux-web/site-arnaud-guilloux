@@ -34,7 +34,7 @@ PTO ne donne ni lieux ni distances et contient quelques erreurs. Le palmarès af
 - [ ] Arnaud crée son mot de passe sur `/admin/` juste après le premier déploiement (avant, le premier visiteur peut le choisir).
 - [ ] Décocher « Site masqué des moteurs de recherche » dans Réglages le jour de l'ouverture, sinon pas d'indexation.
 - [ ] Tester l'import PTO une fois en ligne ; en cas de blocage par l'hébergeur, un message s'affiche et rien n'est modifié.
-- [ ] Décommenter la redirection HTTPS dans `.htaccess` une fois le certificat SSL actif.
+- [x] Redirection vers `https://www.arnaudguilloux.fr` dans `.htaccess` (http → https et sans www → www), certificat SSL actif sur les deux noms.
 - [ ] Secrets GitHub `FTP_SERVER`, `FTP_USERNAME`, `FTP_PASSWORD`, puis fusion de `develop` dans `main`.
 
 ## Idées et à voir avec Arnaud

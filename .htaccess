@@ -3,10 +3,16 @@ AddDefaultCharset UTF-8
 
 RewriteEngine On
 
-# Forcer HTTPS : décommenter une fois le certificat SSL activé dans le manager OVH.
-# RewriteCond %{HTTPS} !=on
-# RewriteCond %{HTTP:X-Forwarded-Proto} !https
-# RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+# Adresse unique du site : https://www.arnaudguilloux.fr
+# (les règles ne visent que ce domaine : sans effet en local ou sur une autre adresse).
+# 1. Sans « www » : redirection directe vers https://www.
+RewriteCond %{HTTP_HOST} ^arnaudguilloux\.fr$ [NC]
+RewriteRule ^ https://www.arnaudguilloux.fr%{REQUEST_URI} [L,R=301]
+# 2. Avec « www » mais en http : redirection vers https.
+RewriteCond %{HTTP_HOST} ^www\.arnaudguilloux\.fr$ [NC]
+RewriteCond %{HTTPS} !=on
+RewriteCond %{HTTP:X-Forwarded-Proto} !https
+RewriteRule ^ https://www.arnaudguilloux.fr%{REQUEST_URI} [L,R=301]
 
 # Version anglaise : /en/
 RewriteRule ^en/?$ index.php?lang=en [L,QSA]
