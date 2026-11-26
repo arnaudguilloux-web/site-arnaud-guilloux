@@ -174,8 +174,8 @@ h1 { font-weight: 700; font-size: clamp(2rem, 4.2vw, 2.875rem); line-height: 1.0
 .s-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 24px; max-width: 520px; }
 .s-card { display: block; text-decoration: none; color: var(--ink); }
 .s-shot { position: relative; display: grid; place-items: center; aspect-ratio: 4 / 3; overflow: hidden; border-radius: var(--r-sm); background: var(--accent); isolation: isolate; transition: transform .18s, box-shadow .18s; }
-.s-shot img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top; filter: grayscale(1) contrast(1.1); mix-blend-mode: multiply; opacity: .9; }   /* capture ramenée au bleu du site */
-.s-shot::after { content: ""; position: absolute; inset: 0; background: linear-gradient(160deg, rgba(31, 95, 139, .25), rgba(15, 27, 36, .55)); }
+.s-shot img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top; filter: grayscale(1) contrast(1.1) brightness(1.2); opacity: .5; }   /* capture ramenée au bleu du site */
+.s-shot::after { content: ""; position: absolute; inset: 0; background: linear-gradient(160deg, rgba(31, 95, 139, .30), rgba(15, 27, 36, .45)); }
 .s-shot .soc-ico { position: relative; z-index: 1; width: 38%; height: auto; max-height: 56%; color: #fff; opacity: .92; filter: drop-shadow(0 2px 10px rgba(15, 27, 36, .35)); }
 .s-card:hover .s-shot, .s-card:focus-visible .s-shot { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(15, 27, 36, .18); }
 .s-name { display: flex; align-items: center; gap: 5px; margin-top: 8px; font: 600 13px/1.3 var(--sans); }
