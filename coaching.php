@@ -36,6 +36,9 @@ $T = [
              'pmc_title' => 'Trois saisons de charge d\'entraînement',
              'pmc_text' => 'Mon propre PMC (Performance Management Chart), de novembre 2023 à novembre 2026 : les courses, les coupures hivernales, une blessure en juillet 2025. Fin 2025, je change de méthode d\'entraînement : ma charge chronique (CTL) baisse nettement, et pourtant je vais plus vite, avec 7h38 à l\'IRONMAN Brasil et un marathon en 2h37 à Roth. La charge n\'est pas un objectif en soi : ce qui compte, c\'est ce qu\'elle produit le jour de la course.',
              'pmc_legend' => ['Forme (CTL)', 'Fatigue (ATL)', 'Courses longue distance', 'Coupure hivernale', 'Blessure (juillet 2025)'],
+             'pmc2_title' => 'Et celui d\'un athlète que j\'accompagne : Geoffroy',
+             'pmc2_text' => 'Geoffroy mène une vie professionnelle chargée et court au plus haut niveau amateur : Championnat du monde 70.3 à Taupo en 2024, puis IRONMAN Texas, Championnat du monde 70.3 à Nice et Championnat du monde IRONMAN à Kona en 2026, avant de passer professionnel en 2027. Sa charge reste bien en dessous de la mienne (les deux graphiques sont à la même échelle) : avec un emploi du temps contraint, on cherche le bon entraînement, pas le plus gros.',
+             'pmc2_races' => 'Courses', 'pmc2_off' => 'Coupure',
              'h_highlights' => 'Highlights', 'see_gallery' => 'Voir la Galerie', 'h_quotes' => 'Témoignages', 'quotes_big' => ['Ce que disent', 'mes athlètes.'], 'quotes_note' => '', 'all_quotes' => 'Tous les Témoignages', 'prev' => 'Précédent', 'next' => 'Suivant',
              'legal' => 'Éditeur : Arnaud Guilloux, Saint-Renan (29). Hébergement : OVH SAS, 2 rue Kellermann, 59100 Roubaix.'],
     'en' => ['title' => 'Coaching — Arnaud Guilloux', 'kicker' => 'Arnaud Guilloux · Professional triathlete', 'h1' => 'Coaching', 'place' => 'Performance-driven',
@@ -47,6 +50,9 @@ $T = [
              'pmc_title' => 'Three seasons of training load',
              'pmc_text' => 'My own PMC (Performance Management Chart), from November 2023 to November 2026: races, off-season breaks, an injury in July 2025. In late 2025 I changed my training method: my chronic load (CTL) dropped markedly, and yet I race faster, with 7:38 at IRONMAN Brasil and a 2:37 marathon at Roth. Load is not a goal in itself: what matters is what it produces on race day.',
              'pmc_legend' => ['Fitness (CTL)', 'Fatigue (ATL)', 'Long-distance races', 'Off-season break', 'Injury (July 2025)'],
+             'pmc2_title' => 'And that of an athlete I coach: Geoffroy',
+             'pmc2_text' => 'Geoffroy has a demanding job and races at the top amateur level: the 70.3 World Championship in Taupo in 2024, then IRONMAN Texas, the 70.3 World Championship in Nice and the IRONMAN World Championship in Kona in 2026, before turning professional in 2027. His load stays well below mine (both charts use the same scale): with a tight schedule, we look for the right training, not the biggest.',
+             'pmc2_races' => 'Races', 'pmc2_off' => 'Break',
              'h_highlights' => 'Highlights', 'see_gallery' => 'See the Gallery', 'h_quotes' => 'Testimonials', 'quotes_big' => ['What my', 'athletes say.'], 'quotes_note' => 'Testimonials are shown in their original French.', 'all_quotes' => 'All Testimonials', 'prev' => 'Previous', 'next' => 'Next',
              'legal' => 'Publisher: Arnaud Guilloux, Saint-Renan, France. Hosting: OVH SAS, 2 rue Kellermann, 59100 Roubaix, France.'],
 ][$lang];
@@ -154,6 +160,23 @@ $pmcSvg = is_file(__DIR__ . '/assets/img/pmc.svg') ? (string) file_get_contents(
         <li class="l-race"><?= e($T['pmc_legend'][2]) ?></li>
         <li class="l-off"><?= e($T['pmc_legend'][3]) ?></li>
         <li class="l-inj"><?= e($T['pmc_legend'][4]) ?></li>
+      </ul>
+    </figure>
+    <?php endif; ?>
+    <?php /* PMC d'un athlète accompagné (publié avec son accord) : même échelle que le graphique ci-dessus. */
+    $pmcAthlete = is_file(__DIR__ . '/assets/img/pmc-geoffroy.svg') ? (string) file_get_contents(__DIR__ . '/assets/img/pmc-geoffroy.svg') : ''; ?>
+    <?php if ($pmcAthlete !== ''): ?>
+    <figure class="pmc-fig">
+      <figcaption>
+        <h3><?= e($T['pmc2_title']) ?></h3>
+        <p><?= e($T['pmc2_text']) ?></p>
+      </figcaption>
+      <div class="pmc-scroll" tabindex="0" role="group" aria-label="<?= e($T['pmc2_title']) ?>"><?= $pmcAthlete ?></div>
+      <ul class="pmc-legend">
+        <li class="l-ctl"><?= e($T['pmc_legend'][0]) ?></li>
+        <li class="l-atl"><?= e($T['pmc_legend'][1]) ?></li>
+        <li class="l-race"><?= e($T['pmc2_races']) ?></li>
+        <li class="l-off"><?= e($T['pmc2_off']) ?></li>
       </ul>
     </figure>
     <?php endif; ?>
